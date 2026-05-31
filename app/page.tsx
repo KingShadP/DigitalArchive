@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePres
 import { Play, Volume2, ArrowDown, Activity, Radio, X, Terminal, Cpu, Info } from 'lucide-react';
 import Image from 'next/image';
 import Magnetic from '@/components/magnetic';
+import ArtDirectionShowcase from '@/components/art-direction-showcase';
 
 // Artifact Interface & Dataset for telemetry database mapping
 export interface Artifact {
@@ -677,12 +678,12 @@ export default function Page() {
                     onClick={toggleAudio}
                     className={`relative h-20 w-20 rounded-full border flex items-center justify-center transition-all duration-700 pointer-events-auto cursor-pointer ${
                       audioActive 
-                        ? 'border-[#E5E5E5] bg-[#E5E5E5] text-[#050505] shadow-[0_0_30px_rgba(229,229,229,0.15)]' 
+                        ? 'border-[#E5E5E5] bg-[#E5E5E5] text-[#050505] shadow-[0_0_30px_rgba(229,229,229,0.15)] font-bold' 
                         : 'border-white/10 text-[#E5E5E5] hover:border-white hover:bg-white/5'
                     }`}
                   >
                     {audioActive ? (
-                      <Volume2 className="w-6 h-6 animate-pulse" />
+                      <Volume2 className="w-6 h-6 animate-pulse text-[#050505]" />
                     ) : (
                       <Play className="w-6 h-6 ml-1 text-white" />
                     )}
@@ -696,7 +697,21 @@ export default function Page() {
                   )}
                 </div>
               </div>
-         {/* ARTIFACTS / FUTURE ARCHIVES INTEGRATED MODULE */}
+            </FadeIn>
+         </div>
+      </section>
+
+      {/* ART DIRECTION & SYSTEM SHOWCASE */}
+      <section id="art-showcase" className="py-24 px-6 md:px-20 mx-auto max-w-[1400px] relative z-10 scroll-mt-24">
+        <SectionHeading number="02.1" subtitle="THE ORBITAL WEB ARCHITECTURE">
+          Immersive Interactive Interface Art Direction
+        </SectionHeading>
+        <FadeIn>
+          <ArtDirectionShowcase />
+        </FadeIn>
+      </section>
+
+      {/* ARTIFACTS / FUTURE ARCHIVES INTEGRATED MODULE */}
       <section className="py-36 md:py-52 px-6 md:px-20 mx-auto max-w-6xl relative z-10">
         <SectionHeading number="03" subtitle="THE FUTURE ARCHIVE">
           Active Telemetry Artifacts
@@ -872,9 +887,6 @@ export default function Page() {
           </motion.div>
         )}
       </AnimatePresence>
-           </FadeIn>
-        </div>
-      </section>
 
       {/* FOOTER */}
       <footer className="py-24 px-6 md:px-20 flex flex-col items-center justify-center border-t border-white/[0.02] relative z-10">
