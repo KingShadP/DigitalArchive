@@ -347,7 +347,7 @@ export default function Page() {
   const gridY = useTransform(smoothMouseY, [-1, 1], [-10, 10]);
 
   return (
-    <main className="relative min-h-screen bg-[#050505] text-[#E5E5E5] font-sans selection:bg-[#E5E5E5] selection:text-[#050505] overflow-hidden">
+    <main id="main-content" className="relative min-h-screen bg-[#050505] text-[#E5E5E5] font-sans selection:bg-[#E5E5E5] selection:text-[#050505] overflow-hidden">
       
       {/* 1. Loader Sequence "Transmission Decryptor" */}
       {initLoader && (
@@ -511,6 +511,7 @@ export default function Page() {
                   const el = document.getElementById('core');
                   el?.scrollIntoView({ behavior: 'smooth' });
                 }}
+                aria-label="Scroll to Core Concept section"
                 className="font-mono text-[9px] tracking-widest uppercase text-[#E5E5E5] border border-white/20 px-6 py-3 hover:bg-white hover:text-black hover:border-white transition-all duration-400 flex items-center gap-2"
               >
                 Descend to Core <ArrowDown className="w-3 h-3" />
@@ -676,6 +677,8 @@ export default function Page() {
                 <Magnetic range={140} strength={0.45} scaleStrength={0.1}>
                   <button 
                     onClick={toggleAudio}
+                    aria-label={audioActive ? 'Deactivate ambient audio frequency' : 'Activate 48Hz ambient audio frequency'}
+                    aria-pressed={audioActive}
                     className={`relative h-20 w-20 rounded-full border flex items-center justify-center transition-all duration-700 pointer-events-auto cursor-pointer ${
                       audioActive 
                         ? 'border-[#E5E5E5] bg-[#E5E5E5] text-[#050505] shadow-[0_0_30px_rgba(229,229,229,0.15)] font-bold' 
@@ -725,7 +728,14 @@ export default function Page() {
               delay={idx % 3 * 0.1}
               className="border border-white/[0.04] p-8 hover:border-white/[0.18] hover:bg-white/[0.02] transition-all duration-500 bg-[#050505]/60 flex flex-col justify-between aspect-square cursor-pointer group"
             >
-              <div onClick={() => setSelectedArtifact(artifact)} className="h-full flex flex-col justify-between select-none pointer-events-auto">
+              <div 
+                onClick={() => setSelectedArtifact(artifact)} 
+                role="button"
+                tabIndex={0}
+                aria-label={`Open telemetry panel for ${artifact.title}`}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedArtifact(artifact); } }}
+                className="h-full flex flex-col justify-between select-none pointer-events-auto"
+              >
                 <div>
                   <div className="flex justify-between items-center mb-4">
                     <span className="font-mono text-[9px] text-[#444444] tracking-widest block uppercase">{artifact.entry}</span>
@@ -743,7 +753,7 @@ export default function Page() {
                 
                 <div className="flex justify-between items-end border-t border-white/[0.02] pt-4 mt-4">
                   <span className="font-mono text-[8px] text-[#444444] uppercase tracking-widest font-semibold flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500/80 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500/80 animate-pulse" aria-hidden="true" />
                     [STATUS: {artifact.status}]
                   </span>
                   
@@ -766,8 +776,12 @@ export default function Page() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-8 backdrop-blur-md bg-black/85 font-mono text-[11px]"
             onClick={() => setSelectedArtifact(null)}
+            aria-hidden="true"
           >
             <motion.div 
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="artifact-dialog-title"
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -781,14 +795,15 @@ export default function Page() {
               {/* Modal Header */}
               <div className="flex justify-between items-center px-6 py-4 border-b border-white/5 bg-[#0d0d0d] relative z-10 select-none">
                 <div className="flex items-center gap-3">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" aria-hidden="true" />
                   <span className="text-[#888888] font-mono text-[9px] tracking-widest">{selectedArtifact.entry}</span>
                 </div>
                 <button 
                   onClick={() => setSelectedArtifact(null)}
+                  aria-label="Close artifact telemetry panel"
                   className="text-[#888888] hover:text-white transition-colors duration-200 cursor-pointer p-1"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-4 h-4" aria-hidden="true" />
                 </button>
               </div>
 
@@ -799,7 +814,7 @@ export default function Page() {
                 <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 border-b border-white/5 pb-6">
                   <div>
                     <span className="text-[#444444] text-[9px] uppercase tracking-widest block mb-1">[{selectedArtifact.subtitle}]</span>
-                    <h3 className="font-serif italic text-3xl md:text-4xl text-white font-light tracking-wide">{selectedArtifact.title}</h3>
+                    <h3 id="artifact-dialog-title" className="font-serif italic text-3xl md:text-4xl text-white font-light tracking-wide">{selectedArtifact.title}</h3>
                   </div>
                   <div className="px-3 py-1 bg-white/5 border border-white/10 text-[9px] tracking-widest text-[#E5E5E5] uppercase">
                     SYSTEM_STATUS: {selectedArtifact.status}
