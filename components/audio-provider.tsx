@@ -77,7 +77,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       if (track.audioSource) {
         audioRef.current.src = track.audioSource;
         audioRef.current.play().catch(e => {
-          console.error("Playback failed", e);
+          console.error("Playback failed", e.message || e);
           setIsPlaying(false);
         });
         setIsPlaying(true);
@@ -98,7 +98,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     } else {
       _stopDrone();
       if (currentTrack.audioSource) {
-        audioRef.current.play().catch(e => console.error(e));
+        audioRef.current.play().catch(e => console.error(e.message || e));
       } else {
         setIsPlaying(true);
       }
@@ -291,7 +291,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         };
         setAudioActive(true);
       } catch (err) {
-        console.error('Audio generation failed', err);
+        console.error("Audio generation failed", err instanceof Error ? err.message : String(err));
       }
     }
   };
