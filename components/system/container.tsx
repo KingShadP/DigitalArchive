@@ -9,7 +9,7 @@ export function PageContainer({
   className?: string;
 }) {
   return (
-    <div className={cn("w-full max-w-[1800px] mx-auto px-6 md:px-12 lg:px-24", className)}>
+    <div className={cn("w-full max-w-[1800px] mx-auto ds-gutter lg:px-24", className)}>
       {children}
     </div>
   );
@@ -50,16 +50,16 @@ export function Grid({
 export function Section({
   children,
   className,
-  spacing = "lg",
+  spacing = "md",
 }: {
   children: React.ReactNode;
   className?: string;
   spacing?: "sm" | "md" | "lg" | "xl";
 }) {
   const spacings = {
-    sm: "py-12",
-    md: "py-24",
-    lg: "py-32 md:py-48",
+    sm: "ds-section-sm",
+    md: "ds-section-md",
+    lg: "ds-section-lg",
     xl: "py-48 md:py-64",
   };
 
@@ -67,5 +67,40 @@ export function Section({
     <section className={cn("w-full", spacings[spacing], className)}>
       {children}
     </section>
+  );
+}
+
+export function Stack({
+  children,
+  className,
+  gap = "md",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  gap?: "sm" | "md" | "lg";
+}) {
+  const gaps = {
+    sm: "space-y-4",
+    md: "space-y-8",
+    lg: "space-y-12",
+  };
+
+  return <div className={cn(gaps[gap], className)}>{children}</div>;
+}
+
+export function EditorialSplit({
+  left,
+  right,
+  className,
+}: {
+  left: React.ReactNode;
+  right: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <Grid columns={12} gap="lg" className={cn("items-start", className)}>
+      <div className="col-span-12 lg:col-span-7">{left}</div>
+      <div className="col-span-12 lg:col-span-4 lg:col-start-9">{right}</div>
+    </Grid>
   );
 }
