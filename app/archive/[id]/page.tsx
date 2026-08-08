@@ -1,7 +1,7 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { ARTIFACTS } from '@/lib/data';
-import { PageContainer, Section, Grid, Surface, Heading, Text, MonoLabel, TelemetryBadge, FrameBorder, Link } from '@/components/system';
+import { PageContainer, Grid, Surface, Heading, Text, MonoLabel, TelemetryBadge, FrameBorder, Link } from '@/components/system';
 
 export async function generateStaticParams() {
   return ARTIFACTS.map((artifact) => ({

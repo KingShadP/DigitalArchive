@@ -1,8 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { Volume2, VolumeX } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Track, Release } from '@/lib/music-data';
 
 interface AudioContextType {
@@ -53,17 +51,17 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const _stopDrone = () => {
+  const stopDrone = useCallback(() => {
     if (synthRef.current) {
       const { stop } = synthRef.current;
       stop();
       synthRef.current = null;
       setAudioActive(false);
     }
-  };
+  }, []);
 
-  const playTrack = (track: Track, release: Release, newQueue?: Track[]) => {
-    _stopDrone();
+  const playTrack = useCallback((track: Track, release: Release, newQueue?: Track[]) => {
+    stopDrone();
 
     setCurrentTrack(track);
     setCurrentRelease(release);
@@ -88,29 +86,29 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(false);
       }
     }
-  };
+  }, [stopDrone]);
 
-  const togglePlayPause = () => {
+  const togglePlayPause = useCallback(() => {
     if (!audioRef.current || !currentTrack) return;
     
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      _stopDrone();
+      stopDrone();
       if (currentTrack.audioSource) {
         audioRef.current.play().catch(e => console.error(e));
       } else {
         setIsPlaying(true);
       }
     }
-  };
+  }, [currentTrack, isPlaying, stopDrone]);
 
-  const seek = (time: number) => {
+  const seek = useCallback((time: number) => {
     if (audioRef.current && audioRef.current.src) {
       audioRef.current.currentTime = time;
       setCurrentTime(time);
     }
-  };
+  }, []);
 
   const setVolumeLevel = (vol: number) => {
     setVolume(Math.max(0, Math.min(1, vol)));
@@ -121,29 +119,27 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     setIsMuted(prev => !prev);
   };
 
-  const nextTrack = () => {
+  const nextTrack = useCallback(() => {
     if (queue.length > 0 && queueIndex < queue.length - 1) {
       const next = queue[queueIndex + 1];
-      if (currentRelease) playTrack(next, currentRelease);
+      if (currentRelease) playTrack(next, currentRelease, queue);
     }
-  };
+  }, [currentRelease, playTrack, queue, queueIndex]);
 
-  const prevTrack = () => {
+  const prevTrack = useCallback(() => {
     if (currentTime > 3) {
       seek(0);
       return;
     }
     if (queue.length > 0 && queueIndex > 0) {
       const prev = queue[queueIndex - 1];
-      if (currentRelease) playTrack(prev, currentRelease);
+      if (currentRelease) playTrack(prev, currentRelease, queue);
     }
-  };
+  }, [currentRelease, currentTime, playTrack, queue, queueIndex, seek]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !audioRef.current) {
       audioRef.current = new Audio();
-      audioRef.current.volume = volume;
-      audioRef.current.muted = isMuted;
 
       const handleTimeUpdate = () => {
         if (audioRef.current) {
@@ -222,9 +218,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     }
   }, [volume, isMuted]);
 
-  const toggleAudio = () => {
+  const toggleAudio = useCallback(() => {
     if (audioActive) {
-      _stopDrone();
+      stopDrone();
     } else {
       if (isPlaying && audioRef.current) {
         audioRef.current.pause();
@@ -294,13 +290,13 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         console.error('Audio generation failed', err);
       }
     }
-  };
+  }, [audioActive, isPlaying, stopDrone]);
 
-  const setAudioFrequency = (freq: number) => {
+  const setAudioFrequency = useCallback((freq: number) => {
     if (synthRef.current) {
         synthRef.current.setFreq(freq);
     }
-  };
+  }, []);
 
   useEffect(() => {
     return () => {

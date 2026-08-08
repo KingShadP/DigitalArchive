@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MonoLabel } from '@/components/system';
-import { RELEASES, Release, Track } from '@/lib/music-data';
-import { Play, Square, Headphones, Activity } from 'lucide-react';
+import { RELEASES, Release } from '@/lib/music-data';
+import { Play, Square, Activity } from 'lucide-react';
 import { useAudio } from '@/components/audio-provider';
 
 type ViewMode = 'CHRONOLOGY' | 'PROJECTS' | 'TRACKS';
@@ -12,7 +12,7 @@ type ViewMode = 'CHRONOLOGY' | 'PROJECTS' | 'TRACKS';
 export default function SonicVault() {
   const [viewMode, setViewMode] = useState<ViewMode>('CHRONOLOGY');
   const [activeRelease, setActiveRelease] = useState<string | null>(null);
-  const { audioActive, toggleAudio, playTrack, currentTrack, isPlaying, togglePlayPause } = useAudio();
+  const { playTrack, currentTrack, isPlaying, togglePlayPause } = useAudio();
 
   const emptyStateMessage = "NO AUDIO FRAGMENTS DETECTED IN VAULT.";
 
@@ -107,17 +107,17 @@ export default function SonicVault() {
                   {allTracks.map((track, idx) => {
     const isThisTrackActive = currentTrack?.id === track.id;
     return (
-                    <div key={track.id} onClick={() => { if(isThisTrackActive) { togglePlayPause(); } else { playTrack(track, track.release, allTracks); } }} className="grid grid-cols-12 gap-4 py-4 border-b border-border/20 hover:bg-surface transition-colors items-center group cursor-pointer">
+                    <button type="button" key={track.id} onClick={() => { if(isThisTrackActive) { togglePlayPause(); } else { playTrack(track, track.release, allTracks); } }} className="grid grid-cols-12 gap-4 py-4 border-b border-border/20 hover:bg-surface transition-colors items-center group cursor-pointer text-left w-full">
                       <div className="col-span-1 font-mono text-[9px] text-foreground/40">{String(idx + 1).padStart(3, '0')}</div>
                       <div className="col-span-6 font-serif italic text-xl group-hover:text-foreground/80 transition-colors flex items-center gap-4">
-                        <button className="w-8 h-8 rounded-full border border-foreground/20 flex items-center justify-center group-hover:border-foreground/50 transition-colors">
+                        <span className="w-8 h-8 rounded-full border border-foreground/20 flex items-center justify-center group-hover:border-foreground/50 transition-colors">
                           {isThisTrackActive && isPlaying ? <Square size={10} /> : <Play size={10} className="translate-x-[1px]" />}
-                        </button>
+                        </span>
                         {track.title}
                       </div>
                       <div className="col-span-3 font-mono text-[10px] uppercase tracking-widest text-foreground/60">{track.release.title}</div>
                       <div className="col-span-2 text-right font-mono text-[10px] text-foreground/40">{track.duration || '--:--'}</div>
-                    </div>
+                    </button>
                   );})}
                 </div>
               )}
@@ -144,8 +144,9 @@ function ReleaseBlock({ release, index, isActive, onToggle }: { release: Release
   const { playTrack, currentTrack, isPlaying, togglePlayPause } = useAudio();
   return (
     <div className="border border-border/50 bg-surface/30 group">
-      <div 
-        className="p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 cursor-pointer hover:bg-surface transition-colors"
+      <button
+        type="button"
+        className="p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 cursor-pointer hover:bg-surface transition-colors w-full text-left"
         onClick={onToggle}
       >
         <div className="flex items-center gap-8">
@@ -163,13 +164,13 @@ function ReleaseBlock({ release, index, isActive, onToggle }: { release: Release
           <div className="text-right hidden md:block">
             <div className="font-mono text-[9px] text-foreground/40">{release.tracks.length} TRACKS</div>
           </div>
-          <button className={`w-10 h-10 border rounded-full flex items-center justify-center transition-all duration-500 ${isActive ? 'border-foreground bg-foreground text-background' : 'border-border group-hover:border-foreground/50'}`}>
+          <span className={`w-10 h-10 border rounded-full flex items-center justify-center transition-all duration-500 ${isActive ? 'border-foreground bg-foreground text-background' : 'border-border group-hover:border-foreground/50'}`}>
             <div className={`transition-transform duration-500 ${isActive ? 'rotate-45' : 'rotate-0'}`}>
               +
             </div>
-          </button>
+          </span>
         </div>
-      </div>
+      </button>
       
       <AnimatePresence>
         {isActive && (
@@ -216,18 +217,18 @@ function ReleaseBlock({ release, index, isActive, onToggle }: { release: Release
 
     const isThisTrackActive = currentTrack?.id === track.id;
     return (
-    <div key={track.id} onClick={() => isThisTrackActive ? togglePlayPause() : playTrack(track, release, release.tracks)} className="flex items-center justify-between py-3 border-b border-border/20 group hover:px-2 transition-all cursor-pointer">
+    <button type="button" key={track.id} onClick={() => isThisTrackActive ? togglePlayPause() : playTrack(track, release, release.tracks)} className="flex items-center justify-between py-3 border-b border-border/20 group hover:px-2 transition-all cursor-pointer text-left w-full">
                       <div className="flex items-center gap-6">
                         <span className="font-mono text-[9px] text-foreground/30">{String(i + 1).padStart(2, '0')}</span>
                         <span className="font-serif italic text-xl group-hover:text-foreground/80">{track.title}</span>
                       </div>
                       <div className="flex items-center gap-6">
                         <span className="font-mono text-[9px] text-foreground/30">{track.duration || '--:--'}</span>
-                        <button className="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:text-white">
+                        <span className="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:text-white">
                           {isThisTrackActive && isPlaying ? <Square size={12} /> : <Play size={12} />}
-                        </button>
+                        </span>
                       </div>
-                    </div>
+                    </button>
                   )})}
                 </div>
                 

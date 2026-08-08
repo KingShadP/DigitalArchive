@@ -1,6 +1,6 @@
 import React from 'react';
 import { ARTIFACTS } from '@/lib/data';
-import { PageContainer, Section, Grid, Surface, Heading, Text, MonoLabel, Link, SystemImage } from '@/components/system';
+import { PageContainer, Grid, Surface, Heading, Text, MonoLabel, Link } from '@/components/system';
 
 export default function ArchivePage() {
   return (
