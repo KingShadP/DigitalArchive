@@ -25,20 +25,20 @@ const FadeIn = ({ children, delay = 0, className = "" }: { children: React.React
 );
 
 export default function EntryExperience() {
-  const [bootSequenceActive, setBootSequenceActive] = useState(true);
+  const [bootSequenceActive, setBootSequenceActive] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isSlowConnection = connection?.saveData || ['slow-2g', '2g'].includes(connection?.effectiveType || '');
+    const lastEntry = Number(localStorage.getItem('kingshadp_last_entry') || '0');
+    const isReturning = lastEntry > 0 && Date.now() - lastEntry < 1000 * 60 * 60 * 12;
+    return !(prefersReducedMotion || isSlowConnection || isReturning);
+  });
   const { audioActive, toggleAudio } = useAudio();
   const { scrollYProgress } = useScroll();
 
-  useEffect(() => {
-    const hasBooted = sessionStorage.getItem('kingshadp_booted');
-    if (hasBooted) {
-      const timeout = setTimeout(() => setBootSequenceActive(false), 0);
-      return () => clearTimeout(timeout);
-    }
-  }, []);
-
   const handleBootComplete = () => {
-    sessionStorage.setItem('kingshadp_booted', 'true');
+    localStorage.setItem('kingshadp_last_entry', String(Date.now()));
     setBootSequenceActive(false);
   };
 
@@ -133,10 +133,10 @@ export default function EntryExperience() {
                     {audioActive ? 'FREQUENCY LOCK: ACTIVE (48Hz)' : 'STATUS: INERT'}
                   </MonoLabel>
                   <div className="mt-12">
-                    <a href="/music" className="inline-flex items-center gap-4 font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full">
+                    <Link href="/music" className="inline-flex items-center gap-4 font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full">
                       ENTER SONIC VAULT
                       <ArrowRight size={14} />
-                    </a>
+                    </Link>
                   </div>
                 </FadeIn>
               </div>
