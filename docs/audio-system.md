@@ -1,25 +1,54 @@
-# Audio System Architecture
+# Audio System
 
-Audio is a critical interactive and atmospheric layer of the KingShadP universe. Currently, audio is generated via the client-side Web Audio API (e.g., the atmospheric synth drone in `app/page.tsx`).
+## Current implementation
+Global audio is managed by `components/audio-provider.tsx` and mounted once in `app/layout.tsx`.
 
-## Core Principles
+## Track metadata shape
+Defined in `lib/music-data.ts`:
+- `Track`: `id`, `title`, optional `duration`, optional `audioSource`, optional `lyrics`, optional `credits`
+- `Release`: release metadata, `tracks`, optional `streamingLinks`, related visual/archive references
 
-### 1. Global Playback & Persistence
-- **Route Persistence**: Audio must remain continuous across route changes. Future refactoring should move the AudioContext and synth engine to a global provider (e.g., `app/layout.tsx` or a dedicated `<AudioProvider>`).
-- **State**: Global state (Zustand or React Context) should manage `isPlaying`, `volume`, and `currentTrack/frequency`.
+## Player state model
+`AudioProvider` state includes:
+- ambient drone state: `audioActive`
+- track playback state: `currentTrack`, `currentRelease`, `isPlaying`, `currentTime`, `duration`, `volume`, `isMuted`, `isLoading`
+- queue state: `queue`, `queueIndex`
 
-### 2. User Intent & Browser Restrictions
-- **Autoplay**: Browsers block uninitiated audio. Audio MUST only begin after an explicit user interaction (e.g., clicking the "ENGAGE AUDIO" magnetic button).
-- **Play/Pause Behavior**: A globally accessible toggle must always be available to mute/pause the audio.
+## Global playback behavior
+- Provider is in root layout, so state persists during client-side route changes.
+- `GlobalPlayer` is always mounted and switches between:
+  - drone controller view (no track selected)
+  - full track player view (track selected)
 
-### 3. Audio Types
-- **Procedural / Ambient**: (Current implementation) Oscillators, gain nodes, and filters generating drones dynamically.
-- **Track Playback**: Future music vault integration will require streaming chunks or playing `.mp3`/`.wav` files via `HTMLAudioElement` or Web Audio API buffer sources.
+## Play/pause and current-track behavior
+- `playTrack()` stops drone, sets active track/release, loads `audioSource` into an `HTMLAudioElement`, then plays.
+- `togglePlayPause()` controls current track playback and resumes as available.
+- `nextTrack()`/`prevTrack()` operate on queue context.
 
-### 4. Accessibility & Mobile Considerations
-- **Mobile**: Ensure background audio playback behavior is respected. Handle OS-level interruptions (calls, switching apps).
-- **Media Session API**: When playing actual tracks, integrate `navigator.mediaSession` to allow users to control playback from their lock screen or hardware media keys.
+## Queue architecture
+- Queue is optional and injected from route contexts (`music/page.tsx`).
+- `queueIndex` tracks active position.
+- Track end triggers `nextTrack()`.
 
-### 5. Error Recovery & Loading
-- Gracefully handle audio decoding errors or network streaming failures.
-- Provide clear visual telemetry (like the UI's spinning radar or pulsing dots) to indicate that audio is buffering, active, or failed.
+## Browser autoplay restrictions
+- Ambient drone starts only on user interaction (`toggleAudio`).
+- Track playback is user-triggered from UI interactions.
+
+## Mobile considerations
+- Core controls are fixed and reachable in responsive layouts.
+- Custom cursor is disabled on coarse pointers, preserving native touch interaction.
+
+## Accessibility baseline
+- Icon buttons include `aria-label`s in global player and nav.
+- Time/progress and state are visually represented; keep controls keyboard-operable.
+
+## Media Session API
+- Implemented metadata and action handlers (`play`, `pause`, `previoustrack`, `nexttrack`, `seekto`) when available.
+
+## Error recovery and loading
+- Playback failures are caught and logged; player state is reset to avoid hanging “playing” UI.
+- `waiting`/`canplay` and metadata listeners update loading and timing state.
+
+## Streaming and external source considerations
+- `audioSource` currently supports direct URLs.
+- External streaming links exist as metadata (`streamingLinks`) but are not a full in-app streaming integration yet.

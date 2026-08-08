@@ -1,52 +1,90 @@
-# KingShadP Production Design System
+# Design System
 
-This document outlines the foundation and primitives for the KingShadP web application interface.
+## Principles
+- Preserve the established KingShadP interface language.
+- Prioritize editorial sequencing over generic template sections.
+- Favor meaningful interaction states over simple opacity-only changes.
 
-## 1. Principles
-- **Matte over Gloss:** Prefer matte finishes (`bg-surface`, `bg-background`). Avoid glassmorphism unless strictly necessary for layered depth.
-- **Architectural Structure:** Use sharp edges (`rounded-sm` or `rounded-none`). Avoid excessive border-radius.
-- **Orchestrated Typography:** Differentiate structural labels (monospace, tiny, wide tracking) from editorial narrative (serif, italic, generous line-height) and display (sans, tight tracking, uppercase).
-- **Controlled Palette:** Do not oversaturate. Use semantic colors sparingly. The core is Matte Black and Matte Off-White.
-- **Avoid:** Generic luxury, purple AI gradients, cyberpunk neon, excessive glowing drop-shadows.
+## Design token source
+Primary token source is `app/globals.css` (`@theme`).
 
-## 2. Color Tokens (Tailwind)
-- `matte-black`: `#050505` (Base background)
-- `matte-off-white`: `#e5e5e5` (Base text)
-- `oxblood`: `#3d0c11` (Deep structural red)
-- `crimson`: `#73131a` (Primary accent)
-- `rose-gold`: `#c29f98` (Warm highlight)
-- `platinum`: `#e5e4e2` (Cool highlight)
-- `vintage-metal`: `#8c8273` (Tertiary accents)
-- `surface`: `#0a0a0a` (Elevated card/surface)
-- `surface-dim`: `#111111` (Interactive surface)
-- `border`: `rgba(229, 229, 229, 0.05)`
-- `border-strong`: `rgba(229, 229, 229, 0.15)`
+### Color tokens
+- `--color-matte-black: #050505`
+- `--color-matte-off-white: #e5e5e5`
+- `--color-oxblood: #3d0c11`
+- `--color-crimson: #73131a`
+- `--color-rose-gold: #c29f98`
+- `--color-platinum: #e5e4e2`
+- `--color-vintage-metal: #8c8273`
 
-## 3. Core Primitives (`components/system/`)
-- **Typography**
-  - `<Heading>`: Variants for Display, Serif-Italic, Sans-Bold.
-  - `<MonoLabel>`: Structural telemetry and metadata.
-  - `<Text>`: Body, muted, and lead paragraphs.
-- **Surface & Layout**
-  - `<Surface>`: Primary container. Replaces raw `div` cards.
-  - `<Divider>`: Structural separators replacing raw border lines.
-  - `<PageContainer>`, `<Section>`, `<Grid>`: Layout macro-architecture.
-- **Interaction**
-  - `<Button>`, `<MotionButton>`: Primary interaction elements.
-  - `<Link>`: Anchor element with primary, secondary, and inline states.
-- **Media**
-  - `<SystemImage>`: Pre-configured Next.js Image ensuring `referrerPolicy="no-referrer"`.
-  - `<ImagePlaceholder>`: Matte off-white/surface placeholder for missing media.
-- **States & Feedback**
-  - `<LoadingState>`: Minimal pinging beacon for loading blocks.
-  - `<ErrorState>`: Oxblood-themed error boundary message without excessive alarm.
-- **Telemetry**
-  - `<Beacon>`: Reusable pulsing status indicator.
-  - `<TelemetryBadge>`: Key-value data row.
-  - `<FrameBorder>`: Architectural corner brackets for images/media.
+### Semantic tokens
+- `--color-background`, `--color-foreground`
+- `--color-surface`, `--color-surface-dim`
+- `--color-border`, `--color-border-strong`
+- `--color-accent`
 
-## 4. Usage
-Import directly from the system module:
-```tsx
-import { Heading, MonoLabel, Surface, Beacon } from "@/components/system";
-```
+### Typography tokens
+- `--font-sans` (Inter)
+- `--font-display` (Space Grotesk)
+- `--font-mono` (JetBrains Mono)
+- `--font-serif` (Cormorant Garamond)
+
+## Typography conventions
+- Structural labels: monospace uppercase via `MonoLabel`.
+- Display/editorial headings: `Heading` variants (`display`, `serif-italic`, `sans-bold`).
+- Body copy: `Text` variants (`body`, `muted`, `lead`).
+
+## Spacing and layout
+- Container: `PageContainer` (`max-w-[1800px]`, responsive horizontal padding).
+- Sections: `Section` spacing presets (`sm`, `md`, `lg`, `xl`).
+- Grid: `Grid` supports `2`, `3`, `4`, `12` responsive column systems with gap presets.
+
+## Breakpoints and responsive behavior
+- Tailwind responsive breakpoints drive layout changes (`sm`, `md`, `lg`).
+- Mobile nav is an overlay drawer (`components/navigation.tsx`); desktop nav switches at `lg`.
+- Custom cursor is disabled on coarse pointers; native cursor remains on mobile.
+
+## Motion principles
+- Motion is built with `motion/react` and used for:
+  - route transitions (`app/template.tsx`)
+  - UI reveal and parallax interactions
+  - telemetry/status animation
+- Preserve readability and interaction clarity when adding motion.
+
+## Surface and component conventions
+Core primitives in `components/system`:
+- Foundation: `Surface`, `Divider`, `PageContainer`, `Grid`, `Section`
+- Typography: `Heading`, `MonoLabel`, `Text`
+- Interaction: `Button`, `MotionButton`, `Link`
+- Media: `SystemImage`, `ImagePlaceholder`
+- Utility/states: `LoadingState`, `ErrorState`, `Beacon`, `TelemetryBadge`, `FrameBorder`
+
+Prefer these primitives over one-off implementations.
+
+## Accessibility requirements (current baseline)
+- Keep semantic structure (`main`, `nav`, button/anchor semantics).
+- Preserve visible focus styles on links/buttons.
+- Keep ARIA labels on icon-only controls (player, nav toggles).
+- Avoid removing reduced-motion handling where present (`Bootloader` uses `useReducedMotion`).
+- Maintain color contrast for small mono labels on dark surfaces.
+
+## Appropriate visual patterns
+- Asymmetric editorial compositions.
+- Spatial compression/expansion through section rhythm.
+- Dark matte surfaces with restrained accent usage.
+
+## Inappropriate visual patterns
+- Generic “hero + 3-card + CTA + footer” templates.
+- Random token additions without semantic purpose.
+- Uncontrolled neon/cyberpunk gradients or fake-luxury clichés.
+
+## Token expansion strategy
+When adding tokens, use small semantic sets across:
+- color, surface, text, border
+- spacing, radius
+- typography
+- z-index
+- motion/transition
+- breakpoints
+
+Add tokens only when reused; do not add large unused token catalogs.
