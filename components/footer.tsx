@@ -1,8 +1,18 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { MonoLabel } from '@/components/system';
 import Magnetic from '@/components/magnetic';
+
+const FOOTER_LINKS = [
+  { label: 'Identity', href: '/#identity' },
+  { label: 'Music', href: '/music' },
+  { label: 'Archive', href: '/archive' },
+  { label: 'Digital', href: '/#digital' },
+  { label: 'Visual', href: '/#visual' },
+  { label: 'Brand', href: '/#brand' },
+];
 
 export default function Footer() {
   return (
@@ -17,7 +27,19 @@ export default function Footer() {
         </div>
       </Magnetic>
       
-      <div className="text-center space-y-3">
+      <nav aria-label="End navigation" className="mb-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+        {FOOTER_LINKS.map((link) => (
+          <Link
+            key={link.label}
+            href={link.href}
+            className="font-mono text-[9px] uppercase tracking-widest text-neutral-500 hover:text-foreground transition-colors"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
+
+      <div className="text-center space-y-3 max-w-3xl">
         <MonoLabel className="block text-foreground">END OF TRANSMISSION // KINGSHADP DIGITAL ARCHIVE CHANNEL</MonoLabel>
         <MonoLabel className="block opacity-50">© 2026 // ALL COGNITIVE RADIAL DIRECTIONS VERIFIED</MonoLabel>
       </div>
