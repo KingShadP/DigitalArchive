@@ -30,3 +30,24 @@
     cursor: none;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+video {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

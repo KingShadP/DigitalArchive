@@ -26,12 +26,15 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${cormorantGaramond.variable} dark`}>
       <body suppressHydrationWarning className="bg-background text-foreground font-sans antialiased selection:bg-foreground selection:text-background">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:bg-foreground focus:text-background focus:px-4 focus:py-2 focus:rounded-sm">
+          Skip to main content
+        </a>
         <AudioProvider>
           <Cursor />
           <Navigation />
           <GlobalPlayer />
           <div className="flex flex-col min-h-screen">
-            <div className="flex-1">
+            <div id="main-content" className="flex-1">
               {children}
             </div>
             <Footer />
