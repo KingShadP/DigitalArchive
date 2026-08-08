@@ -35,4 +35,29 @@ export type Release = {
 
 // Data architecture ready for factual content.
 // Awaiting population by the artist. Do not fabricate entries.
-export const RELEASES: Release[] = [];
+export const RELEASES: Release[] = [
+  {
+    id: "behold-the-twisted-beast",
+    title: "Behold, the Twisted Beast",
+    type: "single",
+    releaseDate: "2024",
+    artworkUrl: "/music/twisted-beast-cover.png",
+    description: "An experimental exploration of generative synthesis and brutalist sonic architecture. A manifestation of the internal labyrinth.",
+    notes: "Track was originally rendered live using custom hardware and a chain of analogue distortions. The file provided is the definitive digital artifact.",
+    tracks: [
+      {
+        id: "bttb-01",
+        title: "Behold, the Twisted Beast",
+        duration: "03:45",
+        audioSource: "/music/behold-the-twisted-beast.mp3",
+        credits: ["KingShadP"]
+      }
+    ],
+    credits: ["Production, Mix, and Mastering: KingShadP"],
+    streamingLinks: {
+      soundcloud: "#",
+      bandcamp: "#"
+    },
+    relatedArchiveEntries: ["art-01"]
+  }
+];

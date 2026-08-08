@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MonoLabel } from '@/components/system';
 import { RELEASES, Release, Track } from '@/lib/music-data';
-import { Play, Square, Headphones, Activity } from 'lucide-react';
+import { Play, Square, Headphones, Activity, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import { useAudio } from '@/components/audio-provider';
 
 type ViewMode = 'CHRONOLOGY' | 'PROJECTS' | 'TRACKS';
@@ -20,7 +21,7 @@ export default function SonicVault() {
   const allTracks = RELEASES.flatMap(r => r.tracks.map(t => ({ ...t, release: r })));
   
   return (
-    <main className="min-h-screen pt-32 pb-24 px-6 md:px-12 bg-background text-foreground">
+    <main className="min-h-screen pt-32 pb-24 px-6 md:px-12 text-foreground">
       {/* Header / Navigation */}
       <header className="mb-24">
         <MonoLabel className="mb-4">KINGSHADP // SONIC VAULT</MonoLabel>
@@ -180,6 +181,11 @@ function ReleaseBlock({ release, index, isActive, onToggle }: { release: Release
             className="overflow-hidden border-t border-border/50"
           >
             <div className="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-12">
+              <div className="lg:col-span-12 mb-4">
+                <Link href={`/music/${release.id}`} className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-foreground/50 hover:text-foreground transition-colors border border-border/50 px-4 py-2 hover:border-foreground/50">
+                  VIEW FULL EDITORIAL <ArrowRight size={10} />
+                </Link>
+              </div>
               <div className="lg:col-span-4 space-y-8">
                 {release.artworkUrl ? (
                   <div className="aspect-square bg-surface border border-border/50 relative overflow-hidden">
@@ -250,7 +256,7 @@ function ReleaseBlock({ release, index, isActive, onToggle }: { release: Release
 
 function ProjectCard({ release }: { release: Release }) {
   return (
-    <div className="border border-border/50 bg-surface/30 flex flex-col group cursor-pointer hover:border-foreground/30 transition-colors">
+    <Link href={`/music/${release.id}`} className="border border-border/50 bg-surface/30 flex flex-col group cursor-pointer hover:border-foreground/30 transition-colors">
       {release.artworkUrl ? (
         <div className="aspect-square bg-surface border-b border-border/50 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -269,6 +275,6 @@ function ProjectCard({ release }: { release: Release }) {
           <span>{release.releaseDate}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

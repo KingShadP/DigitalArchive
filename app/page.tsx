@@ -1,33 +1,28 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { Play, Volume2, ArrowRight } from 'lucide-react';
 import { useAudio } from '@/components/audio-provider';
 import { Bootloader } from '@/components/bootloader';
 import ArtDirectionShowcase from '@/components/art-direction-showcase';
 import Magnetic from '@/components/magnetic';
-import { ARTIFACTS } from '@/lib/data';
 import { 
-  PageContainer, Grid, Surface, 
+  PageContainer, Section, Grid, Surface, 
   Heading, Text, MonoLabel, SystemImage, Link
 } from '@/components/system';
 
-const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) => {
-  const prefersReducedMotion = useReducedMotion();
-
-  return (
-    <motion.div
-      initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
-      whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: prefersReducedMotion ? 0.2 : 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-};
+const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 15 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-80px" }}
+    transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
 
 export default function EntryExperience() {
   const [bootSequenceActive, setBootSequenceActive] = useState(true);
@@ -50,7 +45,6 @@ export default function EntryExperience() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
   const heroY = useTransform(scrollYProgress, [0, 0.15], [0, 80]);
   const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.95]);
-  const featuredBrandObjects = ARTIFACTS.filter((artifact) => artifact.id !== 'behold-what-wouldnt-fit').slice(0, 3);
 
   // Lock scroll during boot
   useEffect(() => {
@@ -71,7 +65,7 @@ export default function EntryExperience() {
       <main className="relative min-h-screen">
         
         {/* 1. IDENTITY SIGNAL (HERO) */}
-        <section id="identity" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
           {/* Subtle noise/grid background overlay */}
           <div className="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03)_1px,_transparent_1.5px)] [background-size:64px_64px]" />
           <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.15] bg-[linear-gradient(rgba(18,16,16,0)_50%,_rgba(0,0,0,0.25)_50%)] [background-size:100%_4px]" />
@@ -90,7 +84,7 @@ export default function EntryExperience() {
             
             <Magnetic range={120} strength={0.4} scaleStrength={0.08}>
               <button 
-                onClick={() => document.getElementById('music')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById('audio-hub')?.scrollIntoView({ behavior: 'smooth' })}
                 className="font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full flex items-center gap-3"
               >
                 Initiate Sequence <ArrowRight size={12} />
@@ -108,7 +102,7 @@ export default function EntryExperience() {
         </section>
 
         {/* 2. AUDIO HUB / FEATURED MUSIC */}
-        <section id="music" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-surface-dim">
+        <section id="audio-hub" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-surface-dim">
           <PageContainer>
             <Grid columns={12} gap="lg" className="items-center">
               <div className="col-span-12 md:col-span-6 lg:col-span-5 order-2 md:order-1">
@@ -175,7 +169,7 @@ export default function EntryExperience() {
         </section>
 
         {/* 3. VISUAL WORK / BRAND IDENTITY */}
-        <section id="visual" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border">
+        <section className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border">
           <PageContainer>
             <div className="max-w-3xl mb-24">
               <FadeIn>
@@ -237,7 +231,7 @@ export default function EntryExperience() {
         </section>
 
         {/* 4. DIGITAL EXPERIMENTS (Art Showcase) */}
-        <section id="digital" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-surface-dim">
+        <section id="experiments" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-surface-dim">
           <PageContainer className="max-w-[1400px]">
             <FadeIn>
               <MonoLabel className="text-accent mb-6 block">03 / DIGITAL EXPERIMENTS</MonoLabel>
@@ -250,7 +244,7 @@ export default function EntryExperience() {
         </section>
 
         {/* 5. ARCHIVE GATEWAY */}
-        <section id="archive" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border overflow-hidden">
+        <section className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_#111111_0%,_transparent_50%)] opacity-40 pointer-events-none" />
           
           <PageContainer>
@@ -275,37 +269,6 @@ export default function EntryExperience() {
                 </Magnetic>
               </FadeIn>
             </div>
-          </PageContainer>
-        </section>
-
-        {/* 6. BRAND / OBJECTS */}
-        <section id="brand" className="py-32 md:py-40 px-6 md:px-12 border-t border-border bg-surface-dim">
-          <PageContainer>
-            <FadeIn>
-              <MonoLabel className="text-accent mb-6 block">05 / BRAND OBJECTS</MonoLabel>
-              <Heading className="mb-6">Physical Systems in Orbit</Heading>
-              <Text className="max-w-2xl mb-14">
-                Select archive artifacts where apparel, telemetry, and identity meet in public space.
-              </Text>
-            </FadeIn>
-
-            <Grid columns={3} gap="md" className="items-stretch">
-              {featuredBrandObjects.map((artifact, index) => (
-                <FadeIn key={artifact.id} delay={0.1 + (index * 0.08)} className="h-full">
-                  <Link href={`/archive/${artifact.id}`} className="block h-full">
-                    <Surface variant="secondary" interactive className="h-full p-6 md:p-8 flex flex-col">
-                      <MonoLabel className="text-accent mb-5">{artifact.entry}</MonoLabel>
-                      <Heading variant="serif-italic" className="text-2xl mb-4">{artifact.title}</Heading>
-                      <Text variant="muted" className="mb-8">{artifact.description}</Text>
-                      <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
-                        <MonoLabel>{artifact.status}</MonoLabel>
-                        <MonoLabel className="text-foreground">ACCESS</MonoLabel>
-                      </div>
-                    </Surface>
-                  </Link>
-                </FadeIn>
-              ))}
-            </Grid>
           </PageContainer>
         </section>
 
