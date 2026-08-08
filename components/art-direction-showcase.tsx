@@ -204,7 +204,7 @@ export default function ArtDirectionShowcase() {
               
               {/* Product Visual Area with overlay targets */}
               <div className="col-span-6 relative aspect-[5/6] bg-neutral-900 border border-white/10 overflow-hidden">
-                <Image 
+                <Image referrerPolicy="no-referrer" 
                   src="https://picsum.photos/seed/editorial_hood/600/720?grayscale"
                   alt="KingShadP Heavy Carbon Monolith Anorak Jacket mockup"
                   fill
@@ -292,7 +292,7 @@ export default function ArtDirectionShowcase() {
 
             {/* Mobile Visual Space */}
             <div className="relative aspect-[3/4] w-full bg-[#0a0a0a] border border-white/5 overflow-hidden">
-              <Image 
+              <Image referrerPolicy="no-referrer" 
                 src="https://picsum.photos/seed/modelmobile/400/530?grayscale"
                 alt="Mobile preview look"
                 fill
