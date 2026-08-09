@@ -59,7 +59,7 @@ export default function Cursor() {
     >
       {/* Inner Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-[3px] h-[3px] bg-[#E5E5E5] rounded-full z-[100] mix-blend-difference"
+        className="fixed top-0 left-0 w-[3px] h-[3px] bg-foreground rounded-full z-[100] mix-blend-difference"
         animate={{
           x: mousePosition.x - 1.5,
           y: mousePosition.y - 1.5,

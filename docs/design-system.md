@@ -30,20 +30,24 @@ This document outlines the foundation and primitives for the KingShadP web appli
 - **Surface & Layout**
   - `<Surface>`: Primary container. Replaces raw `div` cards.
   - `<Divider>`: Structural separators replacing raw border lines.
-  - `<PageContainer>`, `<Section>`, `<Grid>`: Layout macro-architecture.
+  - `<PageContainer>`, `<Section>`, `<Grid>`, `<Stack>`, `<EditorialSplit>`: Layout macro-architecture.
 - **Interaction**
-  - `<Button>`, `<MotionButton>`: Primary interaction elements.
-  - `<Link>`: Anchor element with primary, secondary, and inline states.
+  - `<Button>`, `<MotionButton>`: Primary interaction elements, including restrained metallic accent support (`metal`).
+  - `<Link>`: Anchor element with primary, secondary, inline, nav, and CTA states.
+  - `<CircularCTA>`, `<IconControlButton>`: Reusable circular controls for cinematic CTAs and icon actions.
 - **Media**
   - `<SystemImage>`: Pre-configured Next.js Image ensuring `referrerPolicy="no-referrer"`.
   - `<ImagePlaceholder>`: Matte off-white/surface placeholder for missing media.
 - **States & Feedback**
   - `<LoadingState>`: Minimal pinging beacon for loading blocks.
   - `<ErrorState>`: Oxblood-themed error boundary message without excessive alarm.
+- **Motion**
+  - `<FadeIn>`: Reduced-motion-aware reveal wrapper for section entrances.
 - **Telemetry**
   - `<Beacon>`: Reusable pulsing status indicator.
   - `<TelemetryBadge>`: Key-value data row.
   - `<FrameBorder>`: Architectural corner brackets for images/media.
+  - `<AppFrame>`, `<TelemetryRail>`: Shared structural shell and telemetry rail for global navigation framing.
 
 ## 4. Usage
 Import directly from the system module:
