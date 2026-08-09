@@ -9,20 +9,8 @@ import ArtDirectionShowcase from '@/components/art-direction-showcase';
 import Magnetic from '@/components/magnetic';
 import { 
   PageContainer, Grid, Surface, 
-  Heading, Text, MonoLabel, SystemImage, Link
+  Heading, Text, MonoLabel, SystemImage, Link, FadeIn, CircularCTA, IconControlButton
 } from '@/components/system';
-
-const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 15 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-80px" }}
-    transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
 
 export default function EntryExperience() {
   const [bootSequenceActive, setBootSequenceActive] = useState(true);
@@ -83,12 +71,13 @@ export default function EntryExperience() {
             </Text>
             
             <Magnetic range={120} strength={0.4} scaleStrength={0.08}>
-              <button 
+              <CircularCTA 
+                size="sm"
                 onClick={() => document.getElementById('audio-hub')?.scrollIntoView({ behavior: 'smooth' })}
-                className="font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full flex items-center gap-3"
+                className="w-auto px-8 gap-3"
               >
                 Initiate Sequence <ArrowRight size={12} />
-              </button>
+              </CircularCTA>
             </Magnetic>
           </motion.div>
 
@@ -114,29 +103,26 @@ export default function EntryExperience() {
                   </Text>
                   
                   <Magnetic range={100} strength={0.5} scaleStrength={0.1}>
-                    <button 
+                    <IconControlButton
                       onClick={toggleAudio}
-                      className={`h-24 w-24 rounded-full border flex items-center justify-center transition-all duration-700 pointer-events-auto cursor-pointer ${
-                        audioActive 
-                          ? 'border-foreground bg-foreground text-background shadow-[0_0_40px_rgba(255,255,255,0.15)] font-bold' 
-                          : 'border-border text-foreground hover:border-foreground/50 hover:bg-surface-hover'
-                      }`}
+                      active={audioActive}
+                      className={`h-24 w-24 pointer-events-auto cursor-pointer ${audioActive ? 'shadow-[0_0_40px_rgba(255,255,255,0.15)] font-bold' : ''}`}
                     >
                       {audioActive ? (
                         <Volume2 className="w-8 h-8 animate-pulse text-background" />
                       ) : (
                         <Play className="w-8 h-8 ml-1 text-foreground" />
                       )}
-                    </button>
+                    </IconControlButton>
                   </Magnetic>
                   <MonoLabel className="mt-6 block opacity-60">
                     {audioActive ? 'FREQUENCY LOCK: ACTIVE (48Hz)' : 'STATUS: INERT'}
                   </MonoLabel>
                   <div className="mt-12">
-                    <a href="/music" className="inline-flex items-center gap-4 font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full">
+                    <Link href="/music" variant="cta" className="rounded-full px-8 py-4 gap-4">
                       ENTER SONIC VAULT
                       <ArrowRight size={14} />
-                    </a>
+                    </Link>
                   </div>
                 </FadeIn>
               </div>
@@ -257,15 +243,12 @@ export default function EntryExperience() {
                 </Text>
                 
                 <Magnetic range={150} strength={0.4} scaleStrength={0.05}>
-                  <Link 
-                    href="/archive" 
-                    className="inline-flex h-32 w-32 rounded-full border border-border items-center justify-center hover:bg-foreground hover:text-background transition-colors duration-500 font-mono text-[10px] tracking-widest uppercase group relative overflow-hidden"
-                  >
+                  <CircularCTA as={Link} href="/archive" size="lg" className="group relative overflow-hidden">
                     <span className="relative z-10 flex flex-col items-center gap-2">
                       Enter
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </span>
-                  </Link>
+                  </CircularCTA>
                 </Magnetic>
               </FadeIn>
             </div>

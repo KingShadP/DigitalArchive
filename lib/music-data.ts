@@ -41,7 +41,7 @@ export const RELEASES: Release[] = [
     title: "Behold, the Twisted Beast",
     type: "single",
     releaseDate: "2024",
-    artworkUrl: "/music/twisted-beast-cover.png",
+    artworkUrl: "/twisted-beast-cover.png",
     description: "An experimental exploration of generative synthesis and brutalist sonic architecture. A manifestation of the internal labyrinth.",
     notes: "Track was originally rendered live using custom hardware and a chain of analogue distortions. The file provided is the definitive digital artifact.",
     tracks: [
