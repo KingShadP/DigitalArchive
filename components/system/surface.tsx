@@ -3,7 +3,7 @@ import React from "react";
 import { motion, HTMLMotionProps } from "motion/react";
 
 interface SurfaceProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "primary" | "secondary" | "bordered" | "translucent" | "editorial";
+  variant?: "primary" | "secondary" | "bordered" | "translucent";
   interactive?: boolean;
 }
 
@@ -19,13 +19,12 @@ export function Surface({
   const variants = {
     primary: "bg-surface text-foreground",
     secondary: "bg-surface-dim text-foreground",
-    bordered: "bg-transparent ds-border-frame",
+    bordered: "bg-transparent border border-border",
     translucent: "bg-surface/80 backdrop-blur-md border border-border/50",
-    editorial: "bg-surface-elevated/80 ds-border-frame text-foreground",
   };
 
   const interactiveStyles = interactive 
-    ? "ds-transition hover:border-border-strong hover:bg-surface-elevated" 
+    ? "transition-colors duration-300 hover:border-border-strong hover:bg-surface-dim" 
     : "";
 
   return (
@@ -47,13 +46,12 @@ export function MotionSurface({
   const variants = {
     primary: "bg-surface text-foreground",
     secondary: "bg-surface-dim text-foreground",
-    bordered: "bg-transparent ds-border-frame",
+    bordered: "bg-transparent border border-border",
     translucent: "bg-surface/80 backdrop-blur-md border border-border/50",
-    editorial: "bg-surface-elevated/80 ds-border-frame text-foreground",
   };
 
   const interactiveStyles = interactive 
-    ? "ds-transition hover:border-border-strong hover:bg-surface-elevated" 
+    ? "transition-colors duration-300 hover:border-border-strong hover:bg-surface-dim" 
     : "";
 
   return (

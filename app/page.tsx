@@ -8,9 +8,21 @@ import { Bootloader } from '@/components/bootloader';
 import ArtDirectionShowcase from '@/components/art-direction-showcase';
 import Magnetic from '@/components/magnetic';
 import { 
-  PageContainer, Grid, Surface, 
-  Heading, Text, MonoLabel, SystemImage, Link, FadeIn, CircularCTA, IconControlButton
+  PageContainer, Section, Grid, Surface, 
+  Heading, Text, MonoLabel, SystemImage, Link
 } from '@/components/system';
+
+const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 15 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-80px" }}
+    transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
 
 export default function EntryExperience() {
   const [bootSequenceActive, setBootSequenceActive] = useState(true);
@@ -71,13 +83,12 @@ export default function EntryExperience() {
             </Text>
             
             <Magnetic range={120} strength={0.4} scaleStrength={0.08}>
-              <CircularCTA 
-                size="sm"
+              <button 
                 onClick={() => document.getElementById('audio-hub')?.scrollIntoView({ behavior: 'smooth' })}
-                className="w-auto px-8 gap-3"
+                className="font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full flex items-center gap-3"
               >
                 Initiate Sequence <ArrowRight size={12} />
-              </CircularCTA>
+              </button>
             </Magnetic>
           </motion.div>
 
@@ -103,26 +114,29 @@ export default function EntryExperience() {
                   </Text>
                   
                   <Magnetic range={100} strength={0.5} scaleStrength={0.1}>
-                    <IconControlButton
+                    <button 
                       onClick={toggleAudio}
-                      active={audioActive}
-                      className={`h-24 w-24 pointer-events-auto cursor-pointer ${audioActive ? 'shadow-[0_0_40px_rgba(255,255,255,0.15)] font-bold' : ''}`}
+                      className={`h-24 w-24 rounded-full border flex items-center justify-center transition-all duration-700 pointer-events-auto cursor-pointer ${
+                        audioActive 
+                          ? 'border-foreground bg-foreground text-background shadow-[0_0_40px_rgba(255,255,255,0.15)] font-bold' 
+                          : 'border-border text-foreground hover:border-foreground/50 hover:bg-surface-hover'
+                      }`}
                     >
                       {audioActive ? (
                         <Volume2 className="w-8 h-8 animate-pulse text-background" />
                       ) : (
                         <Play className="w-8 h-8 ml-1 text-foreground" />
                       )}
-                    </IconControlButton>
+                    </button>
                   </Magnetic>
                   <MonoLabel className="mt-6 block opacity-60">
                     {audioActive ? 'FREQUENCY LOCK: ACTIVE (48Hz)' : 'STATUS: INERT'}
                   </MonoLabel>
                   <div className="mt-12">
-                    <Link href="/music" variant="cta" className="rounded-full px-8 py-4 gap-4">
+                    <a href="/music" className="inline-flex items-center gap-4 font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full">
                       ENTER SONIC VAULT
                       <ArrowRight size={14} />
-                    </Link>
+                    </a>
                   </div>
                 </FadeIn>
               </div>
@@ -229,7 +243,57 @@ export default function EntryExperience() {
           </PageContainer>
         </section>
 
-        {/* 5. ARCHIVE GATEWAY */}
+        {/* 5. TEXT CATALOGUE & VERIFIED DOSSIER */}
+        <section id="catalogue" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-black">
+          <PageContainer>
+            <Grid columns={12} gap="lg" className="items-center">
+              <div className="col-span-12 lg:col-span-6">
+                <FadeIn>
+                  <MonoLabel className="text-accent mb-6 block">04 / TEXT CATALOGUE & DOSSIER</MonoLabel>
+                  <Heading variant="display" className="mb-6">The Verified Chronicle</Heading>
+                  <Text variant="lead" className="mb-8">
+                    KingShadP (Rashad Anthony Perry) is an independent Miami-born hip-hop and rap artist building a multidisciplinary creative archive across music, visual symbolism, editorial content, and the Giragon guardian mythos.
+                  </Text>
+                  
+                  <div className="grid grid-cols-2 gap-4 font-mono text-[9px] uppercase tracking-widest border-t border-b border-border/50 py-6 mb-10 text-neutral-400">
+                    <div><span className="text-foreground">LATEST SINGLE:</span> Summons and Supper (2026)</div>
+                    <div><span className="text-foreground">ALBUM:</span> Regal Echoes of God (2024)</div>
+                    <div><span className="text-foreground">EP:</span> Unfinished. Unedited. Untitled.</div>
+                    <div><span className="text-foreground">GUARDIAN:</span> The Giragon Emblem</div>
+                  </div>
+
+                  <a 
+                    href="/catalogue" 
+                    className="inline-flex items-center gap-4 font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full"
+                  >
+                    EXPLORE FULL CATALOGUE DOSSIER
+                    <ArrowRight size={14} />
+                  </a>
+                </FadeIn>
+              </div>
+
+              <div className="col-span-12 lg:col-span-6">
+                <FadeIn delay={0.2} className="relative aspect-square border border-border/50 p-8 md:p-12 bg-surface/20 flex flex-col justify-between">
+                  <div className="flex justify-between items-start font-mono text-[9px] text-accent uppercase tracking-widest">
+                    <span>DOCUMENT_ID: KSP-CAT-2026</span>
+                    <span>SOURCE: KINGSHADP.COM</span>
+                  </div>
+                  
+                  <blockquote className="font-serif italic text-2xl md:text-3xl text-foreground leading-snug my-8">
+                    &quot;Originality is the new royalty. A song influences a garment, a garment introduces a symbol, and a symbol becomes an editorial image or written archive subject.&quot;
+                  </blockquote>
+
+                  <div className="font-mono text-[9px] text-neutral-500 uppercase tracking-widest border-t border-border/30 pt-4 flex justify-between">
+                    <span>CREDITED AUTHOR: RASHAD ANTHONY PERRY</span>
+                    <span>ORIGIN: MIAMI, FL</span>
+                  </div>
+                </FadeIn>
+              </div>
+            </Grid>
+          </PageContainer>
+        </section>
+
+        {/* 6. ARCHIVE GATEWAY */}
         <section className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_#111111_0%,_transparent_50%)] opacity-40 pointer-events-none" />
           
@@ -243,12 +307,15 @@ export default function EntryExperience() {
                 </Text>
                 
                 <Magnetic range={150} strength={0.4} scaleStrength={0.05}>
-                  <CircularCTA as={Link} href="/archive" size="lg" className="group relative overflow-hidden">
+                  <Link 
+                    href="/archive" 
+                    className="inline-flex h-32 w-32 rounded-full border border-border items-center justify-center hover:bg-foreground hover:text-background transition-colors duration-500 font-mono text-[10px] tracking-widest uppercase group relative overflow-hidden"
+                  >
                     <span className="relative z-10 flex flex-col items-center gap-2">
                       Enter
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </span>
-                  </CircularCTA>
+                  </Link>
                 </Magnetic>
               </FadeIn>
             </div>

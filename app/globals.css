@@ -14,75 +14,15 @@
   --color-rose-gold: #c29f98;
   --color-platinum: #e5e4e2;
   --color-vintage-metal: #8c8273;
-  --color-deep-crimson: #5a0f14;
 
   /* Semantic Colors */
   --color-background: var(--color-matte-black);
   --color-foreground: var(--color-matte-off-white);
   --color-surface: #0a0a0a;
   --color-surface-dim: #111111;
-  --color-surface-elevated: #151515;
   --color-border: rgba(229, 229, 229, 0.05);
   --color-border-strong: rgba(229, 229, 229, 0.15);
   --color-accent: var(--color-crimson);
-  --color-accent-subtle: color-mix(in oklab, var(--color-crimson), transparent 78%);
-
-  /* Motion + Focus */
-  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-fast: 200ms;
-  --duration-base: 350ms;
-  --duration-slow: 700ms;
-  --focus-ring: color-mix(in oklab, var(--color-rose-gold), white 10%);
-}
-
-@layer base {
-  :root {
-    --space-fluid-gutter: clamp(1.25rem, 2vw, 2.5rem);
-    --space-section-sm: clamp(3rem, 8vw, 5rem);
-    --space-section-md: clamp(5rem, 11vw, 8rem);
-    --space-section-lg: clamp(7rem, 16vw, 12rem);
-  }
-
-  body {
-    background:
-      radial-gradient(circle at 15% 10%, rgba(90, 15, 20, 0.13), transparent 25%),
-      radial-gradient(circle at 85% 85%, rgba(194, 159, 152, 0.08), transparent 28%),
-      var(--color-background);
-  }
-
-  *:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 1px var(--focus-ring),
-      0 0 0 3px color-mix(in oklab, var(--color-background), transparent 18%);
-  }
-}
-
-@layer utilities {
-  .ds-section-sm {
-    padding-block: var(--space-section-sm);
-  }
-
-  .ds-section-md {
-    padding-block: var(--space-section-md);
-  }
-
-  .ds-section-lg {
-    padding-block: var(--space-section-lg);
-  }
-
-  .ds-gutter {
-    padding-inline: var(--space-fluid-gutter);
-  }
-
-  .ds-border-frame {
-    border: 1px solid var(--color-border);
-  }
-
-  .ds-transition {
-    transition-duration: var(--duration-base);
-    transition-timing-function: var(--ease-cinematic);
-  }
 }
 
 @media (pointer: fine) {
@@ -91,11 +31,107 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 1ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 1ms !important;
-    scroll-behavior: auto !important;
+/* Print Stylesheet for Catalogue PDF Export & Printing */
+@media print {
+  @page {
+    margin: 1.8cm 1.5cm;
+    size: A4 portrait;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    cursor: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide interactive site chrome during print */
+  nav, 
+  footer, 
+  header.fixed,
+  .fixed,
+  .no-print,
+  .screen-only-nav,
+  button:not(.print-include) {
+    display: none !important;
+  }
+
+  /* Ensure print container renders cleanly */
+  .print-only {
+    display: block !important;
+  }
+
+  .screen-only {
+    display: none !important;
+  }
+
+  /* Black and white content styling */
+  main {
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #000000 !important;
+    font-family: Georgia, serif !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  p, span, div, td, th {
+    color: #000000 !important;
+  }
+
+  /* Card and table borders in print */
+  .border, [class*="border-"] {
+    border-color: #000000 !important;
+  }
+
+  .bg-\[\#080808\], .bg-\[\#0a0a0a\], .bg-[#050505], .bg-black {
+    background-color: #ffffff !important;
+  }
+
+  /* Table styling */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 10pt;
+    margin-bottom: 10pt;
+    page-break-inside: avoid;
+  }
+
+  th, td {
+    border: 1px solid #000000 !important;
+    padding: 6pt 8pt !important;
+    color: #000000 !important;
+    background: #ffffff !important;
+  }
+
+  th {
+    font-weight: bold;
+    background-color: #f2f2f2 !important;
+  }
+
+  /* Images in print */
+  img {
+    filter: grayscale(100%) !important;
+    max-width: 100% !important;
+    page-break-inside: avoid;
+    border: 1px solid #000000 !important;
+  }
+
+  /* Page break helpers */
+  .print-page-break {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  .print-avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 }
