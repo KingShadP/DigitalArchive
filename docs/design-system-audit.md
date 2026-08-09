@@ -17,4 +17,4 @@ The existing application used heavily saturated orange (`#f97316`) as a primary 
 - **States**: `<LoadingState>` (minimal ping) and `<ErrorState>` (oxblood boundary).
 
 ## 3. Implementation
-The design system has been constructed in `components/system/*`. As per Phase 0 rules, major pages (`app/page.tsx`) were *not* fully redesigned yet to mitigate risk, but foundational fixes were applied to the `<Navigation>` component as a proof of capability.
+The design system is consolidated in `components/system/*` and now includes reusable cinematic controls (`CircularCTA`, `IconControlButton`), motion governance (`FadeIn`), and shell primitives (`AppFrame`, `TelemetryRail`). Key routes have been migrated to these primitives (`app/page.tsx`, `app/not-found.tsx`, `components/navigation.tsx`) to replace one-off controls and improve consistency.

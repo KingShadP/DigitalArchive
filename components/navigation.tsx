@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
-import { MonoLabel } from '@/components/system';
+import { AppFrame, TelemetryRail } from '@/components/system';
 
 const NAV_LINKS = [
   { label: 'HOME', href: '/' },
@@ -37,22 +37,21 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Structural Framing border from Immersive UI */}
-      <div className="fixed top-5 bottom-5 left-5 right-5 border border-border pointer-events-none z-30 hidden md:block" />
+      <AppFrame />
 
       {/* Header Navigation */}
       <nav className={`fixed top-0 left-0 w-full p-6 md:p-12 flex justify-between items-start z-50 transition-all duration-500 ${scrolled ? 'bg-background/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none' : ''}`}>
-        <Link href="/" className="font-serif italic text-xl md:text-lg text-foreground tracking-wide font-light hover:text-white transition-colors duration-400 z-50">
+        <Link href="/" className="font-serif italic text-xl md:text-lg text-foreground tracking-wide font-light hover:text-white ds-transition z-50">
           kingshadp
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-10 text-neutral-500 font-mono text-[9px] tracking-widest uppercase">
+        <div className="hidden lg:flex items-center gap-10">
           {NAV_LINKS.map((link) => (
             <Link 
               key={link.label} 
               href={link.href}
-              className={`hover:text-foreground transition-colors duration-400 ${pathname === link.href ? 'text-foreground font-bold' : ''}`}
+              className={`font-mono text-[9px] tracking-widest uppercase hover:text-foreground ds-transition ${pathname === link.href ? 'text-foreground font-bold' : 'text-neutral-500'}`}
             >
               {link.label}
             </Link>
@@ -102,14 +101,7 @@ export default function Navigation() {
         )}
       </AnimatePresence>
 
-      {/* Floating System Attributes (Bottom Left) */}
-      <ul className="fixed bottom-0 left-0 p-6 md:p-12 z-40 space-y-2 hidden md:block pointer-events-none mix-blend-difference">
-        <li className="flex items-center gap-2">
-          <span className="w-[4px] h-[4px] rounded-full bg-foreground animate-ping" />
-          <MonoLabel>SIGNAL STRENGTH: MAXIMUM</MonoLabel>
-        </li>
-        <li><MonoLabel>LAT: 34.0522° N // LONG: 118.2437° W</MonoLabel></li>
-      </ul>
+      <TelemetryRail />
     </>
   );
 }
