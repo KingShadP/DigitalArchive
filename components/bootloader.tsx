@@ -99,9 +99,9 @@ export function Bootloader({ onComplete }: { onComplete: () => void }) {
             </motion.div>
 
             <div className="space-y-4">
-              <div className="h-[1px] w-full bg-[#050505]/10 relative overflow-hidden">
+              <div className="h-[1px] w-full bg-background/10 relative overflow-hidden">
                 <motion.div 
-                  className="absolute top-0 left-0 h-full bg-[#050505]"
+                  className="absolute top-0 left-0 h-full bg-background"
                   animate={{ width: `${progressPercent}%` }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 />

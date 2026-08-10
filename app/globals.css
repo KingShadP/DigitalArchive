@@ -6,23 +6,24 @@
   --font-display: var(--font-display);
   --font-mono: var(--font-mono);
 
-  /* Color Palette - KingShadP Design System */
-  --color-matte-black: #050505;
-  --color-matte-off-white: #e5e5e5;
-  --color-oxblood: #3d0c11;
-  --color-crimson: #73131a;
-  --color-rose-gold: #c29f98;
-  --color-platinum: #e5e4e2;
-  --color-vintage-metal: #8c8273;
+  /* Color Palette - Elegant & Calm Design System */
+  --color-matte-black: #1a1716; 
+  --color-matte-off-white: #f8f6f3; 
+  --color-oxblood: #6b5c53; 
+  --color-crimson: #907e71; 
+  --color-rose-gold: #c3a68d; 
+  --color-platinum: #e8e6e1; 
+  --color-vintage-metal: #a8a096;
 
   /* Semantic Colors */
-  --color-background: var(--color-matte-black);
-  --color-foreground: var(--color-matte-off-white);
-  --color-surface: #0a0a0a;
-  --color-surface-dim: #111111;
-  --color-border: rgba(229, 229, 229, 0.05);
-  --color-border-strong: rgba(229, 229, 229, 0.15);
-  --color-accent: var(--color-crimson);
+  --color-background: var(--color-matte-off-white);
+  --color-foreground: var(--color-matte-black);
+  --color-surface: #f1efe9;
+  --color-surface-dim: #e9e6df;
+  --color-surface-hover: #e5e1da;
+  --color-border: rgba(26, 23, 22, 0.1);
+  --color-border-strong: rgba(26, 23, 22, 0.2);
+  --color-accent: var(--color-vintage-metal);
 }
 
 @media (pointer: fine) {

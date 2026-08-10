@@ -74,12 +74,12 @@ export default function EntryExperience() {
             style={{ opacity: heroOpacity, y: heroY, scale: heroScale }}
             className="text-center z-10 px-6 max-w-4xl mx-auto flex flex-col items-center"
           >
-            <MonoLabel className="mb-6 block animate-pulse text-accent">{"// SIGNAL DETECTED"}</MonoLabel>
-            <Heading variant="display" className="text-5xl md:text-8xl lg:text-9xl mb-8 tracking-tighter">
+            <MonoLabel className="mb-6 block text-accent tracking-[0.3em]">{"A SPACE FOR REFLECTION"}</MonoLabel>
+            <Heading variant="display" className="text-5xl md:text-7xl lg:text-8xl mb-8 tracking-tight font-serif italic font-light">
               KingShadP
             </Heading>
-            <Text variant="lead" className="max-w-2xl mx-auto mb-12 mix-blend-difference">
-              The creative universe, archive, and brand identity of an architectural cosmism.
+            <Text variant="lead" className="max-w-2xl mx-auto mb-12 mix-blend-difference text-foreground/80">
+              The creative universe, independent archive, and serene brand identity of Rashad Anthony Perry.
             </Text>
             
             <Magnetic range={120} strength={0.4} scaleStrength={0.08}>
@@ -87,7 +87,7 @@ export default function EntryExperience() {
                 onClick={() => document.getElementById('audio-hub')?.scrollIntoView({ behavior: 'smooth' })}
                 className="font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full flex items-center gap-3"
               >
-                Initiate Sequence <ArrowRight size={12} />
+                Begin the Journey <ArrowRight size={12} />
               </button>
             </Magnetic>
           </motion.div>
@@ -108,9 +108,9 @@ export default function EntryExperience() {
               <div className="col-span-12 md:col-span-6 lg:col-span-5 order-2 md:order-1">
                 <FadeIn>
                   <MonoLabel className="text-accent mb-6 block">01 / SONIC FREQUENCY</MonoLabel>
-                  <Heading className="mb-6">Sound as Architecture</Heading>
-                  <Text className="mb-10 max-w-md text-neutral-400">
-                    Sound acts as an invisible landscape. In the world of KingShadP, apparel artifacts are paired directly with custom frequencies. Activate the sub-harmonic frequency channel to hear the planetary loop tracker.
+                  <Heading className="mb-6 font-serif font-light">Sound as Architecture</Heading>
+                  <Text className="mb-10 max-w-md text-foreground/60 leading-relaxed">
+                    Sound acts as an invisible landscape. In the world of KingShadP, apparel artifacts are paired directly with custom frequencies. Activate the audio channel to experience a moment of calm reflection.
                   </Text>
                   
                   <Magnetic range={100} strength={0.5} scaleStrength={0.1}>
@@ -118,19 +118,19 @@ export default function EntryExperience() {
                       onClick={toggleAudio}
                       className={`h-24 w-24 rounded-full border flex items-center justify-center transition-all duration-700 pointer-events-auto cursor-pointer ${
                         audioActive 
-                          ? 'border-foreground bg-foreground text-background shadow-[0_0_40px_rgba(255,255,255,0.15)] font-bold' 
+                          ? 'border-foreground bg-foreground text-background shadow-[0_0_40px_rgba(26,23,22,0.1)] font-bold' 
                           : 'border-border text-foreground hover:border-foreground/50 hover:bg-surface-hover'
                       }`}
                     >
                       {audioActive ? (
-                        <Volume2 className="w-8 h-8 animate-pulse text-background" />
+                        <Volume2 className="w-8 h-8 text-background" />
                       ) : (
                         <Play className="w-8 h-8 ml-1 text-foreground" />
                       )}
                     </button>
                   </Magnetic>
                   <MonoLabel className="mt-6 block opacity-60">
-                    {audioActive ? 'FREQUENCY LOCK: ACTIVE (48Hz)' : 'STATUS: INERT'}
+                    {audioActive ? 'AUDIO: PLAYING GENTLE ATMOSPHERE' : 'STATUS: SILENT'}
                   </MonoLabel>
                   <div className="mt-12">
                     <a href="/music" className="inline-flex items-center gap-4 font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full">
@@ -173,10 +173,10 @@ export default function EntryExperience() {
           <PageContainer>
             <div className="max-w-3xl mb-24">
               <FadeIn>
-                <MonoLabel className="text-accent mb-6 block">02 / STRUCTURAL VISION</MonoLabel>
-                <Heading variant="display" className="mb-6">Reconstructing Identity</Heading>
-                <Text variant="lead">
-                  KingShadP is more than garments. It is an exploration of space, deep-space distance, and structural command.
+                <MonoLabel className="text-accent mb-6 block">02 / BRAND IDENTITY</MonoLabel>
+                <Heading variant="display" className="mb-6 font-serif italic font-light">Embracing Individuality</Heading>
+                <Text variant="lead" className="text-foreground/80">
+                  KingShadP is an exploration of artistic identity, combining sound and visual form into a cohesive, elegant universe.
                 </Text>
               </FadeIn>
             </div>
@@ -189,13 +189,13 @@ export default function EntryExperience() {
                       src="https://picsum.photos/seed/structure2/1000/1000?grayscale"
                       alt="Structural aesthetic"
                       fill
-                      className="object-cover opacity-20 mix-blend-luminosity group-hover:scale-105 group-hover:opacity-40 transition-all duration-[2000ms]"
+                      className="object-cover opacity-10 mix-blend-luminosity group-hover:scale-105 group-hover:opacity-20 transition-all duration-[2000ms]"
                     />
                     <div className="relative z-10">
-                      <MonoLabel className="mb-4">RULE_01 // NEGATIVE SPACE</MonoLabel>
-                      <Heading className="text-2xl mb-4">Architectural Cosmism</Heading>
-                      <Text className="max-w-md">
-                        Instead of obvious galaxy photos, we rely on shadows, micro-grid coordinates, and heavy-contrast visual frames reminiscent of spacecraft cockpits and structural vaults.
+                      <MonoLabel className="mb-4">RULE_01 // CALMNESS</MonoLabel>
+                      <Heading className="text-2xl mb-4 font-serif">Serene Environments</Heading>
+                      <Text className="max-w-md text-foreground/70">
+                        We focus on creating spaces that breathe. Generous negative space, soft contrast, and thoughtful typography create an atmosphere of quiet reflection.
                       </Text>
                     </div>
                   </Surface>
@@ -207,20 +207,20 @@ export default function EntryExperience() {
                   <Surface variant="secondary" className="h-full p-8 md:p-12 flex flex-col justify-between">
                     <MonoLabel className="opacity-50">RULE_02 // MATERIALS</MonoLabel>
                     <div className="mt-12">
-                      <Heading className="text-xl mb-3">Artifact Finishes</Heading>
+                      <Heading className="text-xl mb-3 font-serif">Refined Texture</Heading>
                       <Text variant="muted">
-                        Colors are strictly restricted to space black, lunar grey, and stellar white. Heavy cottons and raw carbon filaments.
+                        Colors are restricted to warm alabaster, vintage metal, and soft charcoal. We prioritize gentle, tactile materials.
                       </Text>
                     </div>
                   </Surface>
                 </FadeIn>
                 <FadeIn delay={0.3} className="flex-1">
                   <Surface variant="secondary" className="h-full p-8 md:p-12 flex flex-col justify-between">
-                    <MonoLabel className="opacity-50">RULE_03 // SCALE</MonoLabel>
+                    <MonoLabel className="opacity-50">RULE_03 // INDIVIDUALITY</MonoLabel>
                     <div className="mt-12">
-                      <Heading className="text-xl mb-3">Void Engineering</Heading>
+                      <Heading className="text-xl mb-3 font-serif">Distinct Voice</Heading>
                       <Text variant="muted">
-                        Weight is created where we choose not to construct. Empty space must occupy 60% of all visual matrices.
+                        Every creative decision is made to honor the individual artist&apos;s perspective, never conforming to predictable patterns.
                       </Text>
                     </div>
                   </Surface>
@@ -244,7 +244,7 @@ export default function EntryExperience() {
         </section>
 
         {/* 5. TEXT CATALOGUE & VERIFIED DOSSIER */}
-        <section id="catalogue" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-black">
+        <section id="catalogue" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-background">
           <PageContainer>
             <Grid columns={12} gap="lg" className="items-center">
               <div className="col-span-12 lg:col-span-6">

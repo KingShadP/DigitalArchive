@@ -43,7 +43,7 @@ export default function Navigation() {
 
       {/* Header Navigation */}
       <nav className={`fixed top-0 left-0 w-full p-6 md:p-12 flex justify-between items-start z-50 transition-all duration-500 ${scrolled ? 'bg-background/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none' : ''}`}>
-        <Link href="/" className="font-serif italic text-xl md:text-lg text-foreground tracking-wide font-light hover:text-white transition-colors duration-400 z-50">
+        <Link href="/" className="font-serif italic text-xl md:text-lg text-foreground tracking-wide font-light hover:text-foreground transition-colors duration-400 z-50">
           kingshadp
         </Link>
 

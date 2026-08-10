@@ -28,7 +28,7 @@ export function CatalogueClient() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#050505] text-[#c9c6c5] pt-28 pb-32 px-4 sm:px-8 md:px-12 selection:bg-[#93000a] selection:text-white">
+    <main className="min-h-screen bg-background text-foreground pt-28 pb-32 px-4 sm:px-8 md:px-12 selection:bg-[#93000a] selection:text-foreground">
       {/* Background Subtle Gradient Glow */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_#93000a_0%,_transparent_45%)]" />
       <div className="fixed inset-0 pointer-events-none z-0 opacity-15 bg-[radial-gradient(circle_at_bottom_left,_#dcc57b_0%,_transparent_50%)]" />
@@ -36,31 +36,31 @@ export function CatalogueClient() {
       <div className="max-w-7xl mx-auto relative z-10">
         
         {/* Header Title */}
-        <header className="mb-16 border-b border-[#222222] pb-12">
+        <header className="mb-16 border-b border-border-strong pb-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-2 h-2 bg-[#93000a] animate-pulse" />
-                <MonoLabel className="text-[#93000a] tracking-[0.25em]">VERIFIED DOSSIER // ARTICLE CATALOGUE</MonoLabel>
+                <MonoLabel className="text-accent tracking-[0.25em]">VERIFIED DOSSIER // ARTICLE CATALOGUE</MonoLabel>
               </div>
-              <h1 className="font-serif italic text-4xl sm:text-6xl md:text-7xl font-light tracking-tight text-white leading-none">
+              <h1 className="font-serif italic text-4xl sm:text-5xl md:text-blackxl font-light tracking-tight text-foreground leading-none">
                 KingShadP Catalogue
               </h1>
-              <p className="font-serif text-lg md:text-xl text-[#999999] mt-3 italic max-w-2xl">
+              <p className="font-serif text-lg md:text-xl text-foreground/60 mt-3 italic max-w-2xl">
                 Projects, Biography, Credits, and Source-Verified Article Data for Rashad Anthony Perry & KingShadP Studio.
               </p>
             </div>
 
-            <div className="font-mono text-[9px] uppercase tracking-widest text-[#777777] border border-[#222222] p-4 bg-[#0a0a0a] flex flex-col gap-1 min-w-[220px]">
-              <div className="flex justify-between"><span className="text-[#999999]">CANONICAL:</span> <span className="text-[#dcc57b]">KingShadP.com</span></div>
-              <div className="flex justify-between"><span className="text-[#999999]">PRONUNCIATION:</span> <span className="text-white font-bold">KING SHAHD PEE</span></div>
-              <div className="flex justify-between"><span className="text-[#999999]">AUTHOR:</span> <span className="text-white">Rashad Anthony Perry</span></div>
-              <div className="flex justify-between"><span className="text-[#999999]">ORIGIN:</span> <span className="text-white">Miami, FL</span></div>
+            <div className="font-mono text-[9px] uppercase tracking-widest text-foreground/40 border border-border-strong p-4 bg-surface-dim flex flex-col gap-1 min-w-[220px]">
+              <div className="flex justify-between"><span className="text-foreground/60">CANONICAL:</span> <span className="text-accent">KingShadP.com</span></div>
+              <div className="flex justify-between"><span className="text-foreground/60">PRONUNCIATION:</span> <span className="text-foreground font-bold">KING SHAHD PEE</span></div>
+              <div className="flex justify-between"><span className="text-foreground/60">AUTHOR:</span> <span className="text-foreground">Rashad Anthony Perry</span></div>
+              <div className="flex justify-between"><span className="text-foreground/60">ORIGIN:</span> <span className="text-foreground">Miami, FL</span></div>
             </div>
           </div>
 
           {/* Navigation Bar Tabs & Print Trigger */}
-          <nav aria-label="Catalogue sections" className="flex flex-wrap items-center justify-between gap-3 pt-6 border-t border-[#1a1a1a]">
+          <nav aria-label="Catalogue sections" className="flex flex-wrap items-center justify-between gap-3 pt-6 border-t border-border">
             <div className="flex flex-wrap gap-2">
               {navItems.map((item) => (
                 <button
@@ -68,8 +68,8 @@ export function CatalogueClient() {
                   onClick={() => setActiveTab(item.id)}
                   className={`px-4 py-2 font-mono text-[10px] uppercase tracking-widest transition-all duration-300 border ${
                     activeTab === item.id
-                      ? 'border-[#c9c6c5] bg-[#c9c6c5] text-black font-bold shadow-[0_0_20px_rgba(201,198,197,0.2)]'
-                      : 'border-[#222222] text-[#888888] hover:border-[#555555] hover:text-white bg-[#0a0a0a]/60'
+                      ? 'border-[#c9c6c5] bg-foreground text-black font-bold shadow-[0_0_20px_rgba(201,198,197,0.2)]'
+                      : 'border-border-strong text-foreground/50 hover:border-border-strong hover:text-foreground bg-surface-dim/60'
                   }`}
                 >
                   {item.label}
@@ -79,7 +79,7 @@ export function CatalogueClient() {
 
             <button
               onClick={() => window.print()}
-              className="px-4 py-2 font-mono text-[10px] uppercase tracking-widest border border-[#dcc57b] text-[#dcc57b] hover:bg-[#dcc57b] hover:text-black transition-all duration-300 bg-[#0a0a0a] flex items-center gap-2 font-semibold shadow-sm ml-auto cursor-pointer"
+              className="px-4 py-2 font-mono text-[10px] uppercase tracking-widest border border-[#dcc57b] text-accent hover:bg-[#dcc57b] hover:text-black transition-all duration-300 bg-surface-dim flex items-center gap-2 font-semibold shadow-sm ml-auto cursor-pointer"
               title="Print formatted catalogue or save as PDF"
             >
               <Printer size={13} />
@@ -106,41 +106,41 @@ export function CatalogueClient() {
                   
                   {/* Left Column: Summary */}
                   <div className="lg:col-span-7 space-y-6">
-                    <MonoLabel className="text-[#dcc57b]">EXECUTIVE SUMMARY</MonoLabel>
-                    <h2 className="font-serif italic text-3xl sm:text-4xl text-white leading-snug">
+                    <MonoLabel className="text-accent">EXECUTIVE SUMMARY</MonoLabel>
+                    <h2 className="font-serif italic text-3xl sm:text-4xl text-foreground leading-snug">
                       An independent Miami-born recording artist building a connected system of music, visual symbolism, editorial writing, digital design, and limited apparel.
                     </h2>
-                    <p className="font-sans text-sm text-[#aaaaaa] leading-relaxed">
+                    <p className="font-sans text-sm text-foreground/70 leading-relaxed">
                       KingShadP is an independent recording artist whose work expands beyond traditional music publishing into an integrated creative archive. The music remains the primary creative source, accompanied by the Giragon guardian symbol, a formal visual identity, an official digital archive, and physical product collections.
                     </p>
-                    <p className="font-sans text-sm text-[#aaaaaa] leading-relaxed">
+                    <p className="font-sans text-sm text-foreground/70 leading-relaxed">
                       Apple Music identifies KingShadP as a Miami, Florida hip-hop and rap artist, while official studio records describe the name as both an independent recording artist and the creative identity behind music, artwork, symbols, garments, and narrative projects.
                     </p>
 
                     <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
-                      <div className="border border-[#222222] p-4 bg-[#080808]">
-                        <MonoLabel className="text-[#888888]">LATEST RELEASE</MonoLabel>
-                        <div className="font-serif italic text-lg text-white mt-1">Summons and Supper</div>
-                        <div className="font-mono text-[9px] text-[#dcc57b] mt-1">July 14, 2026</div>
+                      <div className="border border-border-strong p-4 bg-surface">
+                        <MonoLabel className="text-foreground/50">LATEST RELEASE</MonoLabel>
+                        <div className="font-serif italic text-lg text-foreground mt-1">Summons and Supper</div>
+                        <div className="font-mono text-[9px] text-accent mt-1">July 14, 2026</div>
                       </div>
-                      <div className="border border-[#222222] p-4 bg-[#080808]">
-                        <MonoLabel className="text-[#888888]">FEATURED SINGLE</MonoLabel>
-                        <div className="font-serif italic text-lg text-white mt-1">Twisted Beast</div>
-                        <div className="font-mono text-[9px] text-[#dcc57b] mt-1">June 19, 2026</div>
+                      <div className="border border-border-strong p-4 bg-surface">
+                        <MonoLabel className="text-foreground/50">FEATURED SINGLE</MonoLabel>
+                        <div className="font-serif italic text-lg text-foreground mt-1">Twisted Beast</div>
+                        <div className="font-mono text-[9px] text-accent mt-1">June 19, 2026</div>
                       </div>
-                      <div className="border border-[#222222] p-4 bg-[#080808] col-span-2 sm:col-span-1">
-                        <MonoLabel className="text-[#888888]">MAJOR ALBUM</MonoLabel>
-                        <div className="font-serif italic text-lg text-white mt-1">Regal Echoes of God</div>
-                        <div className="font-mono text-[9px] text-[#dcc57b] mt-1">Feb 15, 2024</div>
+                      <div className="border border-border-strong p-4 bg-surface col-span-2 sm:col-span-1">
+                        <MonoLabel className="text-foreground/50">MAJOR ALBUM</MonoLabel>
+                        <div className="font-serif italic text-lg text-foreground mt-1">Regal Echoes of God</div>
+                        <div className="font-mono text-[9px] text-accent mt-1">Feb 15, 2024</div>
                       </div>
                     </div>
                   </div>
 
                   {/* Right Column: Data Table */}
-                  <div className="lg:col-span-5 border border-[#222222] bg-[#080808] p-6 space-y-4">
-                    <div className="flex items-center justify-between border-b border-[#222222] pb-4">
-                      <MonoLabel className="text-white">VERIFIED DATA MATRIX</MonoLabel>
-                      <span className="font-mono text-[9px] text-[#93000a] px-2 py-0.5 border border-[#93000a]/50">CONFIRMED</span>
+                  <div className="lg:col-span-5 border border-border-strong bg-surface p-6 space-y-4">
+                    <div className="flex items-center justify-between border-b border-border-strong pb-4">
+                      <MonoLabel className="text-foreground">VERIFIED DATA MATRIX</MonoLabel>
+                      <span className="font-mono text-[9px] text-accent px-2 py-0.5 border border-[#93000a]/50">CONFIRMED</span>
                     </div>
 
                     <div className="space-y-3 font-mono text-[10px]">
@@ -158,9 +158,9 @@ export function CatalogueClient() {
                         { key: "Spotify Artist ID", val: "7ElnjDMg4TCtoXJPv8nRQS" },
                         { key: "Apple Music ID", val: "1554804908" },
                       ].map((item, idx) => (
-                        <div key={idx} className="flex justify-between py-1.5 border-b border-[#141414] last:border-0">
-                          <span className="text-[#777777] uppercase">{item.key}</span>
-                          <span className="text-[#c9c6c5] text-right font-semibold">{item.val}</span>
+                        <div key={idx} className="flex justify-between py-1.5 border-b border-border last:border-0">
+                          <span className="text-foreground/40 uppercase">{item.key}</span>
+                          <span className="text-foreground text-right font-semibold">{item.val}</span>
                         </div>
                       ))}
                     </div>
@@ -169,28 +169,28 @@ export function CatalogueClient() {
                 </div>
 
                 {/* Banner / Visual Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-[#1a1a1a]">
-                  <div className="relative aspect-[4/3] border border-[#222222] overflow-hidden group">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-border">
+                  <div className="relative aspect-[4/3] border border-border-strong overflow-hidden group">
                     <Image src="/girgonglory.png" alt="Giragon Glory" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-70 group-hover:opacity-100" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-6 flex flex-col justify-end">
-                      <MonoLabel className="text-[#dcc57b]">01 // THE GUARDIAN</MonoLabel>
-                      <h3 className="font-serif italic text-2xl text-white">The Giragon Emblem</h3>
+                      <MonoLabel className="text-accent">01 // THE GUARDIAN</MonoLabel>
+                      <h3 className="font-serif italic text-2xl text-foreground">The Giragon Emblem</h3>
                     </div>
                   </div>
 
-                  <div className="relative aspect-[4/3] border border-[#222222] overflow-hidden group">
+                  <div className="relative aspect-[4/3] border border-border-strong overflow-hidden group">
                     <Image src="/twisted-beast-cover.png" alt="Twisted Beast Cover" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-70 group-hover:opacity-100" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-6 flex flex-col justify-end">
-                      <MonoLabel className="text-[#dcc57b]">02 // CHOIR SCALE</MonoLabel>
-                      <h3 className="font-serif italic text-2xl text-white">Behold, the Twisted Beast</h3>
+                      <MonoLabel className="text-accent">02 // CHOIR SCALE</MonoLabel>
+                      <h3 className="font-serif italic text-2xl text-foreground">Behold, the Twisted Beast</h3>
                     </div>
                   </div>
 
-                  <div className="relative aspect-[4/3] border border-[#222222] overflow-hidden group">
+                  <div className="relative aspect-[4/3] border border-border-strong overflow-hidden group">
                     <Image src="/background ksp.png" alt="KSP Architecture" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-70 group-hover:opacity-100" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-6 flex flex-col justify-end">
-                      <MonoLabel className="text-[#dcc57b]">03 // ALBUM STATEMENT</MonoLabel>
-                      <h3 className="font-serif italic text-2xl text-white">Regal Echoes of God</h3>
+                      <MonoLabel className="text-accent">03 // ALBUM STATEMENT</MonoLabel>
+                      <h3 className="font-serif italic text-2xl text-foreground">Regal Echoes of God</h3>
                     </div>
                   </div>
                 </div>
@@ -201,18 +201,18 @@ export function CatalogueClient() {
             {activeTab === 'biography' && (
               <div className="max-w-4xl space-y-12">
                 <div>
-                  <MonoLabel className="text-[#93000a] mb-2 block">SECTION 01</MonoLabel>
-                  <h2 className="font-serif italic text-4xl md:text-5xl text-white mb-6">
+                  <MonoLabel className="text-accent mb-2 block">SECTION 01</MonoLabel>
+                  <h2 className="font-serif italic text-4xl md:text-5xl text-foreground mb-6">
                     Biography: The Person Behind the Artist Name
                   </h2>
-                  <p className="font-serif text-xl text-[#dcc57b] italic mb-8 leading-relaxed">
+                  <p className="font-serif text-xl text-accent italic mb-8 leading-relaxed">
                     Rashad Anthony Perry records and releases music under the name KingShadP, maintaining a distinct boundary between the human author and the public creative brand.
                   </p>
                 </div>
 
-                <div className="space-y-8 font-sans text-sm text-[#aaaaaa] leading-relaxed">
-                  <div className="border-l-2 border-[#93000a] pl-6 py-2 bg-[#080808]">
-                    <h3 className="font-serif italic text-2xl text-white mb-3">Miami Origins and Cultural Foundation</h3>
+                <div className="space-y-8 font-sans text-sm text-foreground/70 leading-relaxed">
+                  <div className="border-l-2 border-[#93000a] pl-6 py-2 bg-surface">
+                    <h3 className="font-serif italic text-2xl text-foreground mb-3">Miami Origins and Cultural Foundation</h3>
                     <p className="mb-4">
                       Apple Music and Audiomack identify KingShadP as being from Miami, Florida. That origin provides more than a geographic tag. Miami’s musical identity is built from collision: Southern rap, Caribbean rhythm, electronic club culture, bass-heavy production, luxury imagery, immigrant influence, theatrical nightlife, and blunt self-invention all exist within the same city.
                     </p>
@@ -221,10 +221,10 @@ export function CatalogueClient() {
                     </p>
                   </div>
 
-                  <div className="border-l-2 border-[#222222] pl-6 py-2">
-                    <h3 className="font-serif italic text-2xl text-white mb-3">From Independent Uploads to a Unified Creative Identity</h3>
+                  <div className="border-l-2 border-border-strong pl-6 py-2">
+                    <h3 className="font-serif italic text-2xl text-foreground mb-3">From Independent Uploads to a Unified Creative Identity</h3>
                     <p className="mb-4">
-                      KingShadP’s early platform history reflects the reality of independent digital music: projects exist across Audiomack, SoundCloud, YouTube, Spotify, and Apple Music. Older songs have been remastered, retitled, or grouped into new collections, as seen in the 24-track archival release <em className="text-white">LET’S GET HIGH & MAKE MUSIC</em>.
+                      KingShadP’s early platform history reflects the reality of independent digital music: projects exist across Audiomack, SoundCloud, YouTube, Spotify, and Apple Music. Older songs have been remastered, retitled, or grouped into new collections, as seen in the 24-track archival release <em className="text-foreground">LET’S GET HIGH & MAKE MUSIC</em>.
                     </p>
                     <p>
                       Instead of abandoning early experiments, KingShadP organizes them into a larger living archive. The official studio now separates permanent identity assets—such as the Giragon, halo crown, SP Crest, KSP monogram, and signature wordmark—from ordinary promotional noise.
@@ -232,12 +232,12 @@ export function CatalogueClient() {
                   </div>
                 </div>
 
-                <div className="border border-[#222222] p-8 bg-[#080808] mt-12">
-                  <MonoLabel className="text-[#888888] mb-3 block">AUTHORSHIP STATEMENT</MonoLabel>
-                  <blockquote className="font-serif italic text-2xl text-white leading-relaxed">
+                <div className="border border-border-strong p-8 bg-surface mt-12">
+                  <MonoLabel className="text-foreground/50 mb-3 block">AUTHORSHIP STATEMENT</MonoLabel>
+                  <blockquote className="font-serif italic text-2xl text-foreground leading-relaxed">
                     &quot;Music is the source. Apparel, campaign imagery, symbols, and archive entries extend that source into other physical and digital forms. A song influences a garment, a garment introduces a symbol, and a symbol becomes an editorial image or written archive subject.&quot;
                   </blockquote>
-                  <div className="font-mono text-[10px] text-[#dcc57b] mt-4 uppercase tracking-widest">— KingShadP Studio Archives</div>
+                  <div className="font-mono text-[10px] text-accent mt-4 uppercase tracking-widest">— KingShadP Studio Archives</div>
                 </div>
               </div>
             )}
@@ -246,38 +246,38 @@ export function CatalogueClient() {
             {activeTab === 'musical-direction' && (
               <div className="max-w-4xl space-y-12">
                 <div>
-                  <MonoLabel className="text-[#dcc57b] mb-2 block">SECTION 02</MonoLabel>
-                  <h2 className="font-serif italic text-4xl md:text-5xl text-white mb-6">
+                  <MonoLabel className="text-accent mb-2 block">SECTION 02</MonoLabel>
+                  <h2 className="font-serif italic text-4xl md:text-5xl text-foreground mb-6">
                     Musical Identity & Artistic Direction
                   </h2>
-                  <p className="font-serif text-xl text-[#c9c6c5] italic mb-8 leading-relaxed">
+                  <p className="font-serif text-xl text-foreground italic mb-8 leading-relaxed">
                     A sound shaped by cinematic composition, orchestral tension, experimental sound design, melodic contrast, and choir-scale arrangements.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="border border-[#222222] p-6 bg-[#080808]">
-                    <MonoLabel className="text-[#93000a] mb-3 block">01 // CINEMATIC SCALE</MonoLabel>
-                    <h3 className="font-serif italic text-2xl text-white mb-4">Architectural Soundscapes</h3>
-                    <p className="font-sans text-xs text-[#aaaaaa] leading-relaxed">
-                      Cinematic scale in KingShadP’s catalog appears through pacing, dramatic titles, choirs, orchestral textures, monologue-like delivery, and visual storytelling. Releases like <em className="text-white">Behold, the Twisted Beast</em> feature KSP’s Cathedral Regal Choir, while <em className="text-white">Summons and Supper</em> carries credits for conducting, producing, composition, lyric writing, and mastering.
+                  <div className="border border-border-strong p-6 bg-surface">
+                    <MonoLabel className="text-accent mb-3 block">01 // CINEMATIC SCALE</MonoLabel>
+                    <h3 className="font-serif italic text-2xl text-foreground mb-4">Architectural Soundscapes</h3>
+                    <p className="font-sans text-xs text-foreground/70 leading-relaxed">
+                      Cinematic scale in KingShadP’s catalog appears through pacing, dramatic titles, choirs, orchestral textures, monologue-like delivery, and visual storytelling. Releases like <em className="text-foreground">Behold, the Twisted Beast</em> feature KSP’s Cathedral Regal Choir, while <em className="text-foreground">Summons and Supper</em> carries credits for conducting, producing, composition, lyric writing, and mastering.
                     </p>
                   </div>
 
-                  <div className="border border-[#222222] p-6 bg-[#080808]">
-                    <MonoLabel className="text-[#dcc57b] mb-3 block">02 // RECURRING THEMES</MonoLabel>
-                    <h3 className="font-serif italic text-2xl text-white mb-4">Identity, Pressure & Ambition</h3>
-                    <p className="font-sans text-xs text-[#aaaaaa] leading-relaxed">
-                      The songs examine self-invention, survival, and the tension between public presence and private experience. Ambition is dramatized through titles reaching for authority, luxury, divinity, and spectacle (<em className="text-white">Regal Echoes of God</em>, <em className="text-white">Ice King Shit</em>, <em className="text-white">Sacred</em>, <em className="text-white">Luxury Shit</em>).
+                  <div className="border border-border-strong p-6 bg-surface">
+                    <MonoLabel className="text-accent mb-3 block">02 // RECURRING THEMES</MonoLabel>
+                    <h3 className="font-serif italic text-2xl text-foreground mb-4">Identity, Pressure & Ambition</h3>
+                    <p className="font-sans text-xs text-foreground/70 leading-relaxed">
+                      The songs examine self-invention, survival, and the tension between public presence and private experience. Ambition is dramatized through titles reaching for authority, luxury, divinity, and spectacle (<em className="text-foreground">Regal Echoes of God</em>, <em className="text-foreground">Ice King Shit</em>, <em className="text-foreground">Sacred</em>, <em className="text-foreground">Luxury Shit</em>).
                     </p>
                   </div>
                 </div>
 
-                <div className="border border-[#222222] p-8 bg-[#080808]">
-                  <MonoLabel className="text-[#888888] mb-4 block">TONAL DIVERSITY IN THE CATALOGUE</MonoLabel>
-                  <div className="space-y-4 font-sans text-sm text-[#aaaaaa]">
+                <div className="border border-border-strong p-8 bg-surface">
+                  <MonoLabel className="text-foreground/50 mb-4 block">TONAL DIVERSITY IN THE CATALOGUE</MonoLabel>
+                  <div className="space-y-4 font-sans text-sm text-foreground/70">
                     <p>
-                      The catalog intentionally embraces mood contrasts: a 5-minute piece like <em className="text-white">High Like This (Life on Mars)</em> sits directly beside a 23-second interlude (<em className="text-white">She&apos;s a Killer, Psychopath Bitchhhhh</em>). This sequencing rejects standard streaming algorithm homogenization in favor of a cinematic sequence.
+                      The catalog intentionally embraces mood contrasts: a 5-minute piece like <em className="text-foreground">High Like This (Life on Mars)</em> sits directly beside a 23-second interlude (<em className="text-foreground">She&apos;s a Killer, Psychopath Bitchhhhh</em>). This sequencing rejects standard streaming algorithm homogenization in favor of a cinematic sequence.
                     </p>
                   </div>
                 </div>
@@ -288,11 +288,11 @@ export function CatalogueClient() {
             {activeTab === 'discography' && (
               <div className="space-y-12">
                 <div>
-                  <MonoLabel className="text-[#93000a] mb-2 block">SECTION 03</MonoLabel>
-                  <h2 className="font-serif italic text-4xl md:text-5xl text-white mb-4">
+                  <MonoLabel className="text-accent mb-2 block">SECTION 03</MonoLabel>
+                  <h2 className="font-serif italic text-4xl md:text-5xl text-foreground mb-4">
                     Canonical Discography & Release Timeline
                   </h2>
-                  <p className="font-serif text-lg text-[#aaaaaa] italic">
+                  <p className="font-serif text-lg text-foreground/70 italic">
                     Mapping the three primary layers of KingShadP&apos;s recording history from 2022 to 2026.
                   </p>
                 </div>
@@ -346,23 +346,23 @@ export function CatalogueClient() {
                       href: "/music/lets-get-high-and-make-music"
                     }
                   ].map((rel, idx) => (
-                    <div key={idx} className="border border-[#222222] bg-[#080808] p-6 md:p-8 flex flex-col md:flex-row gap-8 items-start hover:border-[#444444] transition-colors">
-                      <div className="relative w-full md:w-48 aspect-square flex-shrink-0 border border-[#222222] overflow-hidden">
+                    <div key={idx} className="border border-border-strong bg-surface p-6 md:p-8 flex flex-col md:flex-row gap-8 items-start hover:border-border-strong transition-colors">
+                      <div className="relative w-full md:w-48 aspect-square flex-shrink-0 border border-border-strong overflow-hidden">
                         <Image src={rel.img} alt={rel.title} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-700" />
                       </div>
 
                       <div className="flex-1 space-y-4">
-                        <div className="flex flex-wrap justify-between items-center gap-2 border-b border-[#1a1a1a] pb-3">
-                          <span className="font-mono text-[9px] text-[#93000a] tracking-widest">{rel.type}</span>
-                          <span className="font-mono text-[9px] text-[#dcc57b]">{rel.date}</span>
+                        <div className="flex flex-wrap justify-between items-center gap-2 border-b border-border pb-3">
+                          <span className="font-mono text-[9px] text-accent tracking-widest">{rel.type}</span>
+                          <span className="font-mono text-[9px] text-accent">{rel.date}</span>
                         </div>
 
-                        <h3 className="font-serif italic text-3xl text-white">{rel.title}</h3>
-                        <p className="font-sans text-sm text-[#aaaaaa] leading-relaxed">{rel.desc}</p>
-                        <p className="font-mono text-[10px] text-[#777777] leading-relaxed">{rel.details}</p>
+                        <h3 className="font-serif italic text-3xl text-foreground">{rel.title}</h3>
+                        <p className="font-sans text-sm text-foreground/70 leading-relaxed">{rel.desc}</p>
+                        <p className="font-mono text-[10px] text-foreground/40 leading-relaxed">{rel.details}</p>
 
                         <div className="pt-2">
-                          <Link href={rel.href} className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-[#c9c6c5] border border-[#333333] px-4 py-2 hover:bg-white hover:text-black transition-colors">
+                          <Link href={rel.href} className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-foreground border border-border-strong px-4 py-2 hover:bg-foreground hover:text-black transition-colors">
                             LISTEN IN SONIC VAULT <ArrowUpRight size={10} />
                           </Link>
                         </div>
@@ -377,63 +377,63 @@ export function CatalogueClient() {
             {activeTab === 'credits' && (
               <div className="max-w-4xl space-y-12">
                 <div>
-                  <MonoLabel className="text-[#dcc57b] mb-2 block">SECTION 04</MonoLabel>
-                  <h2 className="font-serif italic text-4xl md:text-5xl text-white mb-4">
+                  <MonoLabel className="text-accent mb-2 block">SECTION 04</MonoLabel>
+                  <h2 className="font-serif italic text-4xl md:text-5xl text-foreground mb-4">
                     Verified Credits & Authorship Matrix
                   </h2>
-                  <p className="font-serif text-lg text-[#aaaaaa] italic">
+                  <p className="font-serif text-lg text-foreground/70 italic">
                     Exact breakdown of legal writing credits (Rashad Anthony Perry) and performance/technical roles (KingShadP).
                   </p>
                 </div>
 
-                <div className="border border-[#222222] bg-[#080808] p-6 space-y-6">
-                  <MonoLabel className="text-white block border-b border-[#222222] pb-3">RECORDING-BY-RECORDING CREDITS</MonoLabel>
+                <div className="border border-border-strong bg-surface p-6 space-y-6">
+                  <MonoLabel className="text-foreground block border-b border-border-strong pb-3">RECORDING-BY-RECORDING CREDITS</MonoLabel>
 
                   <div className="overflow-x-auto">
                     <table className="w-full text-left font-mono text-[11px]">
                       <thead>
-                        <tr className="border-b border-[#222222] text-[#888888] uppercase">
+                        <tr className="border-b border-border-strong text-foreground/50 uppercase">
                           <th className="py-3 px-2">Work Title</th>
                           <th className="py-3 px-2">Performance</th>
                           <th className="py-3 px-2">Songwriting / Composition</th>
                           <th className="py-3 px-2">Production & Technical</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#141414] text-[#c9c6c5]">
+                      <tbody className="divide-y divide-[#141414] text-foreground">
                         <tr>
-                          <td className="py-3 px-2 font-bold italic font-serif text-base text-white">Summons and Supper</td>
+                          <td className="py-3 px-2 font-bold italic font-serif text-base text-foreground">Summons and Supper</td>
                           <td className="py-3 px-2">KingShadP</td>
-                          <td className="py-3 px-2 text-[#dcc57b]">Rashad Anthony Perry</td>
+                          <td className="py-3 px-2 text-accent">Rashad Anthony Perry</td>
                           <td className="py-3 px-2">Conductor, Producer, Mastering (KingShadP)</td>
                         </tr>
                         <tr>
-                          <td className="py-3 px-2 font-bold italic font-serif text-base text-white">Behold, the Twisted Beast</td>
+                          <td className="py-3 px-2 font-bold italic font-serif text-base text-foreground">Behold, the Twisted Beast</td>
                           <td className="py-3 px-2">KingShadP ft. Cathedral Regal Choir</td>
-                          <td className="py-3 px-2 text-[#dcc57b]">Rashad Anthony Perry</td>
+                          <td className="py-3 px-2 text-accent">Rashad Anthony Perry</td>
                           <td className="py-3 px-2">Producer, Mix, Mastering (KingShadP)</td>
                         </tr>
                         <tr>
-                          <td className="py-3 px-2 font-bold italic font-serif text-base text-white">Regal Echoes of God (Album)</td>
+                          <td className="py-3 px-2 font-bold italic font-serif text-base text-foreground">Regal Echoes of God (Album)</td>
                           <td className="py-3 px-2">KingShadP</td>
-                          <td className="py-3 px-2 text-[#dcc57b]">Rashad Anthony Perry</td>
+                          <td className="py-3 px-2 text-accent">Rashad Anthony Perry</td>
                           <td className="py-3 px-2">Executive Producer (KingShadP)</td>
                         </tr>
                         <tr>
-                          <td className="py-3 px-2 font-bold italic font-serif text-base text-white">Two Things! / Ice King Shit</td>
+                          <td className="py-3 px-2 font-bold italic font-serif text-base text-foreground">Two Things! / Ice King Shit</td>
                           <td className="py-3 px-2">KingShadP</td>
-                          <td className="py-3 px-2 text-[#dcc57b]">Rashad Anthony Perry</td>
+                          <td className="py-3 px-2 text-accent">Rashad Anthony Perry</td>
                           <td className="py-3 px-2">KingShadP Studio</td>
                         </tr>
                         <tr>
-                          <td className="py-3 px-2 font-bold italic font-serif text-base text-white">Apple of my Eye</td>
+                          <td className="py-3 px-2 font-bold italic font-serif text-base text-foreground">Apple of my Eye</td>
                           <td className="py-3 px-2">KingShadP</td>
-                          <td className="py-3 px-2 text-[#777777]">Archival Metadata</td>
+                          <td className="py-3 px-2 text-foreground/40">Archival Metadata</td>
                           <td className="py-3 px-2">Producer: KingShadP</td>
                         </tr>
                         <tr>
-                          <td className="py-3 px-2 font-bold italic font-serif text-base text-white">That Ass!</td>
+                          <td className="py-3 px-2 font-bold italic font-serif text-base text-foreground">That Ass!</td>
                           <td className="py-3 px-2">KingShadP</td>
-                          <td className="py-3 px-2 text-[#777777]">Archival Metadata</td>
+                          <td className="py-3 px-2 text-foreground/40">Archival Metadata</td>
                           <td className="py-3 px-2">Producer: beatdemons</td>
                         </tr>
                       </tbody>
@@ -441,10 +441,10 @@ export function CatalogueClient() {
                   </div>
                 </div>
 
-                <div className="p-6 border border-[#222222] bg-[#0a0a0a] space-y-3 font-sans text-xs text-[#aaaaaa]">
-                  <MonoLabel className="text-[#93000a] block">METHODOLOGY NOTE</MonoLabel>
+                <div className="p-6 border border-border-strong bg-surface-dim space-y-3 font-sans text-xs text-foreground/70">
+                  <MonoLabel className="text-accent block">METHODOLOGY NOTE</MonoLabel>
                   <p>
-                    Stage names, legal names, distributor metadata, and platform formatting can make the same author appear under different labels. Legal composition rights are registered to <strong className="text-white">Rashad Anthony Perry</strong>, while performance, conducting, mastering, and studio production are credited under <strong className="text-white">KingShadP</strong>.
+                    Stage names, legal names, distributor metadata, and platform formatting can make the same author appear under different labels. Legal composition rights are registered to <strong className="text-foreground">Rashad Anthony Perry</strong>, while performance, conducting, mastering, and studio production are credited under <strong className="text-foreground">KingShadP</strong>.
                   </p>
                 </div>
               </div>
@@ -454,58 +454,58 @@ export function CatalogueClient() {
             {activeTab === 'giragon-identity' && (
               <div className="max-w-4xl space-y-12">
                 <div>
-                  <MonoLabel className="text-[#93000a] mb-2 block">SECTION 05</MonoLabel>
-                  <h2 className="font-serif italic text-4xl md:text-5xl text-white mb-4">
+                  <MonoLabel className="text-accent mb-2 block">SECTION 05</MonoLabel>
+                  <h2 className="font-serif italic text-4xl md:text-5xl text-foreground mb-4">
                     The Giragon & Studio Identity System
                   </h2>
-                  <p className="font-serif text-xl text-[#dcc57b] italic">
+                  <p className="font-serif text-xl text-accent italic">
                     The official guardian symbol and visual brand hierarchy of KingShadP Studio.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border border-[#222222] bg-[#080808] p-8">
-                  <div className="md:col-span-5 relative aspect-square border border-[#222222] overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border border-border-strong bg-surface p-8">
+                  <div className="md:col-span-5 relative aspect-square border border-border-strong overflow-hidden">
                     <Image src="/girgonglory.png" alt="Giragon Emblem" fill className="object-cover" />
                   </div>
 
                   <div className="md:col-span-7 space-y-4">
-                    <MonoLabel className="text-[#dcc57b]">GUARDIAN SYMBOL</MonoLabel>
-                    <h3 className="font-serif italic text-3xl text-white">The Giragon Mythology</h3>
-                    <p className="font-sans text-xs text-[#aaaaaa] leading-relaxed">
+                    <MonoLabel className="text-accent">GUARDIAN SYMBOL</MonoLabel>
+                    <h3 className="font-serif italic text-3xl text-foreground">The Giragon Mythology</h3>
+                    <p className="font-sans text-xs text-foreground/70 leading-relaxed">
                       The Giragon is the official guardian symbol of KingShadP Studio. It combines the height and long-range vision of a giraffe with the wings, memory, and defensive force of a dragon. Official descriptions associate the figure with vision, survival, restraint, elegance, transformation, and identity under pressure.
                     </p>
-                    <p className="font-sans text-xs text-[#aaaaaa] leading-relaxed">
+                    <p className="font-sans text-xs text-foreground/70 leading-relaxed">
                       It is explicitly presented as an emblem, witness, and protector of the living archive rather than a disposable mascot.
                     </p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="border border-[#222222] p-5 bg-[#080808]">
-                    <MonoLabel className="text-[#888888]">MARK 01</MonoLabel>
-                    <div className="font-serif italic text-xl text-white mt-2">The Giragon</div>
-                    <div className="font-mono text-[9px] text-[#777777] mt-1">Guardian Emblem</div>
+                  <div className="border border-border-strong p-5 bg-surface">
+                    <MonoLabel className="text-foreground/50">MARK 01</MonoLabel>
+                    <div className="font-serif italic text-xl text-foreground mt-2">The Giragon</div>
+                    <div className="font-mono text-[9px] text-foreground/40 mt-1">Guardian Emblem</div>
                   </div>
-                  <div className="border border-[#222222] p-5 bg-[#080808]">
-                    <MonoLabel className="text-[#888888]">MARK 02</MonoLabel>
-                    <div className="font-serif italic text-xl text-white mt-2">Halo Crown</div>
-                    <div className="font-mono text-[9px] text-[#777777] mt-1">Regal Monolith</div>
+                  <div className="border border-border-strong p-5 bg-surface">
+                    <MonoLabel className="text-foreground/50">MARK 02</MonoLabel>
+                    <div className="font-serif italic text-xl text-foreground mt-2">Halo Crown</div>
+                    <div className="font-mono text-[9px] text-foreground/40 mt-1">Regal Monolith</div>
                   </div>
-                  <div className="border border-[#222222] p-5 bg-[#080808]">
-                    <MonoLabel className="text-[#888888]">MARK 03</MonoLabel>
-                    <div className="font-serif italic text-xl text-white mt-2">SP Crest</div>
-                    <div className="font-mono text-[9px] text-[#777777] mt-1">Apparel Insignia</div>
+                  <div className="border border-border-strong p-5 bg-surface">
+                    <MonoLabel className="text-foreground/50">MARK 03</MonoLabel>
+                    <div className="font-serif italic text-xl text-foreground mt-2">SP Crest</div>
+                    <div className="font-mono text-[9px] text-foreground/40 mt-1">Apparel Insignia</div>
                   </div>
-                  <div className="border border-[#222222] p-5 bg-[#080808]">
-                    <MonoLabel className="text-[#888888]">MARK 04</MonoLabel>
-                    <div className="font-serif italic text-xl text-white mt-2">KSP Monogram</div>
-                    <div className="font-mono text-[9px] text-[#777777] mt-1">Signature Wordmark</div>
+                  <div className="border border-border-strong p-5 bg-surface">
+                    <MonoLabel className="text-foreground/50">MARK 04</MonoLabel>
+                    <div className="font-serif italic text-xl text-foreground mt-2">KSP Monogram</div>
+                    <div className="font-mono text-[9px] text-foreground/40 mt-1">Signature Wordmark</div>
                   </div>
                 </div>
 
-                <div className="border-t border-[#1a1a1a] pt-8 font-mono text-[10px] text-[#888888] flex flex-col sm:flex-row justify-between gap-4">
-                  <div>STUDIO MOTTO: <span className="text-white">&quot;Originality is the new royalty.&quot;</span></div>
-                  <div>OFFICIAL DOMAIN: <span className="text-[#dcc57b]">KingShadP.com</span></div>
+                <div className="border-t border-border pt-8 font-mono text-[10px] text-foreground/50 flex flex-col sm:flex-row justify-between gap-4">
+                  <div>STUDIO MOTTO: <span className="text-foreground">&quot;Originality is the new royalty.&quot;</span></div>
+                  <div>OFFICIAL DOMAIN: <span className="text-accent">KingShadP.com</span></div>
                 </div>
               </div>
             )}
@@ -514,11 +514,11 @@ export function CatalogueClient() {
             {activeTab === 'faqs' && (
               <div className="max-w-4xl space-y-8">
                 <div>
-                  <MonoLabel className="text-[#93000a] mb-2 block">SECTION 06</MonoLabel>
-                  <h2 className="font-serif italic text-4xl md:text-5xl text-white mb-4">
+                  <MonoLabel className="text-accent mb-2 block">SECTION 06</MonoLabel>
+                  <h2 className="font-serif italic text-4xl md:text-5xl text-foreground mb-4">
                     Verified Frequently Asked Questions
                   </h2>
-                  <p className="font-serif text-lg text-[#aaaaaa] italic">
+                  <p className="font-serif text-lg text-foreground/70 italic">
                     Source-verified facts and answers directly from the KingShadP dossier.
                   </p>
                 </div>
@@ -546,12 +546,12 @@ export function CatalogueClient() {
                       a: "Rashad Anthony Perry is credited in official music metadata as a songwriter, composer, and lyricist on KingShadP releases. KingShadP is also credited in performance and selected technical roles, including producing, conducting, and mastering 'Summons and Supper'."
                     }
                   ].map((faq, idx) => (
-                    <div key={idx} className="border border-[#222222] bg-[#080808] p-6 space-y-3">
+                    <div key={idx} className="border border-border-strong bg-surface p-6 space-y-3">
                       <div className="flex items-start gap-3">
-                        <span className="font-mono text-xs text-[#93000a] font-bold">Q{idx + 1}.</span>
-                        <h3 className="font-serif italic text-2xl text-white">{faq.q}</h3>
+                        <span className="font-mono text-xs text-accent font-bold">Q{idx + 1}.</span>
+                        <h3 className="font-serif italic text-2xl text-foreground">{faq.q}</h3>
                       </div>
-                      <p className="font-sans text-xs text-[#aaaaaa] leading-relaxed pl-7">
+                      <p className="font-sans text-xs text-foreground/70 leading-relaxed pl-7">
                         {faq.a}
                       </p>
                     </div>
@@ -564,13 +564,13 @@ export function CatalogueClient() {
         </AnimatePresence>
 
         {/* Footer info banner */}
-        <footer className="mt-32 pt-8 border-t border-[#222222] flex flex-col md:flex-row justify-between items-start md:items-center gap-4 font-mono text-[9px] uppercase tracking-widest text-[#666666]">
+        <footer className="mt-32 pt-8 border-t border-border-strong flex flex-col md:flex-row justify-between items-start md:items-center gap-4 font-mono text-[9px] uppercase tracking-widest text-foreground/30">
           <div>DOSSIER SOURCE: KINGSHADP.COM VERIFIED ARCHIVE</div>
           <div className="flex gap-6">
-            <Link href="/music" className="hover:text-white transition-colors">SONIC VAULT</Link>
-            <Link href="/archive" className="hover:text-white transition-colors">LIVING ARCHIVE</Link>
-            <a href="https://open.spotify.com/artist/7ElnjDMg4TCtoXJPv8nRQS" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">SPOTIFY</a>
-            <a href="https://music.apple.com/artist/1554804908" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">APPLE MUSIC</a>
+            <Link href="/music" className="hover:text-foreground transition-colors">SONIC VAULT</Link>
+            <Link href="/archive" className="hover:text-foreground transition-colors">LIVING ARCHIVE</Link>
+            <a href="https://open.spotify.com/artist/7ElnjDMg4TCtoXJPv8nRQS" target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">SPOTIFY</a>
+            <a href="https://music.apple.com/artist/1554804908" target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">APPLE MUSIC</a>
           </div>
         </footer>
         </div>

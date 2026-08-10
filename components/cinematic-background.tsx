@@ -47,9 +47,9 @@ export function CinematicBackground() {
   if (!isMounted) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden bg-black perspective-[1000px]">
+    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden bg-background perspective-[1000px]">
       {/* Base Void Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-[#060606] to-[#020202] z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface to-background z-0" />
 
       {/* Layer 3: The Deep Vault */}
       <motion.div 
@@ -60,9 +60,9 @@ export function CinematicBackground() {
           src="/girgonglory.png"
           alt="Deep Vault"
           fill
-          className="object-cover object-center mix-blend-screen opacity-60"
+          className="object-cover object-center mix-blend-luminosity opacity-40"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background" />
       </motion.div>
 
       {/* Layer 2: The Inner Gallery (Gold) */}
@@ -76,7 +76,7 @@ export function CinematicBackground() {
           fill
           className="object-cover object-center mix-blend-color-dodge brightness-75"
         />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-background/40" />
       </motion.div>
 
       {/* Layer 1: The Initial Portal (Black Marble) */}
@@ -88,15 +88,15 @@ export function CinematicBackground() {
           src="/girgonglory.png"
           alt="Initial Portal"
           fill
-          className="object-cover object-center mix-blend-screen"
+          className="object-cover object-center mix-blend-luminosity"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
       </motion.div>
 
       {/* Volumetric Fog & Texture */}
       <motion.div 
-        className="absolute inset-[-50%] z-40 mix-blend-screen pointer-events-none"
+        className="absolute inset-[-50%] z-40 mix-blend-multiply pointer-events-none"
         style={{ scale: fogScale, opacity: fogOpacity, y: fogY }}
       >
         {/* We use a repeating noise texture that scales up to feel like dust/fog */}
@@ -107,8 +107,8 @@ export function CinematicBackground() {
       </motion.div>
 
       {/* Light Sweeps & Atmosphere */}
-      <div className="absolute inset-0 z-40 bg-[radial-gradient(circle_at_50%_40%,transparent_0%,rgba(0,0,0,0.95)_100%)] pointer-events-none" />
-      <div className="absolute inset-0 z-40 bg-gradient-to-tr from-transparent via-[#ffd700]/3 to-transparent mix-blend-screen opacity-70 pointer-events-none" />
+      <div className="absolute inset-0 z-40 bg-[radial-gradient(circle_at_50%_40%,transparent_0%,var(--color-background)_100%)] pointer-events-none" />
+      <div className="absolute inset-0 z-40 bg-gradient-to-tr from-transparent via-accent/5 to-transparent mix-blend-multiply opacity-70 pointer-events-none" />
       
       {/* Global Cinematic Grain */}
       <div 
