@@ -6,8 +6,8 @@
   --font-display: var(--font-display);
   --font-mono: var(--font-mono);
 
-  /* Color Palette - Elegant & Calm Design System */
-  --color-matte-black: #1a1716; 
+  /* Color Palette - Cosmic Observatory Design System */
+  --color-matte-black: #030303; 
   --color-matte-off-white: #f8f6f3; 
   --color-oxblood: #6b5c53; 
   --color-crimson: #907e71; 
@@ -16,13 +16,13 @@
   --color-vintage-metal: #a8a096;
 
   /* Semantic Colors */
-  --color-background: var(--color-matte-off-white);
-  --color-foreground: var(--color-matte-black);
-  --color-surface: #f1efe9;
-  --color-surface-dim: #e9e6df;
-  --color-surface-hover: #e5e1da;
-  --color-border: rgba(26, 23, 22, 0.1);
-  --color-border-strong: rgba(26, 23, 22, 0.2);
+  --color-background: var(--color-matte-black);
+  --color-foreground: var(--color-matte-off-white);
+  --color-surface: #0a0a0a;
+  --color-surface-dim: #111111;
+  --color-surface-hover: #1a1a1a;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.15);
   --color-accent: var(--color-vintage-metal);
 }
 

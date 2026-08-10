@@ -5,19 +5,16 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { Play, Volume2, ArrowRight } from 'lucide-react';
 import { useAudio } from '@/components/audio-provider';
 import { Bootloader } from '@/components/bootloader';
-import ArtDirectionShowcase from '@/components/art-direction-showcase';
+import { OrbitingSymbol } from '@/components/orbiting-symbol';
 import Magnetic from '@/components/magnetic';
-import { 
-  PageContainer, Section, Grid, Surface, 
-  Heading, Text, MonoLabel, SystemImage, Link
-} from '@/components/system';
+import Link from 'next/link';
 
-const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) => (
+const CelestialReveal = ({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) => (
   <motion.div
-    initial={{ opacity: 0, y: 15 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-80px" }}
-    transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+    initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+    viewport={{ once: true, margin: "-100px" }}
+    transition={{ duration: 1.8, delay, ease: [0.16, 1, 0.3, 1] }}
     className={className}
   >
     {children}
@@ -42,11 +39,10 @@ export default function EntryExperience() {
     setBootSequenceActive(false);
   };
 
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0, 0.15], [0, 80]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.95]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.9]);
 
-  // Lock scroll during boot
   useEffect(() => {
     if (bootSequenceActive) {
       document.body.style.overflow = 'hidden';
@@ -62,267 +58,137 @@ export default function EntryExperience() {
         <Bootloader onComplete={handleBootComplete} />
       )}
 
-      <main className="relative min-h-screen">
+      <main className="relative bg-background min-h-[500vh] text-foreground font-sans">
         
-        {/* 1. IDENTITY SIGNAL (HERO) */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          {/* Subtle noise/grid background overlay */}
-          <div className="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03)_1px,_transparent_1.5px)] [background-size:64px_64px]" />
-          <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.15] bg-[linear-gradient(rgba(18,16,16,0)_50%,_rgba(0,0,0,0.25)_50%)] [background-size:100%_4px]" />
+        {/* Deep Space Background Layer */}
+        <div className="fixed inset-0 pointer-events-none z-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.02)_0%,_transparent_70%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,_transparent_1px),_linear-gradient(90deg,_rgba(255,255,255,0.01)_1px,_transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,_black_20%,_transparent_70%)]" />
+        </div>
 
+        {/* 1. OBSERVATORY ZERO (HERO) */}
+        <section className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden z-10 pointer-events-none">
           <motion.div 
             style={{ opacity: heroOpacity, y: heroY, scale: heroScale }}
-            className="text-center z-10 px-6 max-w-4xl mx-auto flex flex-col items-center"
+            className="flex flex-col items-center justify-center w-full pointer-events-auto"
           >
-            <MonoLabel className="mb-6 block text-accent tracking-[0.3em]">{"A SPACE FOR REFLECTION"}</MonoLabel>
-            <Heading variant="display" className="text-5xl md:text-7xl lg:text-8xl mb-8 tracking-tight font-serif italic font-light">
-              KingShadP
-            </Heading>
-            <Text variant="lead" className="max-w-2xl mx-auto mb-12 mix-blend-difference text-foreground/80">
-              The creative universe, independent archive, and serene brand identity of Rashad Anthony Perry.
-            </Text>
+            <OrbitingSymbol />
             
-            <Magnetic range={120} strength={0.4} scaleStrength={0.08}>
+            <div className="mt-20 text-center flex flex-col items-center space-y-6">
+              <h1 className="font-serif italic font-light text-5xl md:text-7xl tracking-widest text-foreground">
+                KingShadP
+              </h1>
+              <div className="font-mono text-[9px] uppercase tracking-[0.4em] text-foreground/40">
+                A Digital Archive & Observatory
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* SPATIAL SEPARATOR */}
+        <div className="h-screen" />
+
+        {/* 2. ATMOSPHERIC FREQUENCY */}
+        <section className="relative min-h-[120vh] flex items-center justify-center z-20 px-6">
+          <CelestialReveal className="max-w-2xl text-center flex flex-col items-center">
+            <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-accent mb-12">
+              01 // Sonic Frequency
+            </div>
+            
+            <h2 className="font-serif font-light text-3xl md:text-4xl leading-relaxed mb-12 text-foreground/90">
+              Sound acting as an invisible landscape.
+            </h2>
+            
+            <Magnetic range={100} strength={0.5} scaleStrength={0.1}>
               <button 
-                onClick={() => document.getElementById('audio-hub')?.scrollIntoView({ behavior: 'smooth' })}
-                className="font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full flex items-center gap-3"
+                onClick={toggleAudio}
+                className={`h-20 w-20 md:h-24 md:w-24 rounded-full border flex items-center justify-center transition-all duration-1000 ${
+                  audioActive 
+                    ? 'border-foreground bg-foreground text-background shadow-[0_0_30px_rgba(255,255,255,0.1)]' 
+                    : 'border-foreground/20 text-foreground hover:border-foreground/50'
+                }`}
               >
-                Begin the Journey <ArrowRight size={12} />
+                {audioActive ? (
+                  <Volume2 className="w-6 h-6 md:w-8 md:h-8" />
+                ) : (
+                  <Play className="w-6 h-6 md:w-8 md:h-8 ml-1" />
+                )}
               </button>
             </Magnetic>
-          </motion.div>
-
-          <div className="absolute bottom-12 left-12 hidden md:block">
-            <MonoLabel>ARCHIVE_VER: 4.1.9</MonoLabel>
-          </div>
-          <div className="absolute bottom-12 right-12 hidden md:block text-right">
-            <MonoLabel>LAT: 34.0522° N</MonoLabel>
-            <MonoLabel>LONG: 118.2437° W</MonoLabel>
-          </div>
-        </section>
-
-        {/* 2. AUDIO HUB / FEATURED MUSIC */}
-        <section id="audio-hub" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-surface-dim">
-          <PageContainer>
-            <Grid columns={12} gap="lg" className="items-center">
-              <div className="col-span-12 md:col-span-6 lg:col-span-5 order-2 md:order-1">
-                <FadeIn>
-                  <MonoLabel className="text-accent mb-6 block">01 / SONIC FREQUENCY</MonoLabel>
-                  <Heading className="mb-6 font-serif font-light">Sound as Architecture</Heading>
-                  <Text className="mb-10 max-w-md text-foreground/60 leading-relaxed">
-                    Sound acts as an invisible landscape. In the world of KingShadP, apparel artifacts are paired directly with custom frequencies. Activate the audio channel to experience a moment of calm reflection.
-                  </Text>
-                  
-                  <Magnetic range={100} strength={0.5} scaleStrength={0.1}>
-                    <button 
-                      onClick={toggleAudio}
-                      className={`h-24 w-24 rounded-full border flex items-center justify-center transition-all duration-700 pointer-events-auto cursor-pointer ${
-                        audioActive 
-                          ? 'border-foreground bg-foreground text-background shadow-[0_0_40px_rgba(26,23,22,0.1)] font-bold' 
-                          : 'border-border text-foreground hover:border-foreground/50 hover:bg-surface-hover'
-                      }`}
-                    >
-                      {audioActive ? (
-                        <Volume2 className="w-8 h-8 text-background" />
-                      ) : (
-                        <Play className="w-8 h-8 ml-1 text-foreground" />
-                      )}
-                    </button>
-                  </Magnetic>
-                  <MonoLabel className="mt-6 block opacity-60">
-                    {audioActive ? 'AUDIO: PLAYING GENTLE ATMOSPHERE' : 'STATUS: SILENT'}
-                  </MonoLabel>
-                  <div className="mt-12">
-                    <a href="/music" className="inline-flex items-center gap-4 font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full">
-                      ENTER SONIC VAULT
-                      <ArrowRight size={14} />
-                    </a>
-                  </div>
-                </FadeIn>
-              </div>
-              
-              <div className="col-span-12 md:col-span-6 lg:col-span-7 order-1 md:order-2 mb-12 md:mb-0">
-                <FadeIn delay={0.2} className="relative aspect-square md:aspect-video w-full rounded-sm overflow-hidden group">
-                  <SystemImage 
-                    src="https://picsum.photos/seed/soundscape/1200/800?grayscale"
-                    alt="Acoustic landscape"
-                    fill
-                    className="object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-1000 mix-blend-luminosity"
-                  />
-                  {audioActive && (
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="w-full h-[1px] bg-accent/30 absolute top-1/2 left-0" />
-                      <motion.div 
-                        animate={{ 
-                          scaleY: [0.1, 1.2, 0.1, 1.5, 0.2],
-                          opacity: [0.2, 0.8, 0.3, 0.9, 0.2]
-                        }}
-                        transition={{ repeat: Infinity, duration: 2.2, ease: 'linear' }}
-                        className="w-full h-12 bg-gradient-to-r from-transparent via-accent/20 to-transparent absolute top-[calc(50%-24px)]"
-                      />
-                    </div>
-                  )}
-                </FadeIn>
-              </div>
-            </Grid>
-          </PageContainer>
-        </section>
-
-        {/* 3. VISUAL WORK / BRAND IDENTITY */}
-        <section className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border">
-          <PageContainer>
-            <div className="max-w-3xl mb-24">
-              <FadeIn>
-                <MonoLabel className="text-accent mb-6 block">02 / BRAND IDENTITY</MonoLabel>
-                <Heading variant="display" className="mb-6 font-serif italic font-light">Embracing Individuality</Heading>
-                <Text variant="lead" className="text-foreground/80">
-                  KingShadP is an exploration of artistic identity, combining sound and visual form into a cohesive, elegant universe.
-                </Text>
-              </FadeIn>
+            
+            <div className="font-mono text-[8px] uppercase tracking-widest mt-8 text-foreground/40">
+              {audioActive ? 'FREQUENCY LOCK: ACTIVE' : 'STATUS: INERT'}
             </div>
-
-            <Grid columns={12} gap="lg" className="items-stretch">
-              <div className="col-span-12 md:col-span-7">
-                <FadeIn delay={0.1} className="h-full">
-                  <Surface variant="primary" className="h-full flex flex-col justify-end p-8 md:p-12 min-h-[500px] relative group overflow-hidden border-border/50">
-                    <SystemImage 
-                      src="https://picsum.photos/seed/structure2/1000/1000?grayscale"
-                      alt="Structural aesthetic"
-                      fill
-                      className="object-cover opacity-10 mix-blend-luminosity group-hover:scale-105 group-hover:opacity-20 transition-all duration-[2000ms]"
-                    />
-                    <div className="relative z-10">
-                      <MonoLabel className="mb-4">RULE_01 // CALMNESS</MonoLabel>
-                      <Heading className="text-2xl mb-4 font-serif">Serene Environments</Heading>
-                      <Text className="max-w-md text-foreground/70">
-                        We focus on creating spaces that breathe. Generous negative space, soft contrast, and thoughtful typography create an atmosphere of quiet reflection.
-                      </Text>
-                    </div>
-                  </Surface>
-                </FadeIn>
-              </div>
-
-              <div className="col-span-12 md:col-span-5 flex flex-col gap-6 lg:gap-8">
-                <FadeIn delay={0.2} className="flex-1">
-                  <Surface variant="secondary" className="h-full p-8 md:p-12 flex flex-col justify-between">
-                    <MonoLabel className="opacity-50">RULE_02 // MATERIALS</MonoLabel>
-                    <div className="mt-12">
-                      <Heading className="text-xl mb-3 font-serif">Refined Texture</Heading>
-                      <Text variant="muted">
-                        Colors are restricted to warm alabaster, vintage metal, and soft charcoal. We prioritize gentle, tactile materials.
-                      </Text>
-                    </div>
-                  </Surface>
-                </FadeIn>
-                <FadeIn delay={0.3} className="flex-1">
-                  <Surface variant="secondary" className="h-full p-8 md:p-12 flex flex-col justify-between">
-                    <MonoLabel className="opacity-50">RULE_03 // INDIVIDUALITY</MonoLabel>
-                    <div className="mt-12">
-                      <Heading className="text-xl mb-3 font-serif">Distinct Voice</Heading>
-                      <Text variant="muted">
-                        Every creative decision is made to honor the individual artist&apos;s perspective, never conforming to predictable patterns.
-                      </Text>
-                    </div>
-                  </Surface>
-                </FadeIn>
-              </div>
-            </Grid>
-          </PageContainer>
+          </CelestialReveal>
         </section>
 
-        {/* 4. DIGITAL EXPERIMENTS (Art Showcase) */}
-        <section id="experiments" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-surface-dim">
-          <PageContainer className="max-w-[1400px]">
-            <FadeIn>
-              <MonoLabel className="text-accent mb-6 block">03 / DIGITAL EXPERIMENTS</MonoLabel>
-              <Heading className="mb-16">Interface Art Direction</Heading>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <ArtDirectionShowcase />
-            </FadeIn>
-          </PageContainer>
-        </section>
-
-        {/* 5. TEXT CATALOGUE & VERIFIED DOSSIER */}
-        <section id="catalogue" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-background">
-          <PageContainer>
-            <Grid columns={12} gap="lg" className="items-center">
-              <div className="col-span-12 lg:col-span-6">
-                <FadeIn>
-                  <MonoLabel className="text-accent mb-6 block">04 / TEXT CATALOGUE & DOSSIER</MonoLabel>
-                  <Heading variant="display" className="mb-6">The Verified Chronicle</Heading>
-                  <Text variant="lead" className="mb-8">
-                    KingShadP (Rashad Anthony Perry) is an independent Miami-born hip-hop and rap artist building a multidisciplinary creative archive across music, visual symbolism, editorial content, and the Giragon guardian mythos.
-                  </Text>
-                  
-                  <div className="grid grid-cols-2 gap-4 font-mono text-[9px] uppercase tracking-widest border-t border-b border-border/50 py-6 mb-10 text-neutral-400">
-                    <div><span className="text-foreground">LATEST SINGLE:</span> Summons and Supper (2026)</div>
-                    <div><span className="text-foreground">ALBUM:</span> Regal Echoes of God (2024)</div>
-                    <div><span className="text-foreground">EP:</span> Unfinished. Unedited. Untitled.</div>
-                    <div><span className="text-foreground">GUARDIAN:</span> The Giragon Emblem</div>
-                  </div>
-
-                  <a 
-                    href="/catalogue" 
-                    className="inline-flex items-center gap-4 font-mono text-[9px] tracking-widest uppercase text-foreground border border-border px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full"
-                  >
-                    EXPLORE FULL CATALOGUE DOSSIER
-                    <ArrowRight size={14} />
-                  </a>
-                </FadeIn>
-              </div>
-
-              <div className="col-span-12 lg:col-span-6">
-                <FadeIn delay={0.2} className="relative aspect-square border border-border/50 p-8 md:p-12 bg-surface/20 flex flex-col justify-between">
-                  <div className="flex justify-between items-start font-mono text-[9px] text-accent uppercase tracking-widest">
-                    <span>DOCUMENT_ID: KSP-CAT-2026</span>
-                    <span>SOURCE: KINGSHADP.COM</span>
-                  </div>
-                  
-                  <blockquote className="font-serif italic text-2xl md:text-3xl text-foreground leading-snug my-8">
-                    &quot;Originality is the new royalty. A song influences a garment, a garment introduces a symbol, and a symbol becomes an editorial image or written archive subject.&quot;
-                  </blockquote>
-
-                  <div className="font-mono text-[9px] text-neutral-500 uppercase tracking-widest border-t border-border/30 pt-4 flex justify-between">
-                    <span>CREDITED AUTHOR: RASHAD ANTHONY PERRY</span>
-                    <span>ORIGIN: MIAMI, FL</span>
-                  </div>
-                </FadeIn>
-              </div>
-            </Grid>
-          </PageContainer>
-        </section>
-
-        {/* 6. ARCHIVE GATEWAY */}
-        <section className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_#111111_0%,_transparent_50%)] opacity-40 pointer-events-none" />
-          
-          <PageContainer>
-            <div className="max-w-4xl mx-auto text-center">
-              <FadeIn>
-                <MonoLabel className="text-accent mb-6 block">04 / THE VAULT</MonoLabel>
-                <Heading variant="display" className="mb-8">Access The Archive</Heading>
-                <Text variant="lead" className="max-w-2xl mx-auto mb-16">
-                  A comprehensive record of the digital and physical manifestations of the KingShadP universe.
-                </Text>
-                
-                <Magnetic range={150} strength={0.4} scaleStrength={0.05}>
-                  <Link 
-                    href="/archive" 
-                    className="inline-flex h-32 w-32 rounded-full border border-border items-center justify-center hover:bg-foreground hover:text-background transition-colors duration-500 font-mono text-[10px] tracking-widest uppercase group relative overflow-hidden"
-                  >
-                    <span className="relative z-10 flex flex-col items-center gap-2">
-                      Enter
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  </Link>
-                </Magnetic>
-              </FadeIn>
+        {/* 3. STRUCTURAL VISION */}
+        <section className="relative min-h-[120vh] flex items-center justify-center z-20 px-6">
+          <CelestialReveal className="max-w-3xl text-center">
+            <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-accent mb-12">
+              02 // Brand Identity
             </div>
-          </PageContainer>
+            
+            <h2 className="font-serif font-light italic text-4xl md:text-6xl leading-snug mb-10 text-foreground">
+              Embracing Individuality
+            </h2>
+            
+            <p className="font-sans text-sm md:text-base leading-loose text-foreground/60 max-w-xl mx-auto">
+              Every creative decision is made to honor the perspective of Rashad Anthony Perry. 
+              We focus on spaces that breathe, utilizing generous negative space, soft contrast, 
+              and thoughtful typography to create an atmosphere of quiet reflection.
+            </p>
+          </CelestialReveal>
+        </section>
+
+        {/* 4. THE CHRONICLE (CATALOGUE) */}
+        <section className="relative min-h-[120vh] flex flex-col items-center justify-center z-20 px-6">
+          <CelestialReveal className="text-center flex flex-col items-center">
+            <div className="w-px h-24 bg-gradient-to-b from-transparent to-foreground/20 mb-12" />
+            
+            <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-accent mb-8">
+              03 // The Verified Chronicle
+            </div>
+            
+            <h2 className="font-serif font-light text-2xl md:text-4xl leading-relaxed mb-16 text-foreground/80 max-w-2xl">
+              An independent creative archive spanning music, visual symbolism, and editorial composition.
+            </h2>
+            
+            <Link 
+              href="/catalogue" 
+              className="group flex items-center gap-6 font-mono text-[10px] tracking-[0.2em] uppercase text-foreground/60 hover:text-foreground transition-colors duration-500"
+            >
+              <span className="w-12 h-px bg-foreground/20 group-hover:w-24 group-hover:bg-foreground transition-all duration-700" />
+              <span>Explore Dossier</span>
+              <span className="w-12 h-px bg-foreground/20 group-hover:w-24 group-hover:bg-foreground transition-all duration-700" />
+            </Link>
+          </CelestialReveal>
+        </section>
+
+        {/* 5. THE VAULT */}
+        <section className="relative min-h-[100vh] flex flex-col items-center justify-center z-20 px-6 pb-32">
+          <CelestialReveal delay={0.2} className="text-center flex flex-col items-center">
+            <div className="w-16 h-16 border border-foreground/10 rotate-45 mb-16 flex items-center justify-center">
+              <div className="w-2 h-2 bg-foreground/30 rounded-full" />
+            </div>
+            
+            <h2 className="font-serif italic font-light text-5xl md:text-7xl mb-16 text-foreground">
+              Access the Archive
+            </h2>
+            
+            <Magnetic range={120} strength={0.3} scaleStrength={0.02}>
+              <Link 
+                href="/archive" 
+                className="inline-flex h-32 w-32 rounded-full border border-foreground/20 items-center justify-center hover:bg-foreground hover:text-background transition-colors duration-700 font-mono text-[9px] tracking-[0.3em] uppercase group relative overflow-hidden"
+              >
+                <span className="relative z-10">Enter</span>
+              </Link>
+            </Magnetic>
+          </CelestialReveal>
         </section>
 
       </main>
     </>
   );
 }
+
