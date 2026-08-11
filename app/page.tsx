@@ -6,6 +6,7 @@ import { Play, Volume2, ArrowRight } from 'lucide-react';
 import { useAudio } from '@/components/audio-provider';
 import { Bootloader } from '@/components/bootloader';
 import { OrbitingSymbol } from '@/components/orbiting-symbol';
+import { SymbolAlignment, SymbolLens, SymbolSignal, SymbolVoid, SymbolHorizon } from '@/components/sanctum-symbols';
 import Magnetic from '@/components/magnetic';
 import Link from 'next/link';
 
@@ -66,7 +67,7 @@ export default function EntryExperience() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,_transparent_1px),_linear-gradient(90deg,_rgba(255,255,255,0.01)_1px,_transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,_black_20%,_transparent_70%)]" />
         </div>
 
-        {/* 1. OBSERVATORY ZERO (HERO) */}
+        {/* 1. THE SANCTUM (HERO) */}
         <section className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden z-10 pointer-events-none">
           <motion.div 
             style={{ opacity: heroOpacity, y: heroY, scale: heroScale }}
@@ -79,7 +80,7 @@ export default function EntryExperience() {
                 KingShadP
               </h1>
               <div className="font-mono text-[9px] uppercase tracking-[0.4em] text-foreground/40">
-                A Digital Archive & Observatory
+                The Sanctum // A Cosmic Archive
               </div>
             </div>
           </motion.div>
@@ -88,15 +89,128 @@ export default function EntryExperience() {
         {/* SPATIAL SEPARATOR */}
         <div className="h-screen" />
 
-        {/* 2. ATMOSPHERIC FREQUENCY */}
-        <section className="relative min-h-[120vh] flex items-center justify-center z-20 px-6">
+        {/* 2. SYMBOLIC LEXICON */}
+        <section className="relative min-h-[120vh] flex items-center justify-center z-20 px-6 py-32 bg-background border-t border-border">
+          <div className="max-w-6xl w-full mx-auto">
+            <CelestialReveal className="text-center mb-24 flex flex-col items-center">
+              <div className="w-px h-24 bg-gradient-to-b from-transparent to-foreground/20 mb-12" />
+              <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-accent mb-8">
+                01 // The Symbolic System
+              </div>
+              <h2 className="font-serif font-light text-3xl md:text-5xl leading-relaxed text-foreground/90 max-w-2xl">
+                A language of abstract, cosmic phenomena rather than literal artifacts.
+              </h2>
+            </CelestialReveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-12 lg:gap-8">
+              {[
+                { 
+                  Icon: SymbolAlignment, 
+                  title: "Celestial Alignment", 
+                  desc: "The rare convergence of sound and form, creating momentary perfection." 
+                },
+                { 
+                  Icon: SymbolLens, 
+                  title: "Gravitational Lens", 
+                  desc: "Distortion of perception. How reality bends around intense creativity." 
+                },
+                { 
+                  Icon: SymbolSignal, 
+                  title: "Silent Signal", 
+                  desc: "The invisible frequencies of ambient architecture. What is felt, not seen." 
+                },
+                { 
+                  Icon: SymbolVoid, 
+                  title: "Void Gate", 
+                  desc: "The threshold between the physical world and the digital cosmic archive." 
+                },
+                { 
+                  Icon: SymbolHorizon, 
+                  title: "Event Horizon", 
+                  desc: "The boundary of the known narrative. The point of no return in art." 
+                }
+              ].map((item, idx) => (
+                <CelestialReveal key={idx} delay={0.1 * idx} className="flex flex-col items-center text-center group">
+                  <div className="w-24 h-24 mb-8 text-foreground/30 group-hover:text-foreground/80 transition-colors duration-1000">
+                    <item.Icon className="w-full h-full" />
+                  </div>
+                  <h3 className="font-serif italic text-lg text-foreground mb-4">{item.title}</h3>
+                  <p className="font-mono text-[9px] uppercase tracking-widest text-foreground/50 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </CelestialReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 3. STORYTELLING RULES */}
+        <section className="relative min-h-[100vh] flex flex-col justify-center z-20 px-6 py-32 bg-surface">
+          <div className="max-w-4xl mx-auto w-full">
+            <CelestialReveal>
+              <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-accent mb-12">
+                02 // Storytelling Guidelines
+              </div>
+              <h2 className="font-serif italic font-light text-4xl md:text-5xl leading-snug mb-16 text-foreground">
+                The Architecture of the Unknown
+              </h2>
+            </CelestialReveal>
+
+            <div className="space-y-12">
+              <CelestialReveal delay={0.1} className="border-t border-border pt-8">
+                <div className="grid md:grid-cols-12 gap-8">
+                  <div className="md:col-span-4 font-mono text-[10px] uppercase tracking-widest text-foreground/40">
+                    Rule // 01
+                  </div>
+                  <div className="md:col-span-8">
+                    <h3 className="font-serif text-2xl text-foreground mb-4">The Weight of Absence</h3>
+                    <p className="font-sans text-sm leading-relaxed text-foreground/60">
+                      Negative space dictates meaning. Emptiness, silence, and absence in design are not voids—they are gravitational forces. We speak volumes through what we choose not to construct.
+                    </p>
+                  </div>
+                </div>
+              </CelestialReveal>
+
+              <CelestialReveal delay={0.2} className="border-t border-border pt-8">
+                <div className="grid md:grid-cols-12 gap-8">
+                  <div className="md:col-span-4 font-mono text-[10px] uppercase tracking-widest text-foreground/40">
+                    Rule // 02
+                  </div>
+                  <div className="md:col-span-8">
+                    <h3 className="font-serif text-2xl text-foreground mb-4">Suggestion Over Declaration</h3>
+                    <p className="font-sans text-sm leading-relaxed text-foreground/60">
+                      Never overtly explain the lore. Encourage interpretation and hint at a larger mythology. The cosmic archive exists to be explored, not summarized.
+                    </p>
+                  </div>
+                </div>
+              </CelestialReveal>
+
+              <CelestialReveal delay={0.3} className="border-t border-border pt-8">
+                <div className="grid md:grid-cols-12 gap-8">
+                  <div className="md:col-span-4 font-mono text-[10px] uppercase tracking-widest text-foreground/40">
+                    Rule // 03
+                  </div>
+                  <div className="md:col-span-8">
+                    <h3 className="font-serif text-2xl text-foreground mb-4">Gravitational Pacing</h3>
+                    <p className="font-sans text-sm leading-relaxed text-foreground/60">
+                      Visual movement must feel heavy, deliberate, and vast. No rapid animations or jittery effects. Interactions should mirror the slow orbit of celestial bodies.
+                    </p>
+                  </div>
+                </div>
+              </CelestialReveal>
+            </div>
+          </div>
+        </section>
+
+        {/* 4. ATMOSPHERIC FREQUENCY */}
+        <section className="relative min-h-[120vh] flex items-center justify-center z-20 px-6 bg-background border-t border-border">
           <CelestialReveal className="max-w-2xl text-center flex flex-col items-center">
             <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-accent mb-12">
-              01 // Sonic Frequency
+              03 // Sonic Frequency
             </div>
             
             <h2 className="font-serif font-light text-3xl md:text-4xl leading-relaxed mb-12 text-foreground/90">
-              Sound acting as an invisible landscape.
+              Sound acting as an invisible landscape within the archive.
             </h2>
             
             <Magnetic range={100} strength={0.5} scaleStrength={0.1}>
@@ -122,36 +236,17 @@ export default function EntryExperience() {
           </CelestialReveal>
         </section>
 
-        {/* 3. STRUCTURAL VISION */}
-        <section className="relative min-h-[120vh] flex items-center justify-center z-20 px-6">
-          <CelestialReveal className="max-w-3xl text-center">
-            <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-accent mb-12">
-              02 // Brand Identity
-            </div>
-            
-            <h2 className="font-serif font-light italic text-4xl md:text-6xl leading-snug mb-10 text-foreground">
-              Embracing Individuality
-            </h2>
-            
-            <p className="font-sans text-sm md:text-base leading-loose text-foreground/60 max-w-xl mx-auto">
-              Every creative decision is made to honor the perspective of Rashad Anthony Perry. 
-              We focus on spaces that breathe, utilizing generous negative space, soft contrast, 
-              and thoughtful typography to create an atmosphere of quiet reflection.
-            </p>
-          </CelestialReveal>
-        </section>
-
-        {/* 4. THE CHRONICLE (CATALOGUE) */}
-        <section className="relative min-h-[120vh] flex flex-col items-center justify-center z-20 px-6">
+        {/* 5. THE VERIFIED CHRONICLE (CATALOGUE) */}
+        <section className="relative min-h-[120vh] flex flex-col items-center justify-center z-20 px-6 bg-surface border-t border-border">
           <CelestialReveal className="text-center flex flex-col items-center">
             <div className="w-px h-24 bg-gradient-to-b from-transparent to-foreground/20 mb-12" />
             
             <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-accent mb-8">
-              03 // The Verified Chronicle
+              04 // The Verified Chronicle
             </div>
             
             <h2 className="font-serif font-light text-2xl md:text-4xl leading-relaxed mb-16 text-foreground/80 max-w-2xl">
-              An independent creative archive spanning music, visual symbolism, and editorial composition.
+              A record of sonic landscapes, future visions, and identity artifacts.
             </h2>
             
             <Link 
@@ -165,15 +260,15 @@ export default function EntryExperience() {
           </CelestialReveal>
         </section>
 
-        {/* 5. THE VAULT */}
-        <section className="relative min-h-[100vh] flex flex-col items-center justify-center z-20 px-6 pb-32">
+        {/* 6. THE VAULT */}
+        <section className="relative min-h-[100vh] flex flex-col items-center justify-center z-20 px-6 pb-32 bg-background border-t border-border">
           <CelestialReveal delay={0.2} className="text-center flex flex-col items-center">
             <div className="w-16 h-16 border border-foreground/10 rotate-45 mb-16 flex items-center justify-center">
               <div className="w-2 h-2 bg-foreground/30 rounded-full" />
             </div>
             
             <h2 className="font-serif italic font-light text-5xl md:text-7xl mb-16 text-foreground">
-              Access the Archive
+              Enter The Sanctum
             </h2>
             
             <Magnetic range={120} strength={0.3} scaleStrength={0.02}>
@@ -181,7 +276,7 @@ export default function EntryExperience() {
                 href="/archive" 
                 className="inline-flex h-32 w-32 rounded-full border border-foreground/20 items-center justify-center hover:bg-foreground hover:text-background transition-colors duration-700 font-mono text-[9px] tracking-[0.3em] uppercase group relative overflow-hidden"
               >
-                <span className="relative z-10">Enter</span>
+                <span className="relative z-10">Access</span>
               </Link>
             </Magnetic>
           </CelestialReveal>
