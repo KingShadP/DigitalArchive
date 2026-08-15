@@ -3,9 +3,9 @@
 import React from 'react';
 import { motion } from 'motion/react';
 
-export function OrbitingSymbol() {
+export function OrbitingSymbol({ className = "w-64 h-64 md:w-96 md:h-96" }: { className?: string }) {
   return (
-    <div className="relative w-64 h-64 md:w-96 md:h-96 flex items-center justify-center">
+    <div className={`relative flex items-center justify-center ${className}`}>
       {/* Outer Ring */}
       <motion.div
         animate={{ rotate: 360 }}
@@ -21,7 +21,7 @@ export function OrbitingSymbol() {
         transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
         className="absolute inset-8 border-[0.5px] border-foreground/15 rounded-full"
       >
-        <div className="absolute top-4 left-1/4 w-1.5 h-1.5 bg-foreground rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+        <div className="absolute top-4 left-1/4 w-1.5 h-1.5 bg-foreground rounded-full" />
       </motion.div>
       
       {/* Inner Ring */}
@@ -30,7 +30,7 @@ export function OrbitingSymbol() {
         transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
         className="absolute inset-16 border-[0.5px] border-foreground/20 rounded-full"
       >
-        <div className="absolute bottom-4 right-1/4 w-1 h-1 bg-accent rounded-full shadow-[0_0_8px_var(--color-accent)]" />
+        <div className="absolute bottom-4 right-1/4 w-1 h-1 bg-accent rounded-full" />
       </motion.div>
 
       {/* Core / Nucleus */}
@@ -41,7 +41,7 @@ export function OrbitingSymbol() {
       >
         <div className="absolute inset-0 border border-foreground/30 rotate-45 transition-transform duration-1000" />
         <div className="absolute inset-2 border border-foreground/20 -rotate-45" />
-        <div className="w-1.5 h-1.5 bg-foreground rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)]" />
+        <div className="w-1.5 h-1.5 bg-foreground rounded-full" />
       </motion.div>
     </div>
   );

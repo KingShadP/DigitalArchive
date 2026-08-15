@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { MonoLabel } from '@/components/system';
 import Link from 'next/link';
 import Image from 'next/image';
+import { CatalogueTimeline } from '@/components/catalogue-timeline';
 import { 
   BookOpen, Music, Shield, User, FileText, ChevronRight, 
   Search, ArrowUpRight, Award, Disc, CheckCircle2, Sparkles, Layers,
@@ -297,10 +298,10 @@ export function CatalogueClient() {
                   </p>
                 </div>
 
-                {/* Discography Cards */}
-                <div className="space-y-8">
-                  {[
+                <div className="mt-16">
+                  <CatalogueTimeline releases={[
                     {
+                      id: "summons-and-supper",
                       title: "Summons and Supper",
                       type: "SINGLE",
                       date: "July 14, 2026",
@@ -310,6 +311,7 @@ export function CatalogueClient() {
                       href: "/music/summons-and-supper"
                     },
                     {
+                      id: "behold-the-twisted-beast",
                       title: "Behold, the Twisted Beast",
                       type: "SINGLE",
                       date: "June 19, 2026",
@@ -319,6 +321,7 @@ export function CatalogueClient() {
                       href: "/music/behold-the-twisted-beast"
                     },
                     {
+                      id: "regal-echoes-of-god",
                       title: "Regal Echoes of God",
                       type: "ALBUM (13 TRACKS / 36M 07S)",
                       date: "February 15, 2024",
@@ -328,6 +331,7 @@ export function CatalogueClient() {
                       href: "/music/regal-echoes-of-god"
                     },
                     {
+                      id: "unfinished-unedited-untitled",
                       title: "Unfinished. Unedited. Untitled.",
                       type: "EP (5 TRACKS / ~16 MIN)",
                       date: "September 19, 2023",
@@ -337,6 +341,7 @@ export function CatalogueClient() {
                       href: "/music/unfinished-unedited-untitled"
                     },
                     {
+                      id: "lets-get-high-and-make-music",
                       title: "LET'S GET HIGH & MAKE MUSIC",
                       type: "ARCHIVAL MIX (24 TRACKS)",
                       date: "August 13, 2022",
@@ -345,30 +350,7 @@ export function CatalogueClient() {
                       details: "Key tracks: MIAMI, 4AM in Miami Freestyle, TRAVEL THE WORLD, ICON, I HAVE A PURPOSE, Apple of my Eye, That Ass!.",
                       href: "/music/lets-get-high-and-make-music"
                     }
-                  ].map((rel, idx) => (
-                    <div key={idx} className="border border-border-strong bg-surface p-6 md:p-8 flex flex-col md:flex-row gap-8 items-start hover:border-border-strong transition-colors">
-                      <div className="relative w-full md:w-48 aspect-square flex-shrink-0 border border-border-strong overflow-hidden">
-                        <Image src={rel.img} alt={rel.title} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-700" />
-                      </div>
-
-                      <div className="flex-1 space-y-4">
-                        <div className="flex flex-wrap justify-between items-center gap-2 border-b border-border pb-3">
-                          <span className="font-mono text-[9px] text-accent tracking-widest">{rel.type}</span>
-                          <span className="font-mono text-[9px] text-accent">{rel.date}</span>
-                        </div>
-
-                        <h3 className="font-serif italic text-3xl text-foreground">{rel.title}</h3>
-                        <p className="font-sans text-sm text-foreground/70 leading-relaxed">{rel.desc}</p>
-                        <p className="font-mono text-[10px] text-foreground/40 leading-relaxed">{rel.details}</p>
-
-                        <div className="pt-2">
-                          <Link href={rel.href} className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-foreground border border-border-strong px-4 py-2 hover:bg-foreground hover:text-black transition-colors">
-                            LISTEN IN SONIC VAULT <ArrowUpRight size={10} />
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                  ]} />
                 </div>
               </div>
             )}
