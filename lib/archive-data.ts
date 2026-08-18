@@ -189,5 +189,81 @@ export const ARCHIVE_ARTIFACTS: ArchiveArtifact[] = [
     description: "Initial handwritten notes outlining the concept for Behold, the Twisted Beast.",
     project: "Behold, the Twisted Beast",
     relatedIds: ["art-03"]
+  },
+  {
+    id: "cat-01",
+    title: "KingShadP Biography & Origins",
+    subtitle: "The Person Behind the Artist Name",
+    artifactClass: "Editorial",
+    date: "2026-08-05",
+    media: [
+      {
+        type: "image",
+        thumbnailUrl: "/girgonglory.png",
+        masterUrl: "/girgonglory.png",
+        aspectRatio: "1:1"
+      }
+    ],
+    description: "Verified biography detailing Rashad Anthony Perry's Miami origins, independent uploads, and evolution into a unified creative identity.",
+    lore: "KingShadP (pronounced 'KING SHAHD PEE') is an independent Miami-born hip-hop and rap artist whose work has expanded into a connected system of music, visual symbolism, editorial writing, digital design, and limited apparel. The credited legal name behind the writing and composition is Rashad Anthony Perry. His Miami roots supply color, confidence, heat, contradiction, and scale, while the later work reaches toward choirs, mythology, sculpture, editorial design, and digital architecture.",
+    project: "Identity & Origin",
+    collection: "Catalogue Dossier",
+    metadata: {
+      "ARTIST NAME": "KingShadP",
+      "PRONUNCIATION": "KING SHAHD PEE",
+      "CREDITED AUTHOR": "Rashad Anthony Perry",
+      "ORIGIN": "Miami, Florida, United States",
+      "PRIMARY GENRE": "Hip-hop / Rap / Cinematic"
+    }
+  },
+  {
+    id: "cat-02",
+    title: "The Giragon & Studio Identity",
+    subtitle: "Visual Symbolism & Emblem System",
+    artifactClass: "Artwork",
+    date: "2026-08-05",
+    media: [
+      {
+        type: "image",
+        thumbnailUrl: "/background ksp.png",
+        masterUrl: "/background ksp.png",
+        aspectRatio: "16:9"
+      }
+    ],
+    description: "The official guardian symbol of KingShadP Studio combining the height of a giraffe with the wings and defensive force of a dragon.",
+    lore: "The Giragon is the official guardian symbol of KingShadP Studio. It combines the height and long-range vision of a giraffe with the wings, memory, and defensive force of a dragon. Official descriptions associate the figure with vision, survival, restraint, elegance, transformation, and identity under pressure. The complete official suite includes the Giragon, halo crown, SP Crest, KSP monogram, and KingShadP signature wordmark under the motto: 'Originality is the new royalty.'",
+    project: "Symbolic Architecture",
+    collection: "KingShadP Studio",
+    metadata: {
+      "GUARDIAN": "The Giragon",
+      "MARKS": "Halo Crown / SP Crest / KSP Monogram",
+      "PALETTE": "Platinum / Oxblood / Void Black / Muted Gold",
+      "MOTTO": "Originality is the new royalty"
+    }
+  },
+  {
+    id: "cat-03",
+    title: "Verified Discography & Release Timeline",
+    subtitle: "2022 – 2026 Canonical Archive",
+    artifactClass: "Document",
+    date: "2026-08-05",
+    media: [
+      {
+        type: "image",
+        thumbnailUrl: "/twisted-beast-cover.png",
+        masterUrl: "/twisted-beast-cover.png",
+        aspectRatio: "1:1"
+      }
+    ],
+    description: "Comprehensive release timeline mapping the evolution from early digital uploads to album statements and choir-scale singles.",
+    lore: "The discography spans three key layers: 1) The archival 24-track collection 'LET'S GET HIGH & MAKE MUSIC' (2022); 2) The breakthrough EP 'Unfinished. Unedited. Untitled.' (Sept 2023) and the 13-track album 'Regal Echoes of God' (Feb 2024); 3) The 2026 expansion featuring choir-scale architecture in 'Behold, the Twisted Beast' (June 2026) and 'Summons and Supper' (July 2026).",
+    project: "Canonical Discography",
+    collection: "Release Archive",
+    metadata: {
+      "2022 MIX": "LET'S GET HIGH & MAKE MUSIC",
+      "2023 EP": "Unfinished. Unedited. Untitled.",
+      "2024 ALBUM": "Regal Echoes of God",
+      "2026 SINGLES": "Behold, the Twisted Beast / Summons and Supper"
+    }
   }
 ];

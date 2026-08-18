@@ -6,6 +6,3 @@ export * from "./telemetry";
 export * from "./media";
 export * from "./link";
 export * from "./states";
-export * from "./controls";
-export * from "./motion";
-export * from "./shell";

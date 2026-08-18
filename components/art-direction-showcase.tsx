@@ -73,7 +73,7 @@ export default function ArtDirectionShowcase() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative w-full min-h-[850px] lg:min-h-[950px] bg-[#020202] border border-white/10 rounded-md overflow-hidden flex flex-col justify-between p-6 md:p-10 select-none group"
+      className="relative w-full min-h-[850px] lg:min-h-[950px] bg-background border border-border rounded-md overflow-hidden flex flex-col justify-between p-6 md:p-10 select-none group"
       style={{ perspective: 1200 }}
     >
       {/* 1. Deep Atmospheric Gradient Atmosphere Background */}
@@ -133,13 +133,13 @@ export default function ArtDirectionShowcase() {
 
       {/* 3. Oversized Subtle Outline Brand Wordmark behind everything */}
       <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 select-none pointer-events-none overflow-hidden z-0">
-        <h2 className="text-center font-serif text-[130px] sm:text-[180px] lg:text-[230px] leading-none tracking-[0.25em] text-white/[0.015] font-black uppercase whitespace-nowrap">
+        <h2 className="text-center font-serif text-[130px] sm:text-[180px] lg:text-[230px] leading-none tracking-[0.25em] text-foreground/[0.015] font-black uppercase whitespace-nowrap">
           KINGSHADP
         </h2>
       </div>
 
       {/* 4. Top Minimal Top Navigation / Status Header inside the sandbox container */}
-      <div className="relative w-full flex justify-between items-center text-[8px] font-mono tracking-widest text-[#666666] border-b border-white/[0.06] pb-3 z-30">
+      <div className="relative w-full flex justify-between items-center text-[8px] font-mono tracking-widest text-foreground/30 border-b border-white/[0.06] pb-3 z-30">
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-2 text-[#E5E5E5]">
             <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" /> 
@@ -150,7 +150,7 @@ export default function ArtDirectionShowcase() {
         </div>
         <div className="flex items-center gap-6">
           <span className="hidden md:inline">LATENCY // 1.25ms [DIRECT]</span>
-          <span className="text-[#E5E5E5] bg-white/[0.05] border border-white/10 px-2 py-0.5 rounded font-mono text-[7px]">MATRIX RESOLVED</span>
+          <span className="text-[#E5E5E5] bg-white/[0.05] border border-border px-2 py-0.5 rounded font-mono text-[7px]">MATRIX RESOLVED</span>
         </div>
       </div>
 
@@ -166,10 +166,10 @@ export default function ArtDirectionShowcase() {
             rotateX: desktopRotateX,
             transformStyle: 'preserve-3d'
           }}
-          className="w-full max-w-[580px] bg-[#070707]/90 rounded border border-white/15 shadow-[0_30px_70px_rgba(0,0,0,0.85)] relative overflow-hidden backdrop-blur-xl group/desktop"
+          className="w-full max-w-[580px] bg-surface/90 rounded border border-border-strong shadow-[0_30px_70px_rgba(0,0,0,0.85)] relative overflow-hidden backdrop-blur-xl group/desktop"
         >
           {/* Mockup Header Toolbar */}
-          <div className="w-full h-8 px-4 bg-[#0a0a0a] border-b border-white/5 flex justify-between items-center text-[8px] font-mono text-neutral-500">
+          <div className="w-full h-8 px-4 bg-surface-dim border-b border-border flex justify-between items-center text-[8px] font-mono text-neutral-500">
             <div className="flex items-center gap-2">
               <div className="flex gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-red-500/50" />
@@ -193,7 +193,7 @@ export default function ArtDirectionShowcase() {
             <div className="flex justify-between items-center border-b border-white/[0.04] pb-4">
               <span className="font-serif italic text-xs tracking-wider text-[#E5E5E5]">kingshadp</span>
               <div className="flex gap-4 font-mono text-[7px] text-neutral-500 tracking-wider">
-                <span className="text-white">CONCEPT_01</span>
+                <span className="text-foreground">CONCEPT_01</span>
                 <span>SYSTEM</span>
                 <span>CATALOGUE</span>
               </div>
@@ -203,7 +203,7 @@ export default function ArtDirectionShowcase() {
             <div className="grid grid-cols-12 gap-4 items-center">
               
               {/* Product Visual Area with overlay targets */}
-              <div className="col-span-6 relative aspect-[5/6] bg-neutral-900 border border-white/10 overflow-hidden">
+              <div className="col-span-6 relative aspect-[5/6] bg-neutral-900 border border-border overflow-hidden">
                 <Image referrerPolicy="no-referrer" 
                   src="https://picsum.photos/seed/editorial_hood/600/720?grayscale"
                   alt="KingShadP Heavy Carbon Monolith Anorak Jacket mockup"
@@ -253,7 +253,7 @@ export default function ArtDirectionShowcase() {
             </div>
 
             {/* Secondary telemetry diagnostic box */}
-            <div className="bg-[#0b0b0b] border border-white/5 p-2 rounded flex justify-between items-center">
+            <div className="bg-surface-dim border border-border p-2 rounded flex justify-between items-center">
               <div className="flex items-center gap-2">
                 <Cpu className="w-3.5 h-3.5 text-orange-500/80 animate-pulse" />
                 <div className="font-mono text-[7px] text-neutral-500 leading-tight">
@@ -276,22 +276,22 @@ export default function ArtDirectionShowcase() {
             rotateX: mobileRotateX,
             transformStyle: 'preserve-3d'
           }}
-          className="w-[200px] sm:w-[230px] bg-[#070707] rounded-2xl border border-white/20 shadow-[0_25px_50px_rgba(0,0,0,0.9)] relative overflow-hidden backdrop-blur-xl group/mobile hidden sm:block"
+          className="w-[200px] sm:w-[230px] bg-surface rounded-2xl border border-border-strong shadow-[0_25px_50px_rgba(0,0,0,0.9)] relative overflow-hidden backdrop-blur-xl group/mobile hidden sm:block"
         >
           {/* Phone Notch/Inner framing */}
-          <div className="absolute top-0 inset-x-0 h-4 bg-black flex justify-center items-center z-30">
-            <div className="w-12 h-3 bg-neutral-900 rounded-b-xl border-x border-b border-white/5" />
+          <div className="absolute top-0 inset-x-0 h-4 bg-background flex justify-center items-center z-30">
+            <div className="w-12 h-3 bg-neutral-900 rounded-b-xl border-x border-b border-border" />
           </div>
 
           {/* Screen Content */}
           <div className="pt-7 p-4 pb-5 space-y-5 text-left text-[9px]">
-            <div className="flex justify-between items-center border-b border-white/5 pb-2">
+            <div className="flex justify-between items-center border-b border-border pb-2">
               <span className="font-mono text-[6px] tracking-widest text-[#444444]">04B // MATRIX_INDEX</span>
               <span className="text-green-500 font-mono text-[5px] animate-pulse">● SWEEPING SAT</span>
             </div>
 
             {/* Mobile Visual Space */}
-            <div className="relative aspect-[3/4] w-full bg-[#0a0a0a] border border-white/5 overflow-hidden">
+            <div className="relative aspect-[3/4] w-full bg-surface-dim border border-border overflow-hidden">
               <Image referrerPolicy="no-referrer" 
                 src="https://picsum.photos/seed/modelmobile/400/530?grayscale"
                 alt="Mobile preview look"
@@ -302,10 +302,10 @@ export default function ArtDirectionShowcase() {
             </div>
 
             {/* Telemetry data list */}
-            <div className="space-y-2 border-t border-white/5 pt-3 font-mono text-[7px]">
-              <div className="flex justify-between text-[#888888]">
+            <div className="space-y-2 border-t border-border pt-3 font-mono text-[7px]">
+              <div className="flex justify-between text-foreground/50">
                 <span>CORE TRANSMITTER</span>
-                <span className="text-white">[ACTIVE]</span>
+                <span className="text-foreground">[ACTIVE]</span>
               </div>
               <div className="h-[2px] w-full bg-neutral-950 relative overflow-hidden">
                 <motion.div 
@@ -315,18 +315,18 @@ export default function ArtDirectionShowcase() {
                   style={{ width: '30%' }}
                 />
               </div>
-              <div className="flex justify-between text-[#666666]">
+              <div className="flex justify-between text-foreground/30">
                 <span>TUNE_FREQUENCY</span>
                 <span className="text-neutral-400">144.10 MHz</span>
               </div>
-              <div className="flex justify-between text-[#666666]">
+              <div className="flex justify-between text-foreground/30">
                 <span>ANTENNA STATUS</span>
                 <span className="text-neutral-400">DIPOLE LOCK_06</span>
               </div>
             </div>
 
             {/* Small circular radar overlay on phone bottom */}
-            <div className="flex items-center gap-1.5 p-1.5 bg-neutral-950 rounded border border-white/5">
+            <div className="flex items-center gap-1.5 p-1.5 bg-neutral-950 rounded border border-border">
               <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
               <span className="text-[6px] font-mono leading-none uppercase text-neutral-400">Acoustic Signal Synchronous</span>
             </div>
@@ -344,16 +344,16 @@ export default function ArtDirectionShowcase() {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 20, scale: 0.95 }}
               transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="bg-[#090909]/95 border border-orange-500/30 p-4 rounded shadow-2xl backdrop-blur-md pointer-events-auto text-left"
+              className="bg-surface/95 border border-orange-500/30 p-4 rounded shadow-2xl backdrop-blur-md pointer-events-auto text-left"
             >
-              <div className="flex justify-between items-baseline border-b border-white/10 pb-2 mb-2 font-mono text-[8px]">
+              <div className="flex justify-between items-baseline border-b border-border pb-2 mb-2 font-mono text-[8px]">
                 <span className="text-orange-500 font-bold uppercase tracking-wider flex items-center gap-1">
                   <span className="w-1 h-1 bg-red-400 rounded-full animate-ping" />
                   NODE_BEACON_0{activeInteractiveNode}
                 </span>
                 <button 
                   onClick={() => setActiveInteractiveNode(null)}
-                  className="text-neutral-400 hover:text-white transition-colors cursor-pointer text-[7px]"
+                  className="text-neutral-400 hover:text-foreground transition-colors cursor-pointer text-[7px]"
                 >
                   CLOSE [X]
                 </button>
@@ -361,7 +361,7 @@ export default function ArtDirectionShowcase() {
               <h4 className="font-serif italic text-xs text-[#E5E5E5] mb-1.5">
                 {hotspots.find(h => h.id === activeInteractiveNode)?.title}
               </h4>
-              <p className="font-sans text-[9px] text-[#888888] leading-relaxed">
+              <p className="font-sans text-[9px] text-foreground/50 leading-relaxed">
                 {hotspots.find(h => h.id === activeInteractiveNode)?.details}
               </p>
               <div className="mt-3 flex justify-between font-mono text-[7px] text-[#444444]">
@@ -390,7 +390,7 @@ export default function ArtDirectionShowcase() {
           <span>COSMIC COMPRESSION: 99.8%</span>
           <span>ORBIT_RANGE: STABLE</span>
         </div>
-        <div className="flex items-center gap-1 bg-[#090909] px-2 py-0.5 border border-white/5 rounded text-neutral-300 mt-2 sm:mt-0 select-none">
+        <div className="flex items-center gap-1 bg-surface px-2 py-0.5 border border-border rounded text-neutral-300 mt-2 sm:mt-0 select-none">
           <Layers className="w-2.5 h-2.5 text-orange-500 animate-spin" style={{ animationDuration: '6s' }} />
           <span>ENGAGE SYSTEM PARALLAX (MOUSE SENSOR ACTIVE)</span>
         </div>
@@ -402,8 +402,8 @@ export default function ArtDirectionShowcase() {
 // Minimal loading canvas simulation node
 function LottieRadarMinimal() {
   return (
-    <div className="w-14 h-8 bg-black/40 border border-white/5 rounded relative overflow-hidden flex items-center justify-center">
-      <div className="absolute inset-0 bg-[#070707] flex flex-col justify-between p-1 text-[5px] font-mono text-neutral-600">
+    <div className="w-14 h-8 bg-background/40 border border-border rounded relative overflow-hidden flex items-center justify-center">
+      <div className="absolute inset-0 bg-surface flex flex-col justify-between p-1 text-[5px] font-mono text-neutral-600">
         <div className="flex justify-between">
           <span className="text-orange-500 animate-pulse">LOCK</span>
           <span>CH4</span>

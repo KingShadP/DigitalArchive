@@ -11,7 +11,7 @@ export default function GlobalError({
 }) {
   return (
     <html>
-      <body className="bg-background text-foreground font-mono">
+      <body className="bg-[#050505] text-[#E5E5E5] font-mono">
         <div className="min-h-screen flex flex-col items-center justify-center p-6 space-y-6">
           <ErrorState message="CRITICAL KERNEL FAILURE" details={error.message} />
           <Button variant="outline" onClick={() => reset()}>
