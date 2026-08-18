@@ -27,9 +27,7 @@ Validation executed:
 ### Dependency risk
 - Potentially unused dependencies remain in manifest and should be reviewed before production hardening.
 
-### Runtime errors / warnings
-- Hook dependency warnings were present in audio provider before this pass and addressed with callback memoization.
-- Build fails in restricted networks due runtime fetch of Google Fonts in `app/layout.tsx`.
+- Build fails in restricted networks due to runtime fetch of Google Fonts in `app/layout.tsx`.
 
 ### TypeScript weaknesses
 - Strict mode is enabled and `npm run typecheck` passes.
