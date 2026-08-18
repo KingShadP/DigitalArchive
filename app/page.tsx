@@ -25,15 +25,16 @@ const FadeIn = ({ children, delay = 0, className = "" }: { children: React.React
 );
 
 export default function EntryExperience() {
-  const [bootSequenceActive, setBootSequenceActive] = useState(() => {
-    if (typeof window === 'undefined') return true;
+  const [bootSequenceActive, setBootSequenceActive] = useState(true);
+
+  useEffect(() => {
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isSlowConnection = connection?.saveData || ['slow-2g', '2g'].includes(connection?.effectiveType || '');
     const lastEntry = Number(localStorage.getItem('kingshadp_last_entry') || '0');
     const isReturning = lastEntry > 0 && Date.now() - lastEntry < 1000 * 60 * 60 * 12;
-    return !(prefersReducedMotion || isSlowConnection || isReturning);
-  });
+    setBootSequenceActive(!(prefersReducedMotion || isSlowConnection || isReturning));
+  }, []);
   const { audioActive, toggleAudio } = useAudio();
   const { scrollYProgress } = useScroll();
 
