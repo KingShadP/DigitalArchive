@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Play, Pause, Square, ExternalLink } from 'lucide-react';
+import { Play, Square, ExternalLink } from 'lucide-react';
 import { MonoLabel } from '@/components/system';
 import { useAudio } from '@/components/audio-provider';
 import { formatDurationLabel, RELEASES, type Release } from '@/lib/music-data';
