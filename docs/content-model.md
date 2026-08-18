@@ -24,21 +24,40 @@ export interface Artifact {
 }
 ```
 
-## 2. Future Schemas (To Be Implemented)
+## 2. Sonic Vault Schemas (Implemented Foundation)
 
-### Track / Audio Asset
+### Release / Track
 ```typescript
+interface Release {
+  id: string;
+  slug: string;
+  title: string;
+  projectType: 'album' | 'ep' | 'single' | 'mixtape' | 'soundscape' | 'score' | 'session' | 'installation';
+  releaseDate?: string;
+  artwork?: ArtworkAsset;
+  editorial?: string;
+  notes?: string;
+  credits?: Credit[];
+  tracks: Track[];
+  streamingLinks?: StreamingLink[];
+  relatedVisuals?: ArtworkAsset[];
+  relatedArchiveEntries?: string[];
+  relatedReleases?: RelatedReference[];
+}
+
 interface Track {
   id: string;
+  slug: string;
   title: string;
-  duration: number; // seconds
-  sourceUrl: string;
-  waveformHash?: string;
-  metadata: {
-    bpm: number;
-    key: string;
-    atmosphere: string; // e.g., "Deep Void", "Kinetic"
-  }
+  durationSeconds?: number;
+  durationLabel?: string;
+  audioSource?: string;
+  lyrics?: string;
+  notes?: string;
+  credits?: Credit[];
+  streamingLinks?: StreamingLink[];
+  relatedVisuals?: ArtworkAsset[];
+  relatedArchiveEntries?: string[];
 }
 ```
 

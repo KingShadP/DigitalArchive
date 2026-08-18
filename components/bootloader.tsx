@@ -1,131 +1,201 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
-import { MonoLabel } from '@/components/system';
+import { useAudio } from '@/components/audio-provider';
 
-interface ReadinessState {
-  fonts: boolean;
-  dom: boolean;
-  minTime: boolean;
-  mounted: boolean;
-}
+type StageKey = 'hydration' | 'fonts' | 'primaryData' | 'criticalMedia' | 'audioInit' | 'experienceModules';
+type StageStatus = 'pending' | 'ready' | 'failed' | 'skipped';
+
+const CRITICAL_MEDIA = ['https://picsum.photos/seed/soundscape/1200/800?grayscale'];
+
+const STAGES: { key: StageKey; label: string; required: boolean }[] = [
+  { key: 'hydration', label: 'APPLICATION HYDRATION', required: true },
+  { key: 'fonts', label: 'TYPOGRAPHY READY', required: true },
+  { key: 'primaryData', label: 'PRIMARY DATA INDEX', required: true },
+  { key: 'criticalMedia', label: 'CRITICAL MEDIA', required: false },
+  { key: 'audioInit', label: 'AUDIO ENGINE', required: true },
+  { key: 'experienceModules', label: 'EXPERIENCE MODULES', required: false },
+];
+
+const INITIAL_STAGE_STATE: Record<StageKey, StageStatus> = {
+  hydration: 'ready',
+  fonts: 'pending',
+  primaryData: 'pending',
+  criticalMedia: 'pending',
+  audioInit: 'pending',
+  experienceModules: 'pending',
+};
 
 export function Bootloader({ onComplete }: { onComplete: () => void }) {
   const prefersReducedMotion = useReducedMotion();
-  const [ready, setReady] = useState<ReadinessState>({
-    fonts: false,
-    dom: false,
-    minTime: false,
-    mounted: false,
-  });
+  const { audioEngineReady } = useAudio();
+  const [stages, setStages] = useState<Record<StageKey, StageStatus>>(INITIAL_STAGE_STATE);
   const [isVisible, setIsVisible] = useState(true);
+  const [forcedDegrade, setForcedDegrade] = useState(false);
 
-  useEffect(() => {
-    // 1. Minimum cinematic time
-    const minTimer = setTimeout(() => {
-      setReady((prev) => ({ ...prev, minTime: true }));
-    }, 1200);
-
-    // 2. Component mounted
-    const mountTimer = setTimeout(() => {
-      setReady((prev) => ({ ...prev, mounted: true }));
-    }, 0);
-
-    // 3. Fonts ready
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => {
-        setReady((prev) => ({ ...prev, fonts: true }));
-      });
-    } else {
-      setTimeout(() => setReady((prev) => ({ ...prev, fonts: true })), 0);
-    }
-
-    // 4. DOM ready
-    if (document.readyState === 'complete') {
-      setTimeout(() => setReady((prev) => ({ ...prev, dom: true })), 0);
-    } else {
-      window.addEventListener('load', () => {
-        setReady((prev) => ({ ...prev, dom: true }));
-      });
-    }
-
-    return () => {
-      clearTimeout(minTimer);
-      clearTimeout(mountTimer);
-    };
+  const setStage = useCallback((key: StageKey, status: StageStatus) => {
+    setStages((prev) => {
+      if (prev[key] !== 'pending') return prev;
+      return { ...prev, [key]: status };
+    });
   }, []);
 
-  const allReady = ready.fonts && ready.dom && ready.minTime && ready.mounted;
+  useEffect(() => {
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => setStage('fonts', 'ready')).catch(() => setStage('fonts', 'failed'));
+    } else {
+      window.setTimeout(() => setStage('fonts', 'ready'), 0);
+    }
+
+    import('@/lib/music-data')
+      .then(() => setStage('primaryData', 'ready'))
+      .catch(() => setStage('primaryData', 'failed'));
+
+    Promise.all(
+      CRITICAL_MEDIA.map(
+        (src) =>
+          new Promise<void>((resolve, reject) => {
+            const image = new Image();
+            image.onload = () => resolve();
+            image.onerror = () => reject(new Error('media failed'));
+            image.src = src;
+          }),
+      ),
+    )
+      .then(() => setStage('criticalMedia', 'ready'))
+      .catch(() => setStage('criticalMedia', 'failed'));
+
+    Promise.all([import('@/components/art-direction-showcase'), import('@/components/global-player')])
+      .then(() => setStage('experienceModules', 'ready'))
+      .catch(() => setStage('experienceModules', 'failed'));
+
+    const degradeTimer = window.setTimeout(() => {
+      setForcedDegrade(true);
+      setStages((prev) => {
+        const next = { ...prev };
+        STAGES.filter((stage) => !stage.required).forEach((stage) => {
+          if (next[stage.key] === 'pending') next[stage.key] = 'skipped';
+        });
+        return next;
+      });
+    }, 4500);
+
+    return () => window.clearTimeout(degradeTimer);
+  }, [setStage]);
 
   useEffect(() => {
-    if (allReady) {
-      const finishTimer = setTimeout(() => {
-        setIsVisible(false);
-        setTimeout(onComplete, 1200); // Wait for exit animation
-      }, 400); // small delay after all ready before sliding out
-      return () => clearTimeout(finishTimer);
+    if (audioEngineReady) {
+      window.setTimeout(() => setStage('audioInit', 'ready'), 0);
+      return;
     }
-  }, [allReady, onComplete]);
 
-  // Calculate a mock percentage based on real readiness
-  const completedSteps = [ready.mounted, ready.fonts, ready.dom, ready.minTime].filter(Boolean).length;
-  const progressPercent = (completedSteps / 4) * 100;
+    const fallback = window.setTimeout(() => {
+      setStage('audioInit', 'failed');
+    }, 3200);
+
+    return () => window.clearTimeout(fallback);
+  }, [audioEngineReady, setStage]);
+
+  const requiredReady = useMemo(
+    () => STAGES.filter((stage) => stage.required).every((stage) => stages[stage.key] === 'ready'),
+    [stages],
+  );
+
+  const completedCount = Object.values(stages).filter((status) => status !== 'pending').length;
+  const progressPercent = Math.round((completedCount / STAGES.length) * 100);
+
+  const finish = useCallback(() => {
+    setIsVisible(false);
+    const exitDelay = prefersReducedMotion ? 120 : 650;
+    window.setTimeout(onComplete, exitDelay);
+  }, [onComplete, prefersReducedMotion]);
+
+  useEffect(() => {
+    if (!requiredReady) return;
+    const timer = window.setTimeout(() => finish(), 0);
+    return () => window.clearTimeout(timer);
+  }, [finish, requiredReady]);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        finish();
+      }
+      if ((event.key === 'Enter' || event.key === ' ') && (requiredReady || forcedDegrade)) {
+        event.preventDefault();
+        finish();
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [finish, forcedDegrade, requiredReady]);
 
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div 
+        <motion.section
+          aria-label="Application initialization"
           className="fixed inset-0 z-[9999] bg-[#E5E5E5] text-[#050505] flex flex-col justify-between p-8 md:p-12"
-          exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: '-10%', filter: 'blur(10px)' }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: '-8%' }}
+          transition={{ duration: prefersReducedMotion ? 0.2 : 0.65, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Header */}
-          <div className="flex justify-between items-start text-[#050505]/50 font-mono text-[9px] uppercase tracking-widest">
-            <div>KINGSHADP // ORBITAL MANIFEST</div>
-            <div>VER 4.1.9</div>
+          <div className="flex justify-between items-start text-[#050505]/55 font-mono text-[9px] uppercase tracking-widest">
+            <span>KINGSHADP // INITIALIZATION</span>
+            <button
+              type="button"
+              onClick={finish}
+              className="hover:text-[#050505] transition-colors"
+              aria-label="Skip initialization"
+            >
+              SKIP
+            </button>
           </div>
 
-          {/* Core Visual */}
-          <div className="max-w-xl mx-auto w-full text-center space-y-12">
-            <motion.div 
-              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
-              animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
-              transition={{ duration: 1.5, ease: 'easeOut' }}
-            >
-              <h1 className="font-serif italic text-4xl md:text-6xl lg:text-7xl font-light text-[#050505] tracking-tight">
-                KingShadP
-              </h1>
-            </motion.div>
+          <div className="max-w-2xl mx-auto w-full space-y-10">
+            <h1 className="font-serif italic text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-center">KingShadP</h1>
 
             <div className="space-y-4">
-              <div className="h-[1px] w-full bg-background/10 relative overflow-hidden">
-                <motion.div 
-                  className="absolute top-0 left-0 h-full bg-background"
+              <div className="h-[1px] w-full bg-[#050505]/20 relative overflow-hidden">
+                <motion.div
+                  className="absolute inset-y-0 left-0 bg-[#050505]"
                   animate={{ width: `${progressPercent}%` }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.35 }}
                 />
               </div>
-              
-              <div className="flex justify-between font-mono text-[9px] text-[#050505]/50 uppercase tracking-widest">
-                <div className="flex flex-col text-left gap-1">
-                  <span className={ready.mounted ? "text-[#050505]" : ""}>[ {ready.mounted ? 'OK' : '..'} ] MOUNT SEQUENCE</span>
-                  <span className={ready.fonts ? "text-[#050505]" : ""}>[ {ready.fonts ? 'OK' : '..'} ] TYPOGRAPHY LOADED</span>
-                  <span className={ready.dom ? "text-[#050505]" : ""}>[ {ready.dom ? 'OK' : '..'} ] DOM HYDRATION</span>
-                </div>
-                <div className="text-right">
-                  <span className="animate-pulse">{allReady ? 'READY' : 'STABILIZING...'}</span>
-                </div>
+              <div className="font-mono text-[9px] uppercase tracking-widest text-[#050505]/60 flex justify-between">
+                <span>{requiredReady ? 'READY' : 'INITIALIZING'}</span>
+                <span>{progressPercent}%</span>
               </div>
             </div>
+
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2 font-mono text-[9px] uppercase tracking-widest text-[#050505]/65">
+              {STAGES.map((stage) => {
+                const status = stages[stage.key];
+                const stateLabel = status === 'ready' ? 'OK' : status === 'pending' ? '..' : status === 'failed' ? 'FAIL' : 'SKIP';
+                return (
+                  <li key={stage.key} className="flex items-center justify-between border-b border-[#050505]/10 py-2">
+                    <span>{stage.label}</span>
+                    <span className={status === 'failed' ? 'text-[#73131a]' : 'text-[#050505]'}>[{stateLabel}]</span>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {(forcedDegrade || !requiredReady) && (
+              <p className="font-mono text-[9px] uppercase tracking-widest text-[#050505]/45 text-center">
+                Press ESC to enter now.
+              </p>
+            )}
           </div>
 
-          {/* Footer */}
-          <div className="flex justify-between items-end text-[#050505]/50 font-mono text-[9px] uppercase tracking-widest">
-            <div>{allReady ? 'CONNECTION STABLE' : 'ESTABLISHING VECTOR'}</div>
-            <div>{Math.round(progressPercent)}% RESOLVED</div>
+          <div className="flex justify-between items-end text-[#050505]/55 font-mono text-[9px] uppercase tracking-widest">
+            <span>{forcedDegrade ? 'DEGRADED ENTRY ENABLED' : 'READINESS CHECKS ACTIVE'}</span>
+            <span>DIAGNOSTIC RESTRAINT</span>
           </div>
-        </motion.div>
+        </motion.section>
       )}
     </AnimatePresence>
   );
