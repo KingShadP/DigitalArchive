@@ -235,24 +235,29 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         const filter = ctx.createBiquadFilter();
         const amp = ctx.createGain();
 
+        // Fundamental deep drone (e.g. F1 = ~43.65Hz)
         osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(48, ctx.currentTime);
+        osc1.frequency.setValueAtTime(43.65, ctx.currentTime);
         
+        // Slightly detuned warm harmonic
         osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(96, ctx.currentTime);
+        osc2.frequency.setValueAtTime(43.85, ctx.currentTime);
 
+        // Lowpass filter to keep it subby and atmospheric
         filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(120, ctx.currentTime);
+        filter.frequency.setValueAtTime(80, ctx.currentTime);
+        filter.Q.setValueAtTime(2, ctx.currentTime);
 
         amp.gain.setValueAtTime(0, ctx.currentTime);
-        amp.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 2.5);
+        amp.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 4.0); // Slower, warmer attack
 
         const lfo = ctx.createOscillator();
         const lfoGain = ctx.createGain();
         
+        // Very slow LFO for filter movement
         lfo.type = 'sine';
-        lfo.frequency.setValueAtTime(0.1, ctx.currentTime);
-        lfoGain.gain.setValueAtTime(40, ctx.currentTime);
+        lfo.frequency.setValueAtTime(0.05, ctx.currentTime); 
+        lfoGain.gain.setValueAtTime(30, ctx.currentTime);
         
         lfo.connect(lfoGain);
         lfoGain.connect(filter.frequency);
@@ -282,7 +287,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
           },
           setFreq: (f: number) => { 
              osc1.frequency.setTargetAtTime(f, ctx.currentTime, 0.5);
-             osc2.frequency.setTargetAtTime(f * 2, ctx.currentTime, 0.5);
+             osc2.frequency.setTargetAtTime(f + 0.2, ctx.currentTime, 0.5); // Maintain slight detune
           }
         };
         setAudioActive(true);

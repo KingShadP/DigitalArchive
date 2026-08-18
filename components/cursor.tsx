@@ -59,7 +59,7 @@ export default function Cursor() {
     >
       {/* Inner Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-[3px] h-[3px] bg-foreground rounded-full z-[100] mix-blend-difference"
+        className="fixed top-0 left-0 w-[3px] h-[3px] bg-white rounded-full z-[100] mix-blend-difference"
         animate={{
           x: mousePosition.x - 1.5,
           y: mousePosition.y - 1.5,
@@ -74,8 +74,8 @@ export default function Cursor() {
           x: mousePosition.x - 16,
           y: mousePosition.y - 16,
           scale: isHovering ? 1.5 : 0.8,
-          backgroundColor: isHovering ? 'rgba(229, 229, 229, 0.03)' : 'transparent',
-          borderColor: isHovering ? 'rgba(229, 229, 229, 0.2)' : 'rgba(68, 68, 68, 0.4)',
+          backgroundColor: isHovering ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
+          borderColor: isHovering ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)',
         }}
         transition={{ type: 'spring', stiffness: 200, damping: 20, mass: 0.4 }}
       />

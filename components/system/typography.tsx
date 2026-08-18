@@ -11,16 +11,14 @@ export function Heading({
   children: React.ReactNode;
   className?: string;
   as?: React.ElementType;
-  variant?: "display" | "editorial" | "section" | "serif-italic" | "sans-bold";
+  variant?: "display" | "serif-italic" | "sans-bold";
 }) {
-  const baseStyles = "tracking-tight text-foreground text-balance";
+  const baseStyles = "tracking-tight text-foreground";
   
   const variants = {
-    display: "font-display font-medium text-4xl md:text-6xl uppercase tracking-tighter",
-    editorial: "font-serif italic font-light text-4xl md:text-6xl",
-    section: "font-display font-medium text-2xl md:text-4xl",
+    "display": "font-display font-medium text-4xl md:text-6xl uppercase tracking-tighter",
     "serif-italic": "font-serif italic text-3xl md:text-5xl font-light",
-    "sans-bold": "font-display font-semibold text-xl md:text-3xl uppercase tracking-tight",
+    "sans-bold": "font-sans font-bold text-2xl md:text-4xl",
   };
 
   return (
@@ -57,15 +55,14 @@ export function Text({
   children: React.ReactNode;
   className?: string;
   as?: React.ElementType;
-  variant?: "body" | "muted" | "lead" | "editorial";
+  variant?: "body" | "muted" | "lead";
 }) {
-  const baseStyles = "font-sans leading-relaxed text-pretty";
+  const baseStyles = "font-sans leading-relaxed";
   
   const variants = {
     body: "text-sm text-foreground/80",
     muted: "text-xs text-foreground/50",
     lead: "text-base md:text-lg text-foreground/90 font-light",
-    editorial: "font-serif italic text-lg md:text-xl text-foreground/85 leading-[1.8]",
   };
 
   return (
