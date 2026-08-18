@@ -98,7 +98,7 @@ export function Bootloader({ onComplete }: { onComplete: () => void }) {
   }, [audioEngineReady, setStage]);
 
   const requiredReady = useMemo(
-    () => STAGES.filter((stage) => stage.required).every((stage) => stages[stage.key] !== 'pending'),
+    () => STAGES.filter((stage) => stage.required).every((stage) => stages[stage.key] === 'ready'),
     [stages],
   );
 
