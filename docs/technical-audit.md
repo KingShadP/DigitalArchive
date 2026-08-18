@@ -3,10 +3,7 @@
 Audit scope: repository architecture, docs, package manifests, config, routes, components, styles, data/content, media handling, and deployment setup.
 
 Validation executed:
-- `npm run lint` (warnings)
-- `npm run typecheck` (pass)
-- `npm run build` (fails in sandbox due blocked access to `fonts.googleapis.com`)
-
+- `npm run build` (fails in sandbox due to blocked access to `fonts.googleapis.com`)
 ## Verified Findings
 
 ### Architecture weaknesses
