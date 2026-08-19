@@ -1,27 +1,39 @@
 # Media Architecture
 
-The KingShadP universe requires a sophisticated approach to media handling, ensuring high-fidelity presentation while maintaining performance.
+## Current repository reality
+- Media in UI is primarily image-based and currently uses remote placeholders (`picsum.photos`) plus limited local image assets (`src/assets/images`).
+- `SystemImage` wraps `next/image` to standardize rendering and referrer behavior.
 
-## Asset Types & Handling
+## Storage model for production evolution
 
-### 1. Images
-- **Original Masters**: Must be stored in a secure, non-public vault (e.g., Cloud Storage). They must never be destructively overwritten by web derivatives.
-- **Web Delivery**: Use Next.js `<Image>` component for automatic formatting (WebP/AVIF), resizing, and optimization.
-- **Styling**: Images often use `mix-blend-luminosity`, `grayscale`, or `opacity` adjustments in CSS to integrate into the dark atmospheric UI.
+### Originals (masters)
+- Store original high-resolution masters in a source-of-truth storage location (non-destructive).
+- Never overwrite or replace original masters with optimized derivatives.
 
-### 2. 3D Assets & WebGL
-- Complex models (e.g., `.gltf`, `.glb`) should be heavily optimized.
-- Serve via CDN, dynamically loaded only when the user enters the active WebGL scene to preserve initial page load.
+### Derivatives (delivery assets)
+- Generate web-optimized derivatives (size/format variants).
+- Keep master-to-derivative linkage in metadata.
 
-### 3. Audio / Video
-- Ambient or interface audio (like the 48Hz synth drone) can be generated client-side via Web Audio API when appropriate.
-- Video should be streamed (HLS/DASH) or served as heavily compressed, muted, looping `.mp4` / `.webm` files for background atmospheres.
+## Media entity expectations
+Each media item should eventually track:
+- stable `id`
+- asset `type` (image/video/3d/document)
+- source/master location
+- derivative URLs
+- dimensions and format
+- alt/caption/credit fields
+- usage/license constraints
 
-### 4. Downloadable Media / Archives
-- Served via signed URLs or a dedicated API route to protect high-value assets and track telemetry/access.
+## Consumption patterns
+- Images: use `next/image`/`SystemImage` with responsive sizing.
+- Video: load only where needed; prefer streaming/CDN strategy for large files.
+- 3D/experimental assets: isolate in lazy-loaded modules to avoid inflating base route payloads.
+- Downloadable media: serve through controlled URLs with optional auth/signing when private content is introduced.
 
-## Metadata Management
-Every media asset should ideally be associated with technical and narrative metadata, echoing the "Artifact" structure (e.g., Hash, Coordinates, Frequency, Specs).
+## Responsive sources
+- Maintain breakpoint-aware asset selection for hero/editorial/media-heavy sections.
+- Avoid serving oversized desktop assets to small mobile viewports.
 
-## Responsive Sources
-- Art direction changes significantly between mobile and desktop (e.g., the Art Direction Showcase uses different parallax depths and layouts). Media sources must adapt via `srcset` or dynamic conditional loading to fit these distinct container ratios.
+## Metadata and governance
+- Media records should include attribution, narrative context, and technical metadata.
+- Separate permanent identity assets from campaign/editorial/experimental media at the metadata level.

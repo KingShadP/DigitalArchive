@@ -1,25 +1,37 @@
-# Deployment
+# Deployment and Quality Gates
 
-## Current Stack
-- Framework: Next.js 15
-- Runtime: Node.js / Containerized (e.g., Google Cloud Run)
+## Runtime and framework
+- Next.js 15 application (`next`) on Node.js runtime.
+- `next.config.ts` enables strict TypeScript build checking (`ignoreBuildErrors: false`).
 
-## Build Process
-The application relies on the standard Next.js build pipeline.
+## Build/deploy workflow
+1. `npm install`
+2. `npm run lint`
+3. `npm run typecheck`
+4. `npm run build`
+5. `npm run start`
 
-1. **Install Dependencies**: `npm install`
-2. **Type Checking & Linting**: `npm run lint` (ESLint) and TypeScript compiler checks during build.
-3. **Build**: `npm run build`
-   - Generates optimized client and server bundles.
-   - Compiles Tailwind CSS.
-4. **Start**: `npm run start`
+## Available project commands
+- `npm run dev` — local development server on port 3000.
+- `npm run build` — production build.
+- `npm run lint` — ESLint checks.
+- `npm run typecheck` — TypeScript checks (`tsc --noEmit`).
+- `npm run test` — placeholder command that documents current absence of automated tests.
 
-## Quality Gates & Commands
-- `npm run dev`: Local development server.
-- `npm run build`: Production build (includes typecheck and linting step natively in Next.js).
-- `npm run lint`: Static code analysis.
+## Testing reality (Phase 0)
+- There is no active automated test framework in this repository yet.
+- The current `test` command intentionally exits successfully with a clear message to avoid implying test coverage that does not exist.
 
-## Architectural Constraints for Deployment
-- **Port**: The application MUST run on port `3000` in the deployed container environment.
-- **Environment Variables**: Must be configured in the deployment environment matching `.env.example`.
-- **Node Environment**: Runs in standard Node.js (not Edge runtime by default, though specific routes can opt-in).
+## Lightweight smoke-test strategy
+Until a formal test framework is added, manually verify critical flows on each release candidate:
+- Entry route (`/`)
+- Primary navigation (desktop/mobile)
+- Audio playback controls and persistence across route changes
+- Archive index and detail route access
+- Music route rendering and empty-state behavior
+- External streaming link handling when releases are populated
+- 404 route behavior
+
+## Environment and config constraints
+- Environment variables are documented in `.env.example`.
+- Remote image loading is currently restricted to `picsum.photos` in `next.config.ts`.

@@ -76,12 +76,12 @@ export function Bootloader({ onComplete }: { onComplete: () => void }) {
     <AnimatePresence>
       {isVisible && (
         <motion.div 
-          className="fixed inset-0 z-[9999] bg-matte-off-white text-matte-black flex flex-col justify-between p-8 md:p-12"
+          className="fixed inset-0 z-[9999] bg-[#E5E5E5] text-[#050505] flex flex-col justify-between p-8 md:p-12"
           exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: '-10%', filter: 'blur(10px)' }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Header */}
-          <div className="flex justify-between items-start text-matte-black/50 font-mono text-[9px] uppercase tracking-widest">
+          <div className="flex justify-between items-start text-[#050505]/50 font-mono text-[9px] uppercase tracking-widest">
             <div>KINGSHADP // ORBITAL MANIFEST</div>
             <div>VER 4.1.9</div>
           </div>
@@ -93,25 +93,25 @@ export function Bootloader({ onComplete }: { onComplete: () => void }) {
               animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
               transition={{ duration: 1.5, ease: 'easeOut' }}
             >
-              <h1 className="font-serif italic text-4xl md:text-6xl lg:text-7xl font-light text-matte-black tracking-tight">
+              <h1 className="font-serif italic text-4xl md:text-6xl lg:text-7xl font-light text-[#050505] tracking-tight">
                 KingShadP
               </h1>
             </motion.div>
 
             <div className="space-y-4">
-              <div className="h-[1px] w-full bg-matte-black/10 relative overflow-hidden">
+              <div className="h-[1px] w-full bg-background/10 relative overflow-hidden">
                 <motion.div 
-                  className="absolute top-0 left-0 h-full bg-matte-black"
+                  className="absolute top-0 left-0 h-full bg-background"
                   animate={{ width: `${progressPercent}%` }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 />
               </div>
               
-              <div className="flex justify-between font-mono text-[9px] text-matte-black/50 uppercase tracking-widest">
+              <div className="flex justify-between font-mono text-[9px] text-[#050505]/50 uppercase tracking-widest">
                 <div className="flex flex-col text-left gap-1">
-                  <span className={ready.mounted ? "text-matte-black" : ""}>[ {ready.mounted ? 'OK' : '..'} ] MOUNT SEQUENCE</span>
-                  <span className={ready.fonts ? "text-matte-black" : ""}>[ {ready.fonts ? 'OK' : '..'} ] TYPOGRAPHY LOADED</span>
-                  <span className={ready.dom ? "text-matte-black" : ""}>[ {ready.dom ? 'OK' : '..'} ] DOM HYDRATION</span>
+                  <span className={ready.mounted ? "text-[#050505]" : ""}>[ {ready.mounted ? 'OK' : '..'} ] MOUNT SEQUENCE</span>
+                  <span className={ready.fonts ? "text-[#050505]" : ""}>[ {ready.fonts ? 'OK' : '..'} ] TYPOGRAPHY LOADED</span>
+                  <span className={ready.dom ? "text-[#050505]" : ""}>[ {ready.dom ? 'OK' : '..'} ] DOM HYDRATION</span>
                 </div>
                 <div className="text-right">
                   <span className="animate-pulse">{allReady ? 'READY' : 'STABILIZING...'}</span>
@@ -121,7 +121,7 @@ export function Bootloader({ onComplete }: { onComplete: () => void }) {
           </div>
 
           {/* Footer */}
-          <div className="flex justify-between items-end text-matte-black/50 font-mono text-[9px] uppercase tracking-widest">
+          <div className="flex justify-between items-end text-[#050505]/50 font-mono text-[9px] uppercase tracking-widest">
             <div>{allReady ? 'CONNECTION STABLE' : 'ESTABLISHING VECTOR'}</div>
             <div>{Math.round(progressPercent)}% RESOLVED</div>
           </div>

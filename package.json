@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "clean": "next clean"
+    "clean": "next clean",
+    "test": "echo \"No automated tests configured yet\""
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

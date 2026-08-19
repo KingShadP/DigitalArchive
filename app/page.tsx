@@ -155,7 +155,7 @@ export default function EntryExperience() {
         </section>
 
         {/* 3. VISUAL WORK / BRAND IDENTITY */}
-        <section className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border">
+        <section id="visual" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border">
           <PageContainer>
             <div className="max-w-3xl mb-24">
               <FadeIn>
@@ -230,7 +230,7 @@ export default function EntryExperience() {
         </section>
 
         {/* 5. ARCHIVE GATEWAY */}
-        <section className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border overflow-hidden">
+        <section id="core" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_#111111_0%,_transparent_50%)] opacity-40 pointer-events-none" />
           
           <PageContainer>

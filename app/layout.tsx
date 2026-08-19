@@ -6,6 +6,7 @@ import { AudioProvider } from '@/components/audio-provider';
 import Navigation from '@/components/navigation';
 import { GlobalPlayer } from '@/components/global-player';
 import Footer from '@/components/footer';
+import { CinematicBackground } from '@/components/cinematic-background';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display' });
@@ -24,10 +25,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${cormorantGaramond.variable} dark`}>
-      <body suppressHydrationWarning className="bg-background text-foreground font-sans antialiased selection:bg-foreground selection:text-background">
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${cormorantGaramond.variable}`}>
+      <body suppressHydrationWarning className=" text-foreground font-sans antialiased selection:bg-foreground selection:text-background">
         <AudioProvider>
           <Cursor />
+          <CinematicBackground />
           <Navigation />
           <GlobalPlayer />
           <div className="flex flex-col min-h-screen">
