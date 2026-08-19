@@ -1,39 +1,45 @@
-# KingShadP Digital Roadmap
+# Roadmap
 
-This roadmap defines the sequential evolution of the KingShadP repository.
+This roadmap is ordered by current repository reality and implementation dependencies.
 
-## PHASE 0: Repository Stabilization and Architecture (Current)
-- Establish documentation (`/docs`), Copilot instructions, and brand governance.
-- Stabilize existing UI and interactions (Magnetic buttons, Parallax showcases).
-- Identify component governance and token layers.
+## PHASE 0 — Discovery, stabilization, architecture, governance
+- Keep architecture/docs aligned to actual code.
+- Preserve and document brand constraints and agent operating rules.
+- Keep lint/typecheck/build passing.
 
-## PHASE 1: Application Shell and Global Systems
-- Abstract the procedural audio engine into a global `<AudioProvider>` that persists across routes.
-- Implement global navigation layout and transition wrappers.
+## PHASE 1 — Application shell and visual system hardening
+- Continue consolidating page-level UI into reusable system primitives.
+- Expand token semantics only where reused.
+- Close accessibility gaps (focus, contrast, reduced-motion coverage).
 
-## PHASE 2: Archive & Editorial System
-- Abstract the `ARTIFACTS` data into a modular backend or CMS integration.
-- Build dynamic routing (`/archive/[id]`) for deep-dive artifact lore pages.
-- Refine the telemetry overlay into a reusable `Dialog`/Modal component.
+## PHASE 2 — Entry experience hardening
+- Optimize heavy motion layers and boot sequence behavior.
+- Improve resilience and observability around route/error/loading transitions.
 
-## PHASE 3: Music / Sonic Vault
-- Integrate actual streaming or playback capabilities for tracks.
-- Implement a persistent global music player UI (Media Session API, queue architecture).
+## PHASE 3 — Music / Sonic Vault
+- Populate factual `Release` and `Track` content.
+- Harden queue behavior, loading/error UX, and cross-route playback continuity.
+- Improve external streaming link instrumentation and validation.
 
-## PHASE 4: Visual / WebGL Integration
-- Integrate Three.js/React-Three-Fiber for the "Deep-Space Core Architecture" (Spaceship/Magma Fragment burst).
-- Lazy-load 3D assets to preserve initial page performance.
+## PHASE 4 — Archive system
+- Expand archive schema with linked media/credits.
+- Add richer archive filtering/discovery while preserving current route structure.
 
-## PHASE 5: Commerce Integration
-- Introduce product schemas.
-- Build secure, headless checkout flows matching the brand's aesthetic (not a standard Shopify template).
+## PHASE 5 — Visual/editorial system
+- Introduce structured editorial/visual project entities.
+- Keep campaign/editorial assets separate from permanent brand assets.
 
-## PHASE 6: Digital Experiments
-- Add isolated, highly interactive digital experiences (e.g., Numerical Drops, Typographic Decryption).
+## PHASE 6 — Digital experiments
+- Add isolated experimental modules (lazy-loaded) without destabilizing core navigation/site shell.
 
-## PHASE 7: Search / Discovery & Hardening
-- Implement global telemetry search.
-- SEO, Accessibility audits, and Performance hardening.
+## PHASE 7 — Commerce integration
+- Introduce product/collection/cart/checkout domain models and secure checkout handoff.
 
-## PHASE 8: Production Release
-- Final staging, load testing, and public launch.
+## PHASE 8 — Search and discovery
+- Implement search across archive, editorial, music, and commerce entities.
+
+## PHASE 9 — Performance, accessibility, SEO hardening
+- Full pass on core web performance, inclusive UX, metadata/sitemap, and route reliability.
+
+## PHASE 10 — Production release readiness
+- Final acceptance smoke tests, deployment hardening, and release governance review.

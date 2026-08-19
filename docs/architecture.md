@@ -1,26 +1,80 @@
-# Architecture & Application Shell
+# Architecture
 
-## 1. Global Shell (`app/layout.tsx`)
-- The Next.js `RootLayout` establishes the global application shell.
-- Encompasses `<AudioProvider>`, `<Navigation>`, `<GlobalPlayer>`, `<Cursor>`, and `<Footer>`.
-- Body class enforces `bg-background` and `text-foreground` via the design system.
+## Application architecture
+- Stack: Next.js 15 App Router, React 19, TypeScript, Tailwind CSS v4 (`@theme` in `app/globals.css`), Motion (`motion/react`).
+- Site shape today is a primarily static content application with interactive client components for motion/audio.
 
-## 2. Navigation Architecture (`components/navigation.tsx`)
-- Implements a fixed, responsive top-bar (`<nav>`).
-- Utilizes an absolute `z-50` backdrop blur that scales down on scroll to allow content to breathe.
-- **Mobile Navigation**: Implements a full-screen, high-contrast `<AnimatePresence>` drawer with animated stagger entries for links. 
-- Content Exposure: Strict adherence to hiding empty pages. Links (`HOME`, `ARCHIVE`, `VISUAL`, `MUSIC`, `BRAND`) strictly point to populated index pages or anchored content blocks.
+## Framework and rendering model
+- Framework: Next.js App Router (`/app`).
+- Rendering mix:
+  - Server-rendered routes by default (`app/archive/page.tsx`, `app/archive/[id]/page.tsx`).
+  - Client-rendered interactive routes/components marked with `'use client'` (`app/page.tsx`, `app/music/page.tsx`, `components/*`).
+- `app/archive/[id]/page.tsx` uses `generateStaticParams` from local `ARTIFACTS` data for static path generation.
 
-## 3. Global Audio Engine (`components/global-player.tsx`)
-- Mounted bottom-right via `<GlobalPlayer>`.
-- Expandable micro-interaction using `framer-motion` to reveal telemetry status (playing/standby).
-- Hooks into the global `<AudioProvider>` ensuring playback state isn't destroyed on client-side routing.
+## Routing
+- `/` entry experience.
+- `/archive` archive index.
+- `/archive/[id]` artifact detail.
+- `/music` sonic vault.
+- Shared route UI states: `app/template.tsx`, `app/loading.tsx`, `app/error.tsx`, `app/global-error.tsx`, `app/not-found.tsx`.
 
-## 4. Route States
-- **Transitions (`app/template.tsx`)**: Utilizes a subtle `motion.div` fade-in for all route mounts, maintaining cinematic continuity.
-- **Loading (`app/loading.tsx`)**: Mounts a minimal `<LoadingState>` with a pulsing `accent` beacon.
-- **Error Boundaries (`app/error.tsx`, `app/global-error.tsx`)**: Themed oxblood error states designed not to break immersion during anomalous behavior.
+## Important directories
+- `/app`: route tree, layout, route-state files.
+- `/components`: feature components and global shell components.
+- `/components/system`: reusable UI primitives (typography, surfaces, layout, buttons, links, media, states, telemetry).
+- `/lib`: typed data models and in-repo content sources (`data.ts`, `music-data.ts`).
+- `/docs`: architecture and governance documentation.
 
-## 5. Contextual End Navigation (`components/footer.tsx`)
-- Persistent structural footer across all views.
-- Includes a `<Magnetic>` interactive return-to-top component and global copyright/telemetry labels.
+## Shared providers and global shell
+`app/layout.tsx` composes the permanent shell:
+- `<AudioProvider>` (global audio state + playback engine)
+- `<Cursor>` (fine-pointer-only custom cursor)
+- `<Navigation>` (desktop + mobile navigation)
+- `<GlobalPlayer>` (persistent audio controls)
+- `<Footer>`
+
+## State architecture
+- Local UI state: React `useState` per component (bootloader, nav menu, view toggles, overlays).
+- Global audio/application playback state: React Context in `components/audio-provider.tsx`.
+- No external state manager (Zustand/Redux) is currently used.
+
+## Server/client boundaries
+- Server-safe data modules in `/lib` provide typed content.
+- Client-only browser APIs are isolated in client components:
+  - Web Audio (`AudioContext`, oscillator graph)
+  - HTMLAudioElement playback
+  - `navigator.mediaSession`
+  - pointer/mouse motion and `sessionStorage`
+
+## API architecture
+- No custom `/app/api` routes currently exist.
+- No backend service integration is wired yet.
+
+## External services
+- No runtime third-party analytics or commerce services are currently integrated.
+- Remote media placeholders are loaded from `https://picsum.photos` (allowed in `next.config.ts`).
+
+## Commerce architecture
+- Not implemented yet.
+- There are no product, cart, or checkout routes/components in the current app tree.
+
+## Authentication
+- Not implemented.
+- No auth provider, session layer, or protected route logic exists.
+
+## Media architecture (current implementation)
+- UI images use `next/image` via `SystemImage` wrapper (`components/system/media.tsx`) with `referrerPolicy="no-referrer"`.
+- Placeholder/prototype assets are external URLs and in-repo static image assets under `src/assets/images`.
+
+## Build and deployment flow
+- Dev server: `npm run dev` (port 3000).
+- Lint: `npm run lint`.
+- Typecheck: `npm run typecheck`.
+- Build: `npm run build` (Next production build).
+- Start: `npm run start`.
+
+## Important constraints
+- Preserve global `AudioProvider` wrapping in layout to keep playback state across route changes.
+- Preserve responsive behavior in navigation, player, and layout grid primitives.
+- Avoid replacing system primitives with ad-hoc styling; reuse `/components/system`.
+- Keep heavy interactive/experimental modules isolated so they can be lazy-loaded in later phases.
