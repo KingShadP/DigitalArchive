@@ -1,137 +1,36 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
-@theme {
-  --font-serif: var(--font-serif);
-  --font-display: var(--font-display);
-  --font-mono: var(--font-mono);
-
-  /* Color Palette - Ultra Minimalist & Mature */
-  --color-base: #101010; 
-  --color-text-primary: #EBEBEB; 
-  --color-text-dim: #8A8A8A; 
-  --color-surface-base: #161616;
-  --color-surface-hover: #1E1E1E;
-  --color-accent-metal: #B3B3B3;
-
-  /* Semantic Colors */
-  --color-background: var(--color-base);
-  --color-foreground: var(--color-text-primary);
-  --color-surface: var(--color-surface-base);
-  --color-surface-dim: #141414;
-  --color-surface-hover: var(--color-surface-hover);
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.18);
-  --color-accent: var(--color-accent-metal);
+html {
+  scroll-behavior: smooth;
+  background-color: #000000;
 }
 
-@media (pointer: fine) and (min-width: 768px) {
-  body, a, button, [role="button"], input, select, textarea {
-    cursor: none;
-  }
+body {
+  overflow-x: hidden;
+  background-color: #000000;
+  color: #FFFFFF;
+  font-family: 'Helvetica Neue ME', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Print Stylesheet for Catalogue PDF Export & Printing */
-@media print {
-  @page {
-    margin: 1.8cm 1.5cm;
-    size: A4 portrait;
-  }
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
-  html, body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    font-size: 11pt !important;
-    line-height: 1.5 !important;
-    cursor: auto !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  /* Hide interactive site chrome during print */
-  nav, 
-  footer, 
-  header.fixed,
-  .fixed,
-  .no-print,
-  .screen-only-nav,
-  button:not(.print-include) {
-    display: none !important;
-  }
-
-  /* Ensure print container renders cleanly */
-  .print-only {
-    display: block !important;
-  }
-
-  .screen-only {
-    display: none !important;
-  }
-
-  /* Black and white content styling */
-  main {
-    padding: 0 !important;
-    background: #ffffff !important;
-    color: #000000 !important;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    color: #000000 !important;
-    font-family: Georgia, serif !important;
-    page-break-after: avoid;
-    break-after: avoid;
-  }
-
-  p, span, div, td, th {
-    color: #000000 !important;
-  }
-
-  /* Card and table borders in print */
-  .border, [class*="border-"] {
-    border-color: #000000 !important;
-  }
-
-  .bg-\[\#080808\], .bg-\[\#0a0a0a\], .bg-[#050505], .bg-black {
-    background-color: #ffffff !important;
-  }
-
-  /* Table styling */
-  table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-    margin-top: 10pt;
-    margin-bottom: 10pt;
-    page-break-inside: avoid;
-  }
-
-  th, td {
-    border: 1px solid #000000 !important;
-    padding: 6pt 8pt !important;
-    color: #000000 !important;
-    background: #ffffff !important;
-  }
-
-  th {
-    font-weight: bold;
-    background-color: #f2f2f2 !important;
-  }
-
-  /* Images in print */
-  img {
-    filter: grayscale(100%) !important;
-    max-width: 100% !important;
-    page-break-inside: avoid;
-    border: 1px solid #000000 !important;
-  }
-
-  /* Page break helpers */
-  .print-page-break {
-    page-break-before: always !important;
-    break-before: page !important;
-  }
-
-  .print-avoid-break {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
 }

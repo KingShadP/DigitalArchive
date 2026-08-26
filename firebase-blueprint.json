@@ -1,0 +1,203 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile and archive membership identity",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 256
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "collectorTier": {
+          "type": "string",
+          "enum": ["initiate", "patron", "archivist", "guardian"],
+          "maxLength": 32
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "email", "createdAt", "updatedAt"]
+    },
+    "SavedArtifact": {
+      "title": "SavedArtifact",
+      "description": "Bookmarked artifact in user's personal archive collection",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "artifactId": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "artifactClass": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "savedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "artifactId", "title", "savedAt"]
+    },
+    "FavoriteTrack": {
+      "title": "FavoriteTrack",
+      "description": "Favorite audio track from the Sonic Vault",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "trackId": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "releaseId": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "duration": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "addedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "trackId", "releaseId", "title", "addedAt"]
+    },
+    "Transmission": {
+      "title": "Transmission",
+      "description": "Concierge transmission or acquisition inquiry sent to KingShadP Studio",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "authorName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 256
+        },
+        "category": {
+          "type": "string",
+          "enum": ["general", "acquisition", "curatorial", "press", "sound"],
+          "maxLength": 32
+        },
+        "subject": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "reviewed", "archived"],
+          "maxLength": 32
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "authorName", "email", "category", "subject", "message", "status", "createdAt"]
+    },
+    "GuestbookEntry": {
+      "title": "GuestbookEntry",
+      "description": "Visitor signal log entry in the public digital archive",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "authorName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "location": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "authorName", "message", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document containing authentication and tier info"
+    },
+    "/users/{userId}/saved_artifacts/{artifactId}": {
+      "schema": "SavedArtifact",
+      "description": "Bookmarked artifacts saved by the user"
+    },
+    "/users/{userId}/favorite_tracks/{trackId}": {
+      "schema": "FavoriteTrack",
+      "description": "Favorite audio tracks saved by the user in the sonic vault"
+    },
+    "/transmissions/{transmissionId}": {
+      "schema": "Transmission",
+      "description": "Concierge inquiries and acquisition requests"
+    },
+    "/guestbook/{entryId}": {
+      "schema": "GuestbookEntry",
+      "description": "Public impressions and signal logs in the digital archive"
+    }
+  }
+}

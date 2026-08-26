@@ -3,9 +3,10 @@
 import React, { useState } from 'react';
 import { useAudio } from './audio-provider';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, Pause, Square, Settings2, SkipBack, SkipForward, Volume2, VolumeX, Loader2 } from 'lucide-react';
+import { Play, Pause, Square, Settings2, SkipBack, SkipForward, Volume2, VolumeX, Loader2, Heart } from 'lucide-react';
 import { MonoLabel } from './system';
 import Image from 'next/image';
+import { useFirebase } from './firebase-provider';
 
 const formatTime = (time: number) => {
   if (!time || isNaN(time)) return '00:00';
@@ -22,10 +23,12 @@ export function GlobalPlayer() {
     togglePlayPause, seek, toggleMute, nextTrack, prevTrack 
   } = useAudio();
 
+  const { toggleFavoriteTrack, isTrackFavorited } = useFirebase();
   const [expanded, setExpanded] = useState(false);
 
   // If we have a track, we show the music player.
   if (currentTrack) {
+    const isFav = isTrackFavorited(currentTrack.id);
     return (
       <div className="fixed bottom-6 right-6 left-6 md:left-auto md:bottom-12 md:right-12 z-[60] flex justify-end pointer-events-none">
         <motion.div 
@@ -54,8 +57,23 @@ export function GlobalPlayer() {
               </MonoLabel>
             </div>
 
-            {/* Playback Controls */}
-            <div className="flex items-center gap-3">
+            {/* Favorite & Playback Controls */}
+            <div className="flex items-center gap-2.5">
+              <button
+                type="button"
+                onClick={() => {
+                  toggleFavoriteTrack({
+                    id: currentTrack.id,
+                    releaseId: currentRelease?.id || 'unknown',
+                    title: currentTrack.title,
+                    duration: currentTrack.duration,
+                  });
+                }}
+                className={`p-1.5 transition-colors ${isFav ? 'text-red-400' : 'text-foreground/30 hover:text-foreground'}`}
+                title={isFav ? 'Remove from favorites' : 'Add to favorite tracks'}
+              >
+                <Heart size={15} fill={isFav ? 'currentColor' : 'none'} />
+              </button>
               <button 
                 onClick={prevTrack} 
                 className="text-foreground/60 hover:text-foreground transition-colors disabled:opacity-30"
@@ -91,12 +109,20 @@ export function GlobalPlayer() {
           {/* Scrubber */}
           <div className="flex items-center gap-3 font-mono text-[9px] text-foreground/50">
             <span className="w-8 text-right">{formatTime(currentTime)}</span>
-            <div 
-              className="flex-1 h-1 bg-border/50 relative cursor-pointer group"
+            <button 
+              className="flex-1 h-1 bg-border/50 relative cursor-pointer group outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+              role="slider"
+              aria-valuemin={0}
+              aria-valuemax={duration || 100}
+              aria-valuenow={currentTime}
               onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const pos = (e.clientX - rect.left) / rect.width;
                 seek(pos * duration);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowRight') seek(Math.min((currentTime || 0) + 5, duration));
+                if (e.key === 'ArrowLeft') seek(Math.max((currentTime || 0) - 5, 0));
               }}
             >
               <motion.div 
@@ -104,7 +130,7 @@ export function GlobalPlayer() {
                 style={{ width: `${(currentTime / (duration || 1)) * 100}%` }}
               />
               <div className="absolute top-0 left-0 w-full h-full bg-foreground/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
+            </button>
             <span className="w-8">{formatTime(duration)}</span>
             
             {/* Volume toggle */}

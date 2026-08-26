@@ -2,6 +2,8 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { motion, HTMLMotionProps } from "motion/react";
 
+import Link from "next/link";
+
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline" | "ghost" | "icon";
   size?: "sm" | "md" | "lg" | "icon";
@@ -72,3 +74,80 @@ export function MotionButton({
       </motion.button>
     );
 }
+
+export function CircularCTA({
+  children,
+  className,
+  size = "md",
+  onClick,
+  href,
+  as: Component,
+  ...props
+}: {
+  children: React.ReactNode;
+  className?: string;
+  size?: "sm" | "md" | "lg";
+  onClick?: () => void;
+  href?: string;
+  as?: React.ElementType;
+} & React.AnchorHTMLAttributes<HTMLAnchorElement> & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  const sizes = {
+    sm: "px-6 py-3 text-[10px]",
+    md: "px-8 py-4 text-[11px]",
+    lg: "px-10 py-5 text-xs",
+  };
+
+  const combinedClassName = cn(
+    "inline-flex items-center justify-center font-mono uppercase tracking-widest rounded-full border border-foreground bg-foreground text-background hover:bg-transparent hover:text-foreground transition-all duration-300",
+    sizes[size],
+    className
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className={combinedClassName} onClick={onClick} {...props}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      onClick={onClick}
+      className={combinedClassName}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function IconControlButton({
+  children,
+  className,
+  active,
+  onClick,
+  ...props
+}: {
+  children: React.ReactNode;
+  className?: string;
+  active?: boolean;
+  onClick?: () => void;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        "rounded-full border flex items-center justify-center transition-all duration-300",
+        active
+          ? "border-foreground bg-foreground text-background"
+          : "border-border bg-surface-dim text-foreground hover:border-foreground",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+

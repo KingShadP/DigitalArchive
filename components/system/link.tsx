@@ -3,7 +3,7 @@ import React from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 
 export interface LinkProps extends NextLinkProps, Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof NextLinkProps> {
-  variant?: "primary" | "secondary" | "inline";
+  variant?: "primary" | "secondary" | "inline" | "cta";
 }
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
@@ -14,6 +14,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       primary: "text-foreground hover:text-foreground/70",
       secondary: "text-neutral-500 hover:text-foreground",
       inline: "underline underline-offset-4 decoration-border hover:decoration-foreground",
+      cta: "inline-flex items-center justify-center font-mono text-[10px] uppercase tracking-widest bg-foreground text-background hover:bg-foreground/90 transition-all border border-foreground",
     };
 
     return (

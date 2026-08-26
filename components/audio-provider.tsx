@@ -75,7 +75,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       if (track.audioSource) {
         audioRef.current.src = track.audioSource;
         audioRef.current.play().catch(e => {
-          console.error("Playback failed", e.message || e);
+          console.error("Playback failed", e instanceof Error ? e.message : String(e));
           setIsPlaying(false);
         });
         setIsPlaying(true);
@@ -96,7 +96,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     } else {
       stopDrone();
       if (currentTrack.audioSource) {
-        audioRef.current.play().catch(e => console.error(e.message || e));
+        audioRef.current.play().catch(e => console.error(e instanceof Error ? e.message : String(e)));
       } else {
         setIsPlaying(true);
       }

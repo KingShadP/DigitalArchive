@@ -1,261 +1,532 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
-import { Play, Volume2, ArrowRight } from 'lucide-react';
-import { useAudio } from '@/components/audio-provider';
-import { Bootloader } from '@/components/bootloader';
-import ArtDirectionShowcase from '@/components/art-direction-showcase';
-import Magnetic from '@/components/magnetic';
-import { 
-  PageContainer, Grid, Surface, 
-  Heading, Text, MonoLabel, SystemImage, Link, FadeIn, CircularCTA, IconControlButton
-} from '@/components/system';
+import { ArrowRight, ArrowDown, ChevronUp, Info, X, Music, Sparkles, FolderArchive, Compass } from 'lucide-react';
+import { useVideoScrub } from '@/hooks/useVideoScrub';
+import { Stagger } from '@/components/Stagger';
+import { NowPlayingModal } from '@/components/NowPlayingModal';
+import { ArchiveModal } from '@/components/ArchiveModal';
 
-export default function EntryExperience() {
-  const [bootSequenceActive, setBootSequenceActive] = useState(true);
-  const { audioActive, toggleAudio } = useAudio();
-  const { scrollYProgress } = useScroll();
+const VIDEO_SRC = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260821_114821_a8ca298f-be2c-4613-a4dd-51b69e16bbde.mp4';
+const DARK = '#1D3045';
 
+export default function KingShadPLandingPage() {
+  const { containerRef, videoRef, canvasRef, scrollProgress, canvasLive } = useVideoScrub(VIDEO_SRC);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [nowPlayingOpen, setNowPlayingOpen] = useState(false);
+  const [archiveOpen, setArchiveOpen] = useState(false);
+  const [archiveTab, setArchiveTab] = useState<'visuals' | 'vision' | 'archive'>('archive');
+  const [navEntered, setNavEntered] = useState(false);
+
+  // Trigger initial navbar entrance animation
   useEffect(() => {
-    const hasBooted = sessionStorage.getItem('kingshadp_booted');
-    if (hasBooted) {
-      const timeout = setTimeout(() => setBootSequenceActive(false), 0);
-      return () => clearTimeout(timeout);
-    }
+    const timer = setTimeout(() => {
+      setNavEntered(true);
+    }, 200);
+    return () => clearTimeout(timer);
   }, []);
 
-  const handleBootComplete = () => {
-    sessionStorage.setItem('kingshadp_booted', 'true');
-    setBootSequenceActive(false);
-  };
-
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0, 0.15], [0, 80]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.95]);
-
-  // Lock scroll during boot
+  // Lock body scroll when any modal or mobile menu is open & listen for Escape
   useEffect(() => {
-    if (bootSequenceActive) {
+    if (typeof window === 'undefined') return;
+
+    if (menuOpen || nowPlayingOpen || archiveOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
     }
-    return () => { document.body.style.overflow = 'auto'; };
-  }, [bootSequenceActive]);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        setNowPlayingOpen(false);
+        setArchiveOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen, nowPlayingOpen, archiveOpen]);
+
+  const p = scrollProgress;
+
+  // Section 1 Opacity
+  let s1Opacity = 0;
+  if (p < 0.20) {
+    s1Opacity = 1;
+  } else {
+    s1Opacity = Math.max(0, 1 - (p - 0.20) / 0.08);
+  }
+
+  // Section 2 Opacity
+  let s2Opacity = 0;
+  if (p < 0.32) {
+    s2Opacity = 0;
+  } else if (p < 0.40) {
+    s2Opacity = (p - 0.32) / 0.08;
+  } else if (p < 0.55) {
+    s2Opacity = 1;
+  } else {
+    s2Opacity = Math.max(0, 1 - (p - 0.55) / 0.08);
+  }
+
+  // Section 3 Opacity
+  let s3Opacity = 0;
+  if (p < 0.67) {
+    s3Opacity = 0;
+  } else if (p < 0.75) {
+    s3Opacity = (p - 0.67) / 0.08;
+  } else {
+    s3Opacity = 1;
+  }
+
+  // Nav color transition at p > 0.55
+  const isDarkFrame = p > 0.55;
+  const navColor = isDarkFrame ? '#FFFFFF' : DARK;
+
+  const scrollToNext = () => {
+    if (typeof window === 'undefined' || !containerRef.current) return;
+    const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
+    if (p < 0.35) {
+      window.scrollTo({ top: maxScroll * 0.45, behavior: 'smooth' });
+    } else if (p < 0.7) {
+      window.scrollTo({ top: maxScroll * 0.85, behavior: 'smooth' });
+    }
+  };
+
+  const scrollToPrev = () => {
+    if (typeof window === 'undefined' || !containerRef.current) return;
+    const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
+    if (p >= 0.6) {
+      window.scrollTo({ top: maxScroll * 0.45, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleNavClick = (link: string) => {
+    if (link === 'MUSIC') {
+      setNowPlayingOpen(true);
+    } else if (link === 'VISUALS') {
+      setArchiveTab('visuals');
+      setArchiveOpen(true);
+    } else if (link === 'ARCHIVE') {
+      setArchiveTab('archive');
+      setArchiveOpen(true);
+    } else if (link === 'VISION') {
+      setArchiveTab('vision');
+      setArchiveOpen(true);
+    } else if (link === 'KINGSHADP') {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+    setMenuOpen(false);
+  };
+
+  const navLinks = ['KINGSHADP', 'MUSIC', 'VISION', 'VISUALS', 'ARCHIVE'];
 
   return (
-    <>
-      {bootSequenceActive && (
-        <Bootloader onComplete={handleBootComplete} />
-      )}
-
-      <main className="relative min-h-screen">
+    <div ref={containerRef} className="relative h-[500vh] bg-black">
+      {/* STICKY 100VH VIEWPORT */}
+      <div className="sticky top-0 w-full h-screen overflow-hidden select-none">
         
-        {/* 1. IDENTITY SIGNAL (HERO) */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          {/* Subtle noise/grid background overlay */}
-          <div className="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03)_1px,_transparent_1.5px)] [background-size:64px_64px]" />
-          <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.15] bg-[linear-gradient(rgba(18,16,16,0)_50%,_rgba(0,0,0,0.25)_50%)] [background-size:100%_4px]" />
+        {/* 1. VIDEO ELEMENT */}
+        <video
+          ref={videoRef}
+          src={VIDEO_SRC}
+          muted
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
 
-          <motion.div 
-            style={{ opacity: heroOpacity, y: heroY, scale: heroScale }}
-            className="text-center z-10 px-6 max-w-4xl mx-auto flex flex-col items-center"
-          >
-            <MonoLabel className="mb-6 block animate-pulse text-accent">{"// SIGNAL DETECTED"}</MonoLabel>
-            <Heading variant="display" className="text-5xl md:text-8xl lg:text-9xl mb-8 tracking-tighter">
-              KingShadP
-            </Heading>
-            <Text variant="lead" className="max-w-2xl mx-auto mb-12 mix-blend-difference">
-              The creative universe, archive, and brand identity of an architectural cosmism.
-            </Text>
-            
-            <Magnetic range={120} strength={0.4} scaleStrength={0.08}>
-              <CircularCTA 
-                size="sm"
-                onClick={() => document.getElementById('audio-hub')?.scrollIntoView({ behavior: 'smooth' })}
-                className="w-auto px-8 gap-3"
-              >
-                Initiate Sequence <ArrowRight size={12} />
-              </CircularCTA>
-            </Magnetic>
-          </motion.div>
+        {/* 2. FRAME CANVAS */}
+        <canvas
+          ref={canvasRef}
+          width={1920}
+          height={1080}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 pointer-events-none"
+          style={{ opacity: canvasLive ? 1 : 0 }}
+        />
 
-          <div className="absolute bottom-12 left-12 hidden md:block">
-            <MonoLabel>ARCHIVE_VER: 4.1.9</MonoLabel>
-          </div>
-          <div className="absolute bottom-12 right-12 hidden md:block text-right">
-            <MonoLabel>LAT: 34.0522° N</MonoLabel>
-            <MonoLabel>LONG: 118.2437° W</MonoLabel>
-          </div>
-        </section>
-
-        {/* 2. AUDIO HUB / FEATURED MUSIC */}
-        <section id="audio-hub" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-surface-dim">
-          <PageContainer>
-            <Grid columns={12} gap="lg" className="items-center">
-              <div className="col-span-12 md:col-span-6 lg:col-span-5 order-2 md:order-1">
-                <FadeIn>
-                  <MonoLabel className="text-accent mb-6 block">01 / SONIC FREQUENCY</MonoLabel>
-                  <Heading className="mb-6">Sound as Architecture</Heading>
-                  <Text className="mb-10 max-w-md text-neutral-400">
-                    Sound acts as an invisible landscape. In the world of KingShadP, apparel artifacts are paired directly with custom frequencies. Activate the sub-harmonic frequency channel to hear the planetary loop tracker.
-                  </Text>
-                  
-                  <Magnetic range={100} strength={0.5} scaleStrength={0.1}>
-                    <IconControlButton
-                      onClick={toggleAudio}
-                      active={audioActive}
-                      className={`h-24 w-24 pointer-events-auto cursor-pointer ${audioActive ? 'shadow-[0_0_40px_rgba(255,255,255,0.15)] font-bold' : ''}`}
-                    >
-                      {audioActive ? (
-                        <Volume2 className="w-8 h-8 animate-pulse text-background" />
-                      ) : (
-                        <Play className="w-8 h-8 ml-1 text-foreground" />
-                      )}
-                    </IconControlButton>
-                  </Magnetic>
-                  <MonoLabel className="mt-6 block opacity-60">
-                    {audioActive ? 'FREQUENCY LOCK: ACTIVE (48Hz)' : 'STATUS: INERT'}
-                  </MonoLabel>
-                  <div className="mt-12">
-                    <Link href="/music" variant="cta" className="rounded-full px-8 py-4 gap-4">
-                      ENTER SONIC VAULT
-                      <ArrowRight size={14} />
-                    </Link>
-                  </div>
-                </FadeIn>
-              </div>
-              
-              <div className="col-span-12 md:col-span-6 lg:col-span-7 order-1 md:order-2 mb-12 md:mb-0">
-                <FadeIn delay={0.2} className="relative aspect-square md:aspect-video w-full rounded-sm overflow-hidden group">
-                  <SystemImage 
-                    src="https://picsum.photos/seed/soundscape/1200/800?grayscale"
-                    alt="Acoustic landscape"
-                    fill
-                    className="object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-1000 mix-blend-luminosity"
-                  />
-                  {audioActive && (
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="w-full h-[1px] bg-accent/30 absolute top-1/2 left-0" />
-                      <motion.div 
-                        animate={{ 
-                          scaleY: [0.1, 1.2, 0.1, 1.5, 0.2],
-                          opacity: [0.2, 0.8, 0.3, 0.9, 0.2]
-                        }}
-                        transition={{ repeat: Infinity, duration: 2.2, ease: 'linear' }}
-                        className="w-full h-12 bg-gradient-to-r from-transparent via-accent/20 to-transparent absolute top-[calc(50%-24px)]"
-                      />
-                    </div>
-                  )}
-                </FadeIn>
-              </div>
-            </Grid>
-          </PageContainer>
-        </section>
-
-        {/* 3. VISUAL WORK / BRAND IDENTITY */}
-        <section id="visual" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border">
-          <PageContainer>
-            <div className="max-w-3xl mb-24">
-              <FadeIn>
-                <MonoLabel className="text-accent mb-6 block">02 / STRUCTURAL VISION</MonoLabel>
-                <Heading variant="display" className="mb-6">Reconstructing Identity</Heading>
-                <Text variant="lead">
-                  KingShadP is more than garments. It is an exploration of space, deep-space distance, and structural command.
-                </Text>
-              </FadeIn>
-            </div>
-
-            <Grid columns={12} gap="lg" className="items-stretch">
-              <div className="col-span-12 md:col-span-7">
-                <FadeIn delay={0.1} className="h-full">
-                  <Surface variant="primary" className="h-full flex flex-col justify-end p-8 md:p-12 min-h-[500px] relative group overflow-hidden border-border/50">
-                    <SystemImage 
-                      src="https://picsum.photos/seed/structure2/1000/1000?grayscale"
-                      alt="Structural aesthetic"
-                      fill
-                      className="object-cover opacity-20 mix-blend-luminosity group-hover:scale-105 group-hover:opacity-40 transition-all duration-[2000ms]"
-                    />
-                    <div className="relative z-10">
-                      <MonoLabel className="mb-4">RULE_01 // NEGATIVE SPACE</MonoLabel>
-                      <Heading className="text-2xl mb-4">Architectural Cosmism</Heading>
-                      <Text className="max-w-md">
-                        Instead of obvious galaxy photos, we rely on shadows, micro-grid coordinates, and heavy-contrast visual frames reminiscent of spacecraft cockpits and structural vaults.
-                      </Text>
-                    </div>
-                  </Surface>
-                </FadeIn>
-              </div>
-
-              <div className="col-span-12 md:col-span-5 flex flex-col gap-6 lg:gap-8">
-                <FadeIn delay={0.2} className="flex-1">
-                  <Surface variant="secondary" className="h-full p-8 md:p-12 flex flex-col justify-between">
-                    <MonoLabel className="opacity-50">RULE_02 // MATERIALS</MonoLabel>
-                    <div className="mt-12">
-                      <Heading className="text-xl mb-3">Artifact Finishes</Heading>
-                      <Text variant="muted">
-                        Colors are strictly restricted to space black, lunar grey, and stellar white. Heavy cottons and raw carbon filaments.
-                      </Text>
-                    </div>
-                  </Surface>
-                </FadeIn>
-                <FadeIn delay={0.3} className="flex-1">
-                  <Surface variant="secondary" className="h-full p-8 md:p-12 flex flex-col justify-between">
-                    <MonoLabel className="opacity-50">RULE_03 // SCALE</MonoLabel>
-                    <div className="mt-12">
-                      <Heading className="text-xl mb-3">Void Engineering</Heading>
-                      <Text variant="muted">
-                        Weight is created where we choose not to construct. Empty space must occupy 60% of all visual matrices.
-                      </Text>
-                    </div>
-                  </Surface>
-                </FadeIn>
-              </div>
-            </Grid>
-          </PageContainer>
-        </section>
-
-        {/* 4. DIGITAL EXPERIMENTS (Art Showcase) */}
-        <section id="experiments" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border bg-surface-dim">
-          <PageContainer className="max-w-[1400px]">
-            <FadeIn>
-              <MonoLabel className="text-accent mb-6 block">03 / DIGITAL EXPERIMENTS</MonoLabel>
-              <Heading className="mb-16">Interface Art Direction</Heading>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <ArtDirectionShowcase />
-            </FadeIn>
-          </PageContainer>
-        </section>
-
-        {/* 5. ARCHIVE GATEWAY */}
-        <section id="core" className="py-32 md:py-48 px-6 md:px-12 relative border-t border-border overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_#111111_0%,_transparent_50%)] opacity-40 pointer-events-none" />
+        {/* 3. INTERFACE OVERLAY */}
+        <div className="absolute inset-0 pointer-events-none">
           
-          <PageContainer>
-            <div className="max-w-4xl mx-auto text-center">
-              <FadeIn>
-                <MonoLabel className="text-accent mb-6 block">04 / THE VAULT</MonoLabel>
-                <Heading variant="display" className="mb-8">Access The Archive</Heading>
-                <Text variant="lead" className="max-w-2xl mx-auto mb-16">
-                  A comprehensive record of the digital and physical manifestations of the KingShadP universe.
-                </Text>
-                
-                <Magnetic range={150} strength={0.4} scaleStrength={0.05}>
-                  <CircularCTA as={Link} href="/archive" size="lg" className="group relative overflow-hidden">
-                    <span className="relative z-10 flex flex-col items-center gap-2">
-                      Enter
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  </CircularCTA>
-                </Magnetic>
-              </FadeIn>
+          {/* NAVBAR */}
+          <nav
+            className="absolute top-0 left-0 right-0 z-50 pointer-events-auto px-6 sm:px-8 md:px-12 pt-8 sm:pt-12 pb-6 flex items-center justify-between transition-colors duration-500"
+            style={{ color: navColor }}
+          >
+            {/* Mobile Hamburger (below lg) */}
+            <div className="lg:hidden flex items-center">
+              <button
+                type="button"
+                aria-label="Toggle Navigation Menu"
+                onClick={() => setMenuOpen(true)}
+                className="flex flex-col gap-[5px] cursor-pointer p-2 -ml-2 transition-opacity hover:opacity-70"
+              >
+                <span
+                  className="block h-[2px] w-[24px] transition-colors duration-500"
+                  style={{ backgroundColor: navColor }}
+                />
+                <span
+                  className="block h-[2px] w-[24px] transition-colors duration-500"
+                  style={{ backgroundColor: navColor }}
+                />
+                <span
+                  className="block h-[2px] w-[16px] transition-colors duration-500"
+                  style={{ backgroundColor: navColor }}
+                />
+              </button>
             </div>
-          </PageContainer>
-        </section>
 
-      </main>
-    </>
+            {/* Desktop Left Nav Cluster (lg+) */}
+            <div className="hidden lg:flex items-center gap-8 xl:gap-10">
+              {navLinks.map((label, i) => {
+                const isActive = label === 'KINGSHADP';
+                const delay = i * 80 + 100;
+                return (
+                  <div
+                    key={label}
+                    style={{
+                      opacity: navEntered ? 1 : 0,
+                      transform: navEntered ? 'translateY(0)' : 'translateY(-12px)',
+                      transition: `opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+                    }}
+                    className="relative"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => handleNavClick(label)}
+                      className="text-xs tracking-[0.15em] uppercase font-medium hover:opacity-70 cursor-pointer transition-opacity"
+                    >
+                      {label}
+                    </button>
+                    {isActive && (
+                      <span
+                        className="absolute -bottom-3 left-0 w-full h-[2px] transition-colors duration-500"
+                        style={{
+                          backgroundColor: isDarkFrame ? '#ECE9E4' : '#8A0F19',
+                        }}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right Nav Cluster (hidden below sm) */}
+            <div
+              className="hidden sm:flex items-center gap-6 md:gap-8"
+              style={{
+                opacity: navEntered ? 1 : 0,
+                transform: navEntered ? 'translateY(0)' : 'translateY(-12px)',
+                transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 500ms, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 500ms',
+              }}
+            >
+              {/* Item 1: NOW PLAYING */}
+              <button
+                type="button"
+                onClick={() => setNowPlayingOpen(true)}
+                className="flex items-center gap-2.5 cursor-pointer hover:opacity-80 transition-opacity"
+              >
+                <span className="text-xs tracking-[0.2em] uppercase font-medium">
+                  NOW PLAYING
+                </span>
+                <div
+                  className="w-5 h-5 rounded-full flex items-center justify-center transition-colors duration-500"
+                  style={{ backgroundColor: navColor }}
+                >
+                  <Info
+                    size={10}
+                    style={{ color: isDarkFrame ? '#050505' : '#FFFFFF' }}
+                  />
+                </div>
+              </button>
+
+              {/* Item 2: MENU */}
+              <div className="flex items-center">
+                <button
+                  type="button"
+                  onClick={() => setMenuOpen(true)}
+                  className="text-xs tracking-[0.2em] uppercase font-medium cursor-pointer hover:opacity-70 transition-opacity"
+                >
+                  MENU
+                </button>
+              </div>
+            </div>
+          </nav>
+
+          {/* ============================================================ */}
+          {/* SECTION 1 — KINGSHADP HERO                                    */}
+          {/* ============================================================ */}
+          <section
+            className="absolute inset-0 flex items-center px-6 sm:px-8 md:px-20 lg:px-32"
+            style={{
+              opacity: s1Opacity,
+              transition: 'opacity 0.1s ease-out',
+              pointerEvents: s1Opacity > 0.1 ? 'auto' : 'none',
+            }}
+          >
+            <div className="max-w-4xl text-left">
+              {/* Title */}
+              <Stagger visible={s1Opacity > 0.3} delayMs={0}>
+                <h1
+                  className="font-light uppercase leading-[1.2] tracking-tight"
+                  style={{
+                    color: DARK,
+                    fontSize: 'clamp(2rem, 5vw, 5rem)',
+                  }}
+                >
+                  BUILT TO BE REMEMBERED
+                </h1>
+              </Stagger>
+
+              {/* Subtitle */}
+              <Stagger visible={s1Opacity > 0.3} delayMs={150}>
+                <p
+                  className="mt-6 text-sm tracking-[0.3em] uppercase font-medium"
+                  style={{ color: '#1D304590' }}
+                >
+                  MUSIC · IDENTITY · VISUAL EXPERIENCE
+                </p>
+              </Stagger>
+            </div>
+
+            {/* Bottom-Right Arrow Action */}
+            <div className="absolute bottom-12 right-6 sm:right-8 md:right-12">
+              <Stagger visible={s1Opacity > 0.3} delayMs={300}>
+                <button
+                  type="button"
+                  onClick={scrollToNext}
+                  aria-label="Scroll to next section"
+                  className="w-12 h-12 rounded-full border border-[#1D3045]/50 flex items-center justify-center text-[#1D3045] hover:opacity-70 transition-opacity cursor-pointer pointer-events-auto"
+                >
+                  <ArrowRight size={18} />
+                </button>
+              </Stagger>
+            </div>
+          </section>
+
+          {/* ============================================================ */}
+          {/* SECTION 2 — KINGSHADP MANIFESTO                               */}
+          {/* ============================================================ */}
+          <section
+            className="absolute inset-0 px-6 sm:px-8 flex items-center justify-center"
+            style={{
+              opacity: s2Opacity,
+              transition: 'opacity 0.1s ease-out',
+              pointerEvents: s2Opacity > 0.1 ? 'auto' : 'none',
+            }}
+          >
+            <div className="max-w-[900px] w-full text-center">
+              <Stagger visible={s2Opacity > 0.3} delayMs={0}>
+                <h2
+                  className="font-extralight tracking-wide leading-[1.3] text-center uppercase"
+                  style={{
+                    fontSize: 'clamp(1.5rem, 4.5vw, 4.5rem)',
+                  }}
+                >
+                  <span className="block" style={{ color: DARK, opacity: 1 }}>
+                    MUSIC BECOMES IDENTITY,
+                  </span>
+                  <span className="block" style={{ color: DARK, opacity: 0.8 }}>
+                    IDENTITY BECOMES MEMORY,
+                  </span>
+                  <span className="block" style={{ color: DARK, opacity: 0.5 }}>
+                    MEMORY BECOMES LEGACY
+                  </span>
+                </h2>
+              </Stagger>
+            </div>
+
+            {/* Section 2 Right Controls */}
+            <div className="absolute bottom-16 right-6 sm:right-8 md:right-12 flex flex-col items-center gap-4 pointer-events-auto">
+              {/* Down Button */}
+              <Stagger visible={s2Opacity > 0.3} delayMs={200}>
+                <button
+                  type="button"
+                  onClick={scrollToNext}
+                  aria-label="Scroll to Section 3"
+                  className="w-12 h-12 rounded-full border border-[#1D3045]/40 flex items-center justify-center text-[#1D3045] hover:border-[#1D3045] transition-colors cursor-pointer"
+                >
+                  <ArrowDown size={18} />
+                </button>
+              </Stagger>
+
+              {/* Progress Dots */}
+              <Stagger visible={s2Opacity > 0.3} delayMs={350}>
+                <div className="mt-4 flex gap-2 items-center">
+                  <span className="block w-2 h-2 rounded-full bg-[#1D3045]" />
+                  <span className="block w-1.5 h-1.5 rounded-full bg-[#1D3045]/40" />
+                  <span className="block w-1.5 h-1.5 rounded-full bg-[#1D3045]/40" />
+                </div>
+              </Stagger>
+
+              {/* Up Button */}
+              <Stagger visible={s2Opacity > 0.3} delayMs={500}>
+                <button
+                  type="button"
+                  onClick={scrollToPrev}
+                  aria-label="Scroll back to Section 1"
+                  className="w-10 h-10 rounded-full border border-[#1D3045]/30 flex items-center justify-center text-[#1D3045]/80 hover:text-[#1D3045] hover:border-[#1D3045] transition-colors mt-2 cursor-pointer"
+                >
+                  <ChevronUp size={16} />
+                </button>
+              </Stagger>
+            </div>
+          </section>
+
+          {/* ============================================================ */}
+          {/* SECTION 3 — FINAL KINGSHADP MOMENT                           */}
+          {/* ============================================================ */}
+          <section
+            className="absolute inset-0 flex items-center justify-end px-6 sm:px-8 md:px-20 lg:px-32"
+            style={{
+              opacity: s3Opacity,
+              transition: 'opacity 0.1s ease-out',
+              pointerEvents: s3Opacity > 0.1 ? 'auto' : 'none',
+            }}
+          >
+            <div className="max-w-2xl text-left">
+              {/* Eyebrow */}
+              <Stagger visible={s3Opacity > 0.3} delayMs={0}>
+                <p className="text-white/60 text-lg tracking-wide mb-4 uppercase font-medium">
+                  KINGSHADP | CURRENT ERA
+                </p>
+              </Stagger>
+
+              {/* Final Headline */}
+              <Stagger visible={s3Opacity > 0.3} delayMs={150}>
+                <h3
+                  className="font-light text-white leading-[1.2] uppercase tracking-wide mb-8"
+                  style={{
+                    fontSize: 'clamp(2rem, 4vw, 4rem)',
+                  }}
+                >
+                  STAY CLOSE TO
+                  <br />
+                  WHAT COMES NEXT.
+                </h3>
+              </Stagger>
+
+              {/* Final CTA */}
+              <Stagger visible={s3Opacity > 0.3} delayMs={300}>
+                <div
+                  onClick={() => {
+                    setArchiveTab('archive');
+                    setArchiveOpen(true);
+                  }}
+                  className="flex items-center gap-4 pointer-events-auto group cursor-pointer w-fit"
+                >
+                  <span className="text-sm tracking-[0.3em] text-white/80 uppercase group-hover:text-white transition-colors">
+                    ENTER KSP
+                  </span>
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center group-hover:scale-110 duration-300 transition-transform">
+                    <ArrowRight size={16} className="text-gray-800" />
+                  </div>
+                </div>
+              </Stagger>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      {/* ============================================================ */}
+      {/* FULLSCREEN MOBILE & GLOBAL MENU OVERLAY                       */}
+      {/* ============================================================ */}
+      <div
+        className={`fixed inset-0 z-[100] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+          menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+        }`}
+        style={{
+          backgroundColor: '#050505',
+          backgroundImage: 'radial-gradient(circle at center, rgba(94, 0, 8, 0.15) 0%, rgba(5, 5, 5, 1) 70%)',
+        }}
+      >
+        <div
+          className={`w-full h-full flex flex-col justify-between transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+            menuOpen ? 'translate-y-0' : '-translate-y-8'
+          }`}
+        >
+          {/* Top Bar / Close Button */}
+          <div className="w-full flex justify-end px-6 sm:px-8 pt-8 sm:pt-12">
+            <button
+              type="button"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close navigation menu"
+              className="w-10 h-10 rounded-full border border-white/30 hover:border-white flex items-center justify-center text-white transition-colors cursor-pointer"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          {/* Centered Navigation Links */}
+          <div className="px-8 sm:px-12 flex flex-col items-start justify-center">
+            {navLinks.map((link, idx) => {
+              const isActive = link === 'KINGSHADP';
+              return (
+                <div
+                  key={link}
+                  style={{
+                    transform: menuOpen ? 'translateY(0)' : 'translateY(20px)',
+                    opacity: menuOpen ? 1 : 0,
+                    transition: `transform 0.5s ease-out ${idx * 60}ms, opacity 0.5s ease-out ${idx * 60}ms`,
+                  }}
+                  className="py-3"
+                >
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick(link)}
+                    className={`text-2xl sm:text-3xl font-light tracking-wide uppercase cursor-pointer transition-colors ${
+                      isActive ? 'text-white' : 'text-white/60 hover:text-white'
+                    }`}
+                  >
+                    {link}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Footer */}
+          <div className="px-8 sm:px-12 pb-10 flex items-center justify-between text-xs tracking-[0.2em] uppercase text-white/60 font-medium">
+            <button
+              onClick={() => {
+                setMenuOpen(false);
+                setNowPlayingOpen(true);
+              }}
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              LISTEN
+            </button>
+            <a
+              href="mailto:KShadP@gmail.com"
+              className="hover:text-white transition-colors"
+            >
+              CONTACT
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* NOW PLAYING AUDIO MODAL (Behold the Twisted Beast + Cover Art) */}
+      <NowPlayingModal
+        isOpen={nowPlayingOpen}
+        onClose={() => setNowPlayingOpen(false)}
+      />
+
+      {/* ARCHIVE & MEDIA VAULT MODAL (Giragon Sculpture, Keys, Profiles) */}
+      <ArchiveModal
+        isOpen={archiveOpen}
+        onClose={() => setArchiveOpen(false)}
+        initialTab={archiveTab}
+      />
+    </div>
   );
 }

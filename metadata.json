@@ -1,6 +1,6 @@
 {
-  "name": "KingShadP Digital Archive",
-  "description": "A minimalist, futuristic brand book and digital archive experience for KingShadP.",
+  "name": "KingShadP — Enter the World",
+  "description": "Standalone cinematic scroll-tied video experience and digital identity entrance for KingShadP.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
