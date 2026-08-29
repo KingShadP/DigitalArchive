@@ -27,21 +27,21 @@ export function SelectedObjects({ onOpenTransmission }: SelectedObjectsProps) {
   return (
     <section
       id="selected-objects"
-      className="relative w-full py-28 sm:py-36 px-6 sm:px-12 md:px-16 bg-[#080808] border-t border-white/5 text-[#F4F1EC] select-none"
+      className="relative w-full py-24 sm:py-32 px-6 sm:px-12 md:px-16 bg-[#f8f7f4] border-b border-[#1a1a1a]/10 text-[#1a1a1a] select-none"
     >
-      <div className="max-w-7xl mx-auto flex flex-col gap-16 sm:gap-24">
+      <div className="max-w-7xl mx-auto flex flex-col gap-14 sm:gap-20">
         {/* Section Header */}
         <Reveal>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#1a1a1a]/10 pb-6">
             <div>
-              <span className="text-[10px] font-mono tracking-[0.35em] uppercase text-[#B76E79] block">
-                &#47;&#47; CHAPTER 06: PHYSICAL MONOLITHS
+              <span className="text-[10px] font-mono tracking-[0.35em] uppercase text-[#B76E79] block font-semibold">
+                CHAPTER 06 / PHYSICAL MONOLITHS
               </span>
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-extralight tracking-tight uppercase text-white mt-1">
-                MADE <span className="font-editorial italic font-normal text-white/90">PHYSICAL.</span>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-light tracking-tight text-[#1a1a1a] mt-1 font-serif">
+                Made <span className="font-editorial italic font-normal text-[#B76E79]">Physical.</span>
               </h2>
             </div>
-            <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-white/40">
+            <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-[#1a1a1a]/50">
               LIMITED EDITIONS & ARTIFACTS
             </span>
           </div>
@@ -52,13 +52,13 @@ export function SelectedObjects({ onOpenTransmission }: SelectedObjectsProps) {
           {products.map((item) => (
             <div
               key={item.id}
-              className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-black/60 overflow-hidden hover:border-white/30 transition-all shadow-2xl"
+              className="group flex flex-col justify-between rounded-2xl border border-[#1a1a1a]/10 bg-white overflow-hidden hover:border-[#1a1a1a]/30 transition-all shadow-sm"
             >
               {/* Product Image Stage with Crossfade on Hover */}
               <div
                 onClick={() => setSelectedProduct(item)}
                 data-cursor="INSPECT"
-                className="relative aspect-square w-full bg-black cursor-pointer overflow-hidden"
+                className="relative aspect-square w-full bg-[#1a1a1a]/5 cursor-pointer overflow-hidden"
               >
                 <Image
                   src={item.primaryImage}
@@ -95,22 +95,22 @@ export function SelectedObjects({ onOpenTransmission }: SelectedObjectsProps) {
               {/* Product Details */}
               <div className="p-6 sm:p-7 flex flex-col gap-4">
                 <div>
-                  <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-[#B76E79] block">
+                  <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-[#B76E79] block font-bold">
                     {item.category}
                   </span>
-                  <h3 className="text-base sm:text-lg font-light tracking-wide uppercase text-white mt-0.5">
+                  <h3 className="text-lg font-serif tracking-wide text-[#1a1a1a] mt-1">
                     {item.name}
                   </h3>
-                  <p className="text-xs text-white/50 font-light mt-2 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-[#1a1a1a]/60 font-light mt-2 line-clamp-2 leading-relaxed">
                     {item.description}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                <div className="pt-4 border-t border-[#1a1a1a]/10 flex items-center justify-between">
                   <button
                     onClick={() => setSelectedProduct(item)}
                     data-cursor="INSPECT"
-                    className="text-[10px] font-mono tracking-widest uppercase text-white/60 hover:text-white transition-colors cursor-pointer flex items-center gap-1"
+                    className="text-[10px] font-mono tracking-widest uppercase text-[#1a1a1a]/60 hover:text-[#1a1a1a] transition-colors cursor-pointer flex items-center gap-1"
                   >
                     <span>INSPECT 3D</span>
                     <Eye size={12} />
@@ -123,7 +123,7 @@ export function SelectedObjects({ onOpenTransmission }: SelectedObjectsProps) {
                       setInquiryEmail('');
                     }}
                     data-cursor="ORDER"
-                    className="px-4 py-1.5 rounded-full bg-white text-black text-[10px] font-mono font-bold tracking-wider uppercase hover:bg-[#F4F1EC] transition-all cursor-pointer flex items-center gap-1"
+                    className="btn-pill text-[10px] uppercase font-bold tracking-wider bg-[#1a1a1a] text-white hover:bg-[#B76E79] flex items-center gap-1"
                   >
                     <span>ACQUIRE</span>
                     <ArrowUpRight size={11} />
@@ -145,25 +145,25 @@ export function SelectedObjects({ onOpenTransmission }: SelectedObjectsProps) {
       {/* Inquiry / Acquisition Dialog */}
       <AnimatePresence>
         {inquiredProduct && (
-          <div className="fixed inset-0 z-[230] flex items-center justify-center p-4 sm:p-8 bg-black/90 backdrop-blur-2xl">
+          <div className="fixed inset-0 z-[230] flex items-center justify-center p-4 sm:p-8 bg-black/70 backdrop-blur-md">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="relative max-w-lg w-full bg-[#080808] border border-white/20 rounded-2xl p-6 sm:p-8 text-white flex flex-col gap-6 shadow-2xl"
+              className="relative max-w-lg w-full bg-white border border-[#1a1a1a]/20 rounded-2xl p-6 sm:p-8 text-[#1a1a1a] flex flex-col gap-6 shadow-2xl"
             >
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div className="flex items-center justify-between border-b border-[#1a1a1a]/10 pb-4">
                 <div>
-                  <span className="text-[9px] font-mono tracking-widest uppercase text-[#B76E79]">
+                  <span className="text-[9px] font-mono tracking-widest uppercase text-[#B76E79] font-bold">
                     ACQUISITION DISPATCH
                   </span>
-                  <h3 className="text-base sm:text-lg font-light uppercase tracking-wide">
+                  <h3 className="text-base sm:text-lg font-serif">
                     {inquiredProduct.name}
                   </h3>
                 </div>
                 <button
                   onClick={() => setInquiredProduct(null)}
-                  className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white"
+                  className="w-8 h-8 rounded-full border border-[#1a1a1a]/20 flex items-center justify-center text-[#1a1a1a]/70 hover:text-[#1a1a1a]"
                 >
                   <X size={14} />
                 </button>
@@ -171,25 +171,25 @@ export function SelectedObjects({ onOpenTransmission }: SelectedObjectsProps) {
 
               {inquirySent ? (
                 <div className="py-8 flex flex-col items-center text-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                  <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-500/30 flex items-center justify-center text-emerald-600">
                     <Check size={22} />
                   </div>
-                  <h4 className="text-sm font-medium tracking-widest uppercase">
-                    ACQUISITION INQUIRY SEALED
+                  <h4 className="text-sm font-medium tracking-widest uppercase font-serif">
+                    Acquisition Inquiry Sealed
                   </h4>
-                  <p className="text-xs text-white/50 max-w-sm">
+                  <p className="text-xs text-[#1a1a1a]/60 max-w-sm">
                     The private executive desk will review inventory allocation and send direct routing instructions to {inquiryEmail}.
                   </p>
                   <button
                     onClick={() => setInquiredProduct(null)}
-                    className="mt-4 px-5 py-2 rounded-full bg-white text-black text-[10px] font-mono font-bold tracking-widest uppercase"
+                    className="mt-4 px-5 py-2 rounded-full bg-[#1a1a1a] text-white text-[10px] font-mono font-bold tracking-widest uppercase"
                   >
                     CLOSE
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleInquirySubmit} className="flex flex-col gap-4">
-                  <p className="text-xs text-white/60 leading-relaxed font-light">
+                  <p className="text-xs text-[#1a1a1a]/70 leading-relaxed font-light">
                     Enter your contact coordinate to request allotment for {inquiredProduct.name} ({inquiredProduct.price}).
                   </p>
 
@@ -199,18 +199,18 @@ export function SelectedObjects({ onOpenTransmission }: SelectedObjectsProps) {
                     value={inquiryEmail}
                     onChange={(e) => setInquiryEmail(e.target.value)}
                     placeholder="name@domain.com"
-                    className="w-full bg-white/[0.03] border border-white/15 focus:border-white rounded-xl px-4 py-3 text-xs text-white placeholder:text-white/30 outline-none transition-colors"
+                    className="w-full bg-[#1a1a1a]/5 border border-[#1a1a1a]/15 focus:border-[#1a1a1a] rounded-xl px-4 py-3 text-xs text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 outline-none transition-colors"
                   />
 
-                  <div className="flex items-center justify-between pt-2 border-t border-white/10">
-                    <div className="flex items-center gap-1.5 text-[9px] font-mono text-white/40">
+                  <div className="flex items-center justify-between pt-2 border-t border-[#1a1a1a]/10">
+                    <div className="flex items-center gap-1.5 text-[9px] font-mono text-[#1a1a1a]/50">
                       <ShieldCheck size={12} className="text-[#B76E79]" />
                       <span>SANCTUM PROTOCOL</span>
                     </div>
 
                     <button
                       type="submit"
-                      className="px-6 py-2.5 rounded-full bg-white text-black text-xs font-mono font-bold tracking-widest uppercase hover:bg-[#F4F1EC] transition-all"
+                      className="px-6 py-2.5 rounded-full bg-[#1a1a1a] text-white text-xs font-mono font-bold tracking-widest uppercase hover:bg-[#B76E79] transition-all"
                     >
                       TRANSMIT INQUIRY
                     </button>

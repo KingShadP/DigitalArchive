@@ -74,18 +74,18 @@ export function ShortcutsModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 15 }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full max-w-2xl bg-[#080808] border border-white/15 rounded-2xl flex flex-col shadow-2xl overflow-hidden text-[#EAEAEA]"
+        className="relative z-10 w-full max-w-2xl bg-white border border-[#1a1a1a]/15 rounded-2xl flex flex-col shadow-2xl overflow-hidden text-[#1a1a1a]"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-white/10 bg-[#080808]/80 backdrop-blur-md">
+        <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#1a1a1a]/10 bg-white/90 backdrop-blur-md">
           <div className="flex items-center gap-2.5">
             <Command size={16} className="text-[#B76E79]" />
             <div>
-              <span className="text-[9px] tracking-[0.3em] uppercase text-[#B76E79] block font-mono">
+              <span className="text-[9px] tracking-[0.3em] uppercase text-[#B76E79] block font-mono font-bold">
                 SYSTEM CONSOLE
               </span>
-              <h3 className="text-sm sm:text-base font-light tracking-[0.2em] uppercase text-white">
-                STUDIO KEYBOARD SHORTCUTS
+              <h3 className="text-base font-serif tracking-wide text-[#1a1a1a]">
+                Studio Keyboard Shortcuts
               </h3>
             </div>
           </div>
@@ -93,7 +93,7 @@ export function ShortcutsModal({
           <button
             onClick={onClose}
             aria-label="Close shortcuts modal"
-            className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full border border-[#1a1a1a]/20 flex items-center justify-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] hover:border-[#1a1a1a]/50 transition-colors cursor-pointer"
           >
             <X size={14} />
           </button>
@@ -103,7 +103,7 @@ export function ShortcutsModal({
         <div className="p-6 sm:p-8 flex flex-col gap-6 max-h-[70vh] overflow-y-auto">
           {shortcuts.map((sec, idx) => (
             <div key={idx} className="flex flex-col gap-3">
-              <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-white/40 border-b border-white/5 pb-1">
+              <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-[#1a1a1a]/40 border-b border-[#1a1a1a]/5 pb-1 font-bold">
                 {sec.group}
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -118,14 +118,14 @@ export function ShortcutsModal({
                         item.action();
                       }
                     }}
-                    className={`flex items-center justify-between p-2.5 rounded-xl border border-white/5 bg-white/[0.02] ${
+                    className={`flex items-center justify-between p-2.5 rounded-xl border border-[#1a1a1a]/10 bg-[#1a1a1a]/[0.02] ${
                       item.target || item.action
-                        ? 'hover:bg-white/[0.06] hover:border-white/20 cursor-pointer'
+                        ? 'hover:bg-[#1a1a1a]/[0.06] hover:border-[#1a1a1a]/20 cursor-pointer'
                         : ''
                     }`}
                   >
-                    <span className="text-xs font-light text-white/80">{item.desc}</span>
-                    <kbd className="px-2 py-1 rounded bg-white/10 border border-white/20 text-[10px] font-mono tracking-widest text-white shadow-inner font-semibold">
+                    <span className="text-xs font-light text-[#1a1a1a]/80">{item.desc}</span>
+                    <kbd className="px-2 py-1 rounded bg-[#1a1a1a]/10 border border-[#1a1a1a]/20 text-[10px] font-mono tracking-widest text-[#1a1a1a] shadow-inner font-semibold">
                       {item.key}
                     </kbd>
                   </div>
@@ -136,9 +136,9 @@ export function ShortcutsModal({
         </div>
 
         {/* Footer info */}
-        <div className="px-6 sm:px-8 py-3.5 border-t border-white/10 bg-white/[0.01] flex items-center justify-between text-[9px] font-mono text-white/40 uppercase tracking-widest">
-          <span>KINGSHADP OPERATING SYSTEM</span>
-          <span>PRESS [?] ANYTIME TO TOGGLE</span>
+        <div className="px-6 sm:px-8 py-3.5 border-t border-[#1a1a1a]/10 bg-[#1a1a1a]/[0.02] flex items-center justify-between text-[9px] font-mono text-[#1a1a1a]/50 uppercase tracking-widest">
+          <span>KINGSHADP ARCHIVE SUITE</span>
+          <span>PRESS [?] TO TOGGLE</span>
         </div>
       </motion.div>
     </div>

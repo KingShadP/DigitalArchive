@@ -3,10 +3,10 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'KingShadP — Enter the World',
-  description: 'Standalone cinematic scroll-tied video experience and digital identity entrance for KingShadP.',
+  description: 'Everything I make leaves evidence. Standalone cinematic scroll-tied audio experience and digital archive for KingShadP.',
   openGraph: {
     title: 'KingShadP — Enter the World',
-    description: 'Standalone cinematic scroll-tied video experience and digital identity entrance for KingShadP.',
+    description: 'Everything I make leaves evidence. Standalone cinematic scroll-tied audio experience and digital archive for KingShadP.',
   },
 };
 
@@ -16,8 +16,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="antialiased selection:bg-[#8A0F19] selection:text-white bg-[#050505] text-[#F4F1EC]">
+    <html lang="en" className="scroll-smooth">
+      <body className="antialiased selection:bg-[#B76E79] selection:text-white bg-[#f8f7f4] text-[#1a1a1a]">
         {children}
       </body>
     </html>

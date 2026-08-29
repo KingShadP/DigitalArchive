@@ -49,7 +49,7 @@ export function MobileMenu({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-[150] bg-[#050505]/95 backdrop-blur-3xl flex flex-col justify-between p-6 sm:p-10 select-none text-[#F4F1EC]"
+          className="fixed inset-0 z-[150] bg-[#f8f7f4]/98 backdrop-blur-3xl flex flex-col justify-between p-6 sm:p-10 select-none text-[#1a1a1a]"
           style={{
             paddingTop: 'max(2rem, env(safe-area-inset-top))',
             paddingBottom: 'max(2rem, env(safe-area-inset-bottom))',
@@ -59,18 +59,18 @@ export function MobileMenu({
           aria-label="Navigation Menu"
         >
           {/* Header row */}
-          <div className="flex items-center justify-between border-b border-white/10 pb-5">
+          <div className="flex items-center justify-between border-b border-[#1a1a1a]/10 pb-5">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-[#B76E79]">
+              <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-[#B76E79] font-bold">
                 NAVIGATION
               </span>
-              <span className="text-[9px] font-mono text-white/40">{'//'} KINGSHADP</span>
+              <span className="text-[9px] font-mono text-[#1a1a1a]/40">{'//'} KINGSHADP</span>
             </div>
 
             <button
               onClick={onClose}
               aria-label="Close menu"
-              className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/80 hover:text-white"
+              className="w-9 h-9 rounded-full border border-[#1a1a1a]/20 flex items-center justify-center text-[#1a1a1a]/80 hover:text-[#1a1a1a]"
             >
               <X size={16} />
             </button>
@@ -93,27 +93,27 @@ export function MobileMenu({
                   className="w-full flex items-center justify-between group py-2 text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-4">
-                    <span className="text-[10px] font-mono text-white/30 tracking-widest">
+                    <span className="text-[10px] font-mono text-[#1a1a1a]/30 tracking-widest font-bold">
                       {link.num}
                     </span>
-                    <span className="text-2xl sm:text-4xl font-extralight tracking-[0.15em] uppercase text-white group-hover:text-[#B76E79] transition-colors">
+                    <span className="text-3xl sm:text-4xl font-serif tracking-wide text-[#1a1a1a] group-hover:text-[#B76E79] transition-colors">
                       {link.label}
                     </span>
                   </div>
-                  <ArrowRight size={18} className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                  <ArrowRight size={18} className="text-[#1a1a1a]/30 group-hover:text-[#1a1a1a] group-hover:translate-x-1 transition-all" />
                 </button>
               </motion.div>
             ))}
           </nav>
 
           {/* Bottom Actions */}
-          <div className="flex flex-col gap-3 pt-6 border-t border-white/10">
+          <div className="flex flex-col gap-3 pt-6 border-t border-[#1a1a1a]/10">
             <button
               onClick={() => {
                 onListenNow();
                 onClose();
               }}
-              className="w-full py-4 rounded-full bg-[#F4F1EC] text-[#050505] text-xs font-mono font-bold tracking-[0.2em] uppercase flex items-center justify-center gap-2 shadow-lg"
+              className="w-full py-3.5 rounded-full bg-[#1a1a1a] text-white text-xs font-mono font-bold tracking-[0.2em] uppercase flex items-center justify-center gap-2 shadow-md hover:bg-[#B76E79] transition-colors"
             >
               <Play size={13} className="fill-current" />
               <span>LISTEN NOW</span>
@@ -124,7 +124,7 @@ export function MobileMenu({
                 onOpenSearch();
                 onClose();
               }}
-              className="w-full py-3.5 rounded-full border border-white/20 text-xs font-mono tracking-[0.2em] uppercase text-white/80 flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-full bg-white border border-[#1a1a1a]/20 text-xs font-mono tracking-[0.2em] uppercase text-[#1a1a1a] flex items-center justify-center gap-2 hover:border-[#1a1a1a]/50 transition-colors"
             >
               <Search size={13} />
               <span>SEARCH KINGSHADP</span>

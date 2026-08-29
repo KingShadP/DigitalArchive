@@ -99,112 +99,69 @@ export function NowPlaying({
   return (
     <section
       id="now-playing"
-      className="relative w-full py-28 sm:py-36 px-6 sm:px-12 md:px-16 bg-black/60 backdrop-blur-xl border-t border-white/5 text-[#F4F1EC] select-none"
+      className="relative w-full py-24 sm:py-32 px-6 sm:px-12 md:px-16 bg-[#f8f7f4] text-[#1a1a1a] select-none border-b border-[#1a1a1a]/10"
     >
-      <div className="max-w-7xl mx-auto flex flex-col gap-16 sm:gap-20">
-        {/* Section Header */}
+      <div className="max-w-7xl mx-auto flex flex-col gap-14 sm:gap-18">
+        
+        {/* Section Sub-header */}
         <Reveal>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#1a1a1a]/10 pb-6">
             <div>
-              <span className="text-[10px] font-mono tracking-[0.35em] uppercase text-[#B76E79] block">
-                &#47;&#47; CURRENT RELEASE
+              <span className="text-[10px] font-mono tracking-[0.35em] uppercase text-[#B76E79] block font-semibold">
+                CURRENT MASTER // CODEX 01
               </span>
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-extralight tracking-tight uppercase text-white mt-1">
-                NOW <span className="font-editorial italic font-normal text-white/90">PLAYING</span>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-light tracking-tight text-[#1a1a1a] mt-1 font-serif">
+                Now <span className="font-editorial italic font-normal text-[#B76E79]">Playing.</span>
               </h2>
             </div>
             <div className="text-right">
-              <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-white/40 block">
+              <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-[#1a1a1a]/50 block">
                 CATALOGUE: {release.catalogNumber}
               </span>
-              <span className="text-xs font-mono text-white/80 tracking-wider">
+              <span className="text-xs font-mono text-[#1a1a1a]/80 tracking-wider">
                 {release.era} {'//'} {release.year}
               </span>
             </div>
           </div>
         </Reveal>
 
-        {/* Master Audio Stage Container */}
+        {/* Master Audio Stage Container (Two Column Design) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-14 items-center">
-          {/* Left Column: Large Vinyl Artwork Presentation */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
+          
+          {/* Left Column: Crisp White Player Shell Card */}
+          <div className="lg:col-span-6">
             <Reveal delay={0.1}>
-              <div className="relative w-full max-w-[420px] aspect-square rounded-2xl overflow-hidden border border-white/15 shadow-2xl group bg-black/40">
-                <Image
-                  src={release.artwork}
-                  alt={release.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  referrerPolicy="no-referrer"
-                />
-
-                {/* Vinyl Grooves Center Highlight */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
-
-                {/* Central Play/Pause Trigger Badge */}
-                <button
-                  onClick={onTogglePlay}
-                  data-cursor={isPlaying ? 'PAUSE' : 'PLAY'}
-                  aria-label={isPlaying ? 'Pause playback' : 'Start playback'}
-                  className="absolute inset-0 m-auto w-20 h-20 rounded-full bg-white/20 backdrop-blur-xl border border-white/40 flex items-center justify-center text-white hover:scale-110 hover:bg-white hover:text-black transition-all cursor-pointer shadow-2xl z-10"
-                >
-                  {isPlaying ? (
-                    <Pause size={28} className="fill-current" />
-                  ) : (
-                    <Play size={28} className="fill-current ml-1" />
-                  )}
-                </button>
-
-                {/* Sub-label */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[9px] font-mono tracking-widest uppercase text-white/70">
-                  <span>{release.artist}</span>
-                  <span>{activeTrack.duration}</span>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-
-          {/* Right Column: Track Info, Tracklist, Acoustics, Actions */}
-          <div className="lg:col-span-7 flex flex-col gap-6 sm:gap-8">
-            <Reveal delay={0.2}>
-              <div className="flex flex-col gap-2">
+              <div className="player-shell flex flex-col gap-5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-[#B76E79]">
-                    {release.artist} {'//'} {release.subtitle}
+                  <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-[#B76E79] font-bold">
+                    Current Master
                   </span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[9px] font-mono tracking-widest text-emerald-400 flex items-center gap-1 uppercase">
-                      <span className={`w-1.5 h-1.5 rounded-full ${isPlaying ? 'bg-emerald-400 animate-ping' : 'bg-white/20'}`} />
-                      {isPlaying ? 'STREAM LIVE' : 'STANDBY'}
-                    </span>
-                  </div>
+                  <span className="text-[9px] font-mono tracking-widest text-emerald-600 flex items-center gap-1.5 uppercase font-medium">
+                    <span className={`w-1.5 h-1.5 rounded-full ${isPlaying ? 'bg-emerald-500 animate-ping' : 'bg-black/20'}`} />
+                    {isPlaying ? 'STREAM LIVE' : 'STANDBY'}
+                  </span>
                 </div>
 
-                <h3 className="text-2xl sm:text-4xl md:text-5xl font-light tracking-wide uppercase text-white leading-tight">
-                  {activeTrack.title}
-                </h3>
-                <p className="text-xs sm:text-sm font-light text-white/60 leading-relaxed max-w-xl mt-1">
-                  {trackWorld.story ||
-                    'Synthesizing sub-bass frequency vectors, orchestral brass friction, and vacuum pauses to evoke the sovereign gait of the Giragon.'}
-                </p>
-              </div>
-            </Reveal>
+                <div>
+                  <h3 className="text-2xl sm:text-4xl md:text-5xl font-light tracking-tight text-[#1a1a1a] font-serif leading-tight">
+                    {activeTrack.title}
+                  </h3>
+                  <span className="text-xs font-mono text-[#1a1a1a]/50 uppercase tracking-widest block mt-1">
+                    {release.artist} — {activeTrack.number}
+                  </span>
+                </div>
 
-            {/* Interactive Waveform Scrubber Stage */}
-            <Reveal delay={0.22}>
-              <div className="p-4 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md flex flex-col gap-3">
-                {/* 24-Band Frequency Spectrum Visualizer */}
-                <div className="flex items-end justify-between h-8 gap-1 px-1">
-                  {[45, 65, 80, 50, 90, 70, 40, 85, 95, 60, 45, 75, 85, 60, 95, 70, 50, 80, 65, 45, 60, 75, 90, 55].map((val, i) => {
-                    const dynamicHeight = isPlaying ? Math.max(15, (val * ((i % 3) + 1)) % 100) : 10;
+                {/* Animated Rose-Gold Waveform Bars */}
+                <div className="waveform flex items-end gap-1.5 h-12 my-2">
+                  {[35, 55, 75, 45, 85, 95, 60, 40, 70, 90, 65, 80, 50, 75, 95, 85, 45, 60, 90, 70, 50, 80, 65, 40, 85, 60].map((val, i) => {
+                    const dynamicHeight = isPlaying ? Math.max(15, (val * ((i % 3) + 1)) % 100) : 18;
                     return (
                       <motion.div
                         key={i}
                         animate={{ height: `${dynamicHeight}%` }}
-                        transition={{ duration: 0.25, repeat: isPlaying ? Infinity : 0, repeatType: 'reverse', delay: i * 0.02 }}
-                        className={`w-full rounded-t-sm transition-colors ${
-                          isPlaying ? 'bg-gradient-to-t from-white/30 to-[#B76E79]' : 'bg-white/10'
-                        }`}
+                        transition={{ duration: 0.2, repeat: isPlaying ? Infinity : 0, repeatType: 'reverse', delay: i * 0.015 }}
+                        className="bar w-1.5 rounded-sm bg-[#B76E79]"
+                        style={{ height: `${dynamicHeight}%` }}
                       />
                     );
                   })}
@@ -213,80 +170,83 @@ export function NowPlaying({
                 {/* Scrubber Progress Bar */}
                 <div
                   onClick={handleSeek}
-                  className="relative w-full h-1.5 bg-white/10 rounded-full overflow-hidden cursor-pointer group"
+                  className="relative w-full h-1.5 bg-[#1a1a1a]/10 rounded-full overflow-hidden cursor-pointer group"
                 >
                   <div
-                    className="absolute top-0 left-0 bottom-0 bg-white group-hover:bg-[#B76E79] transition-all"
+                    className="absolute top-0 left-0 bottom-0 bg-[#1a1a1a] group-hover:bg-[#B76E79] transition-all"
                     style={{ width: `${(currentTimeSec / durationSec) * 100}%` }}
                   />
                 </div>
 
-                {/* Time & Telemetry Labels */}
-                <div className="flex items-center justify-between text-[9px] font-mono tracking-wider text-white/40">
-                  <div className="flex items-center gap-3">
-                    <span className="text-white">{formatTime(currentTimeSec)}</span>
-                    <span>/</span>
-                    <span>{formatTime(durationSec)}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span>DYNAMIC RANGE: {release.technicalSpecs.dynamicRange}</span>
-                    <span>PEAK: -0.1 dBTP</span>
-                  </div>
+                {/* Time & Telemetry Indicators */}
+                <div className="flex items-center justify-between text-xs font-mono text-[#1a1a1a]/70 pt-1">
+                  <span>{formatTime(currentTimeSec)} / {formatTime(durationSec)}</span>
+                  <span className="text-[#B76E79] font-bold">{tuningMode}</span>
+                </div>
+
+                {/* Track Selector List */}
+                <div className="flex flex-col border-t border-[#1a1a1a]/10 pt-4 gap-1.5">
+                  {release.tracks.map((t) => {
+                    const isCurrent = t.id === activeTrack.id;
+                    return (
+                      <div
+                        key={t.id}
+                        onClick={() => handleTrackSelectInternal(t.id)}
+                        className={`py-2 px-3 rounded-lg flex items-center justify-between text-xs transition-all cursor-pointer ${
+                          isCurrent
+                            ? 'bg-[#1a1a1a] text-white font-medium shadow-sm'
+                            : 'text-[#1a1a1a]/70 hover:bg-[#1a1a1a]/5'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className={`font-mono text-[10px] ${isCurrent ? 'text-[#B76E79]' : 'opacity-50'}`}>
+                            {t.number}
+                          </span>
+                          <span className="font-sans font-medium uppercase tracking-wide">
+                            {t.title}
+                          </span>
+                        </div>
+                        <span className="font-mono text-[10px] opacity-60">{t.duration}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </Reveal>
+          </div>
 
-            {/* Interactive Track List */}
-            <Reveal delay={0.25}>
-              <div className="flex flex-col border-y border-white/10 divide-y divide-white/5 py-1">
-                {release.tracks.map((t) => {
-                  const isCurrent = t.id === activeTrack.id;
-                  return (
-                    <div
-                      key={t.id}
-                      onClick={() => handleTrackSelectInternal(t.id)}
-                      data-cursor="PLAY"
-                      className={`py-3 px-3 rounded-lg flex items-center justify-between transition-all cursor-pointer ${
-                        isCurrent
-                          ? 'bg-white/10 text-white font-medium shadow-inner'
-                          : 'text-white/50 hover:text-white hover:bg-white/[0.03]'
-                      }`}
-                    >
-                      <div className="flex items-center gap-4">
-                        <span className="text-[10px] font-mono tracking-widest text-[#B76E79]">
-                          {t.number}
-                        </span>
-                        <span className="text-xs sm:text-sm tracking-wide uppercase">
-                          {t.title}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-4 text-[10px] font-mono tracking-wider">
-                        <span className="text-white/40">{t.tuning}</span>
-                        <span>{t.duration}</span>
-                      </div>
-                    </div>
-                  );
-                })}
+          {/* Right Column: Master Analysis & Controls */}
+          <div className="lg:col-span-6 flex flex-col gap-6 sm:gap-8">
+            <Reveal delay={0.2}>
+              <div className="flex flex-col gap-3">
+                <span className="text-[11px] font-mono tracking-[0.25em] uppercase text-[#1a1a1a]/50">
+                  Analysis
+                </span>
+                <p className="text-lg sm:text-2xl font-light text-[#1a1a1a] leading-relaxed font-serif">
+                  &ldquo;{trackWorld.story || 'Constructed around a deep 28Hz fundamental drone overlaid with staccato brass harmonics and vacuum decay intervals.'}&rdquo;
+                </p>
+                <p className="text-xs sm:text-sm font-light text-[#1a1a1a]/70 leading-relaxed max-w-xl">
+                  {activeTrack.notes || 'Mastered to Pythagorean natural resonance, emphasizing physical presence and monolithic acoustic impact.'}
+                </p>
               </div>
             </Reveal>
 
             {/* Acoustic Tuning & Resonance Engine Controls */}
-            <Reveal delay={0.3}>
+            <Reveal delay={0.25}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* 432 Hz vs 440 Hz Tuning Switcher */}
-                <div className="p-3.5 rounded-xl border border-white/10 bg-white/[0.02] flex items-center justify-between">
+                <div className="p-3.5 rounded-xl border border-[#1a1a1a]/10 bg-white/70 flex items-center justify-between shadow-sm">
                   <div className="flex flex-col">
-                    <span className="text-[8px] font-mono tracking-widest uppercase text-white/40">ACOUSTIC TUNING</span>
-                    <span className="text-xs font-mono text-white tracking-wider">
-                      {tuningMode === '432Hz' ? '432 Hz NATURAL PYTHAGOREAN' : '440 Hz STANDARD CONCERT'}
+                    <span className="text-[8px] font-mono tracking-widest uppercase text-[#1a1a1a]/50">TUNING MODE</span>
+                    <span className="text-xs font-mono text-[#1a1a1a] font-semibold">
+                      {tuningMode === '432Hz' ? '432 Hz PYTHAGOREAN' : '440 Hz STANDARD'}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 bg-black/60 p-1 rounded-full border border-white/10">
+                  <div className="flex items-center gap-1 bg-[#1a1a1a]/5 p-1 rounded-full border border-[#1a1a1a]/10">
                     <button
                       onClick={() => handleTuningToggle('432Hz')}
                       className={`px-2.5 py-1 rounded-full text-[9px] font-mono tracking-wider transition-all cursor-pointer ${
-                        tuningMode === '432Hz' ? 'bg-white text-black font-bold' : 'text-white/50 hover:text-white'
+                        tuningMode === '432Hz' ? 'bg-[#1a1a1a] text-white font-bold' : 'text-[#1a1a1a]/60 hover:text-[#1a1a1a]'
                       }`}
                     >
                       432Hz
@@ -294,7 +254,7 @@ export function NowPlaying({
                     <button
                       onClick={() => handleTuningToggle('440Hz')}
                       className={`px-2.5 py-1 rounded-full text-[9px] font-mono tracking-wider transition-all cursor-pointer ${
-                        tuningMode === '440Hz' ? 'bg-white text-black font-bold' : 'text-white/50 hover:text-white'
+                        tuningMode === '440Hz' ? 'bg-[#1a1a1a] text-white font-bold' : 'text-[#1a1a1a]/60 hover:text-[#1a1a1a]'
                       }`}
                     >
                       440Hz
@@ -303,19 +263,19 @@ export function NowPlaying({
                 </div>
 
                 {/* 28 Hz Sub-Harmonic Binaural Grounding */}
-                <div className="p-3.5 rounded-xl border border-white/10 bg-white/[0.02] flex items-center justify-between">
+                <div className="p-3.5 rounded-xl border border-[#1a1a1a]/10 bg-white/70 flex items-center justify-between shadow-sm">
                   <div className="flex flex-col">
-                    <span className="text-[8px] font-mono tracking-widest uppercase text-white/40">SUB-HARMONIC DRONE</span>
-                    <span className="text-xs font-mono text-white tracking-wider">
-                      {subHarmonicActive ? '28 Hz INFRASOUND ACTIVE' : 'INFRASOUND MUTED'}
+                    <span className="text-[8px] font-mono tracking-widest uppercase text-[#1a1a1a]/50">SUB-HARMONIC DRONE</span>
+                    <span className="text-xs font-mono text-[#1a1a1a] font-semibold">
+                      {subHarmonicActive ? '28 Hz ENGAGED' : '28 Hz STANDBY'}
                     </span>
                   </div>
                   <button
                     onClick={handleSubToggle}
                     className={`px-3 py-1.5 rounded-full text-[9px] font-mono tracking-wider uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
                       subHarmonicActive
-                        ? 'bg-[#B76E79] text-white font-bold shadow-lg'
-                        : 'border border-white/20 text-white/60 hover:text-white'
+                        ? 'bg-[#B76E79] text-white font-bold shadow-md'
+                        : 'border border-[#1a1a1a]/20 text-[#1a1a1a]/70 hover:text-[#1a1a1a]'
                     }`}
                   >
                     <Activity size={11} className={subHarmonicActive ? 'animate-pulse' : ''} />
@@ -325,69 +285,49 @@ export function NowPlaying({
               </div>
             </Reveal>
 
-            {/* Playback Controls & External Streaming Platforms */}
-            <Reveal delay={0.35}>
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={onTogglePlay}
-                    data-cursor={isPlaying ? 'PAUSE' : 'PLAY'}
-                    className="px-6 py-3 rounded-full bg-[#F4F1EC] text-[#050505] text-xs font-mono font-bold tracking-[0.2em] uppercase hover:bg-white transition-all flex items-center gap-2 shadow-lg cursor-pointer"
-                  >
-                    {isPlaying ? <Pause size={13} /> : <Play size={13} className="fill-current" />}
-                    <span>{isPlaying ? 'PAUSE PLAYBACK' : 'PLAY MASTER TRACK'}</span>
-                  </button>
+            {/* Action Buttons Matching Design Variation */}
+            <Reveal delay={0.3}>
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <button
+                  onClick={onTogglePlay}
+                  data-cursor={isPlaying ? 'PAUSE' : 'PLAY'}
+                  className="btn-pill btn-pill-primary text-xs font-bold shadow-md cursor-pointer"
+                >
+                  {isPlaying ? <Pause size={13} /> : <Play size={13} className="fill-current" />}
+                  <span>{isPlaying ? 'PAUSE PLAYBACK' : 'PLAY MASTER TRACK'}</span>
+                </button>
 
-                  <button
-                    onClick={() => setShowRecordExplorer(true)}
-                    className="px-4 py-3 rounded-full border border-white/20 text-xs font-mono tracking-[0.2em] uppercase transition-all flex items-center gap-2 text-white/80 hover:text-white hover:border-white/40 cursor-pointer"
-                  >
-                    <Compass size={13} className="text-[#B76E79]" />
-                    <span>EXPLORE THIS RECORD</span>
-                  </button>
+                <button
+                  onClick={() => setShowLyrics(!showLyrics)}
+                  className="btn-pill text-xs border-[#1a1a1a]/20 hover:border-[#1a1a1a] bg-white cursor-pointer"
+                >
+                  <FileText size={13} className="text-[#B76E79]" />
+                  <span>SCORE NOTES</span>
+                </button>
 
-                  <button
-                    onClick={() => setShowLyrics(!showLyrics)}
-                    className={`px-4 py-3 rounded-full border text-xs font-mono tracking-[0.2em] uppercase transition-all flex items-center gap-2 cursor-pointer ${
-                      showLyrics
-                        ? 'border-white bg-white/10 text-white'
-                        : 'border-white/20 text-white/60 hover:text-white hover:border-white/40'
-                    }`}
-                  >
-                    <FileText size={13} />
-                    <span>SCORE NOTES</span>
-                  </button>
-                </div>
+                <button
+                  onClick={() => setShowRecordExplorer(true)}
+                  className="btn-pill text-xs border-[#1a1a1a]/20 hover:border-[#1a1a1a] bg-white cursor-pointer"
+                >
+                  <Compass size={13} />
+                  <span>EXPLORE RECORD</span>
+                </button>
+              </div>
 
-                {/* External Streaming Platform Anchors */}
-                <div className="flex items-center gap-3 text-[9px] font-mono tracking-widest uppercase text-white/50">
-                  <a
-                    href={release.links.spotify}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors"
-                  >
-                    SPOTIFY
-                  </a>
-                  <span>/</span>
-                  <a
-                    href={release.links.appleMusic}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors"
-                  >
-                    APPLE
-                  </a>
-                  <span>/</span>
-                  <a
-                    href={release.links.youtube}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors"
-                  >
-                    YOUTUBE
-                  </a>
-                </div>
+              {/* Streaming Links */}
+              <div className="flex items-center gap-3 text-[10px] font-mono tracking-widest uppercase text-[#1a1a1a]/50 pt-4">
+                <span>PLATFORMS:</span>
+                <a href={release.links.spotify} target="_blank" rel="noopener noreferrer" className="hover:text-[#B76E79] transition-colors">
+                  SPOTIFY
+                </a>
+                <span>/</span>
+                <a href={release.links.appleMusic} target="_blank" rel="noopener noreferrer" className="hover:text-[#B76E79] transition-colors">
+                  APPLE
+                </a>
+                <span>/</span>
+                <a href={release.links.youtube} target="_blank" rel="noopener noreferrer" className="hover:text-[#B76E79] transition-colors">
+                  YOUTUBE
+                </a>
               </div>
             </Reveal>
 
@@ -398,16 +338,16 @@ export function NowPlaying({
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="overflow-hidden border-t border-white/10 pt-4 flex flex-col gap-3"
+                  className="overflow-hidden border-t border-[#1a1a1a]/10 pt-4 flex flex-col gap-3 bg-white/60 p-4 rounded-xl"
                 >
-                  <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-[#B76E79]">
+                  <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-[#B76E79] font-bold">
                     MANUSCRIPT & COMPOSITION CODEX
                   </span>
-                  <p className="text-xs font-light text-white/70 italic leading-relaxed pl-4 border-l-2 border-[#B76E79]">
+                  <p className="text-xs font-light text-[#1a1a1a]/80 italic leading-relaxed pl-3 border-l-2 border-[#B76E79]">
                     {activeTrack.notes}
                   </p>
                   {activeTrack.lyrics && (
-                    <div className="flex flex-col gap-1 pl-4 pt-1 font-editorial text-sm sm:text-base text-white/80">
+                    <div className="flex flex-col gap-1 pl-3 pt-1 font-serif text-sm text-[#1a1a1a]/90">
                       {activeTrack.lyrics.map((line, i) => (
                         <p key={i}>{line}</p>
                       ))}

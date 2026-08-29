@@ -1,11 +1,20 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Geist:wght@100;200;300;400;500;600;700&family=Geist+Mono:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
 
 :root {
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color-scheme: dark;
+  --bg: #f8f7f4;
+  --ink: #1a1a1a;
+  --accent: #b76e79;
+  --ink-faint: rgba(26, 26, 26, 0.06);
+  --ink-muted: rgba(26, 26, 26, 0.6);
+  --white: #ffffff;
+  
+  /* Font Families */
+  --font-serif: 'Cormorant Garamond', 'Instrument Serif', Georgia, serif;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
 
-  /* Precision Hero Unit System (1487 × 1058 reference stage) */
+  /* Precision Hero Unit System */
   --u: calc(100vh / 1058);
   --uw: calc(100vw / 1487);
   --h: clamp(
@@ -13,19 +22,6 @@
     calc(var(--u) * .65 + var(--uw) * .35),
     calc(var(--u) * 1.16)
   );
-
-  /* Foundations */
-  --color-matte-black: #080808;
-  --color-void-black: #050505;
-  --color-warm-white: #F4F1EC;
-  --color-platinum: #D7D6D2;
-  --color-soft-gray: #A7A6A6;
-
-  /* KingShadP Accents */
-  --color-oxblood: #8A0F19;
-  --color-deep-crimson: #5E0008;
-  --color-signal-red: #93000A;
-  --color-rose-gold: #B76E79;
 }
 
 @supports (height: 100dvh) {
@@ -34,162 +30,205 @@
   }
 }
 
-@media (max-aspect-ratio: 11/10) {
-  :root {
-    --m: min(calc(100vw / 430), 1.34px);
-    --u: var(--m);
-  }
-}
-
-@media (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
-  :root {
-    --m: min(
-      calc(100vw / 860),
-      calc(100vh / 760),
-      1.25px
-    );
-    --u: var(--m);
-  }
-}
-
 html {
   scroll-behavior: smooth;
-  background-color: #050505;
+  background-color: var(--bg);
 }
 
 body {
-  overflow-x: hidden;
-  background-color: #050505;
-  color: #F4F1EC;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, .serif {
+  font-family: var(--font-serif);
+  font-weight: 300;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
 }
 
 .font-editorial {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: var(--font-serif);
 }
 
-/* Precision Hero Video */
-.hero-video {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: min(120vw, calc(1492 * var(--u)));
-  height: max(100%, calc(1054 * var(--u)));
-  transform: translateX(-50%);
-  object-fit: cover;
-  pointer-events: none;
+/* Section Containers */
+.section-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
-/* Cinematic Bottom Blur with Mask */
-.cinematic-bottom-blur {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  mask-image: linear-gradient(
-    to top,
-    black 0%,
-    rgba(0,0,0,.9) 12%,
-    rgba(0,0,0,.4) 30%,
-    transparent 48%
-  );
-  -webkit-mask-image: linear-gradient(
-    to top,
-    black 0%,
-    rgba(0,0,0,.9) 12%,
-    rgba(0,0,0,.4) 30%,
-    transparent 48%
-  );
+@media (min-width: 640px) {
+  .section-container {
+    padding: 0 4rem;
+  }
 }
 
-/* Edge Fades */
-.edge-fade-bottom {
-  background: linear-gradient(
-    to bottom,
-    transparent 75%,
-    rgba(5,5,5,.20) 83%,
-    rgba(5,5,5,.65) 94%,
-    #050505 100%
-  );
-}
-
-/* Liquid Glass (Standard) */
-.liquid-glass {
-  background: rgba(255,255,255,.02);
-  background-blend-mode: luminosity;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: none;
-  box-shadow: inset 0 1px 1px rgba(255,255,255,.10);
+/* Discipline Card with Corner Notch Accent */
+.discipline-card {
+  padding: 2.5rem;
+  background: var(--white);
+  border: 1px solid var(--ink-faint);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   position: relative;
   overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.liquid-glass::before {
-  content: "";
+.discipline-card::after {
+  content: '';
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    180deg,
-    rgba(255,255,255,.45) 0%,
-    rgba(255,255,255,.15) 20%,
-    transparent 40%,
-    transparent 60%,
-    rgba(255,255,255,.15) 80%,
-    rgba(255,255,255,.45) 100%
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+  top: 0;
+  right: 0;
+  width: 70px;
+  height: 70px;
+  background: var(--ink-faint);
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
   pointer-events: none;
+  transition: background 0.3s ease;
 }
 
-/* Strong Liquid Glass */
-.liquid-glass-strong {
-  background: rgba(10,10,10,.75);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(255,255,255,.12);
-  box-shadow:
-    0 20px 50px rgba(0,0,0,.6),
-    inset 0 1px 1px rgba(255,255,255,.15);
+.discipline-card:hover {
+  border-color: rgba(183, 110, 121, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
 }
 
-/* Rise Animation */
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
+.discipline-card:hover::after {
+  background: rgba(183, 110, 121, 0.15);
+}
+
+/* Refined Pill Button */
+.btn-pill {
+  padding: 0.8rem 2rem;
+  border-radius: 9999px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-pill:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.btn-pill-primary {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.btn-pill-primary:hover {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+.btn-pill-accent {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.btn-pill-accent:hover {
+  background: #a35d68;
+  border-color: #a35d68;
+}
+
+/* Audio Player Shell */
+.player-shell {
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--ink-faint);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 640px) {
+  .player-shell {
+    padding: 3rem;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+}
+
+/* Waveform Visualizer */
+.waveform {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 48px;
+  margin: 1.75rem 0;
+}
+
+.waveform .bar {
+  width: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+
+/* Archive Items List */
+.archive-item {
+  display: grid;
+  grid-template-columns: 70px 110px 1fr 90px;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--ink-faint);
+  align-items: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .archive-item {
+    grid-template-columns: 50px 80px 1fr 60px;
+    padding: 1.25rem 0;
   }
 }
 
-.animate-rise {
-  animation: rise 0.7s cubic-bezier(.22, 1, .36, 1) forwards;
+.archive-item:hover {
+  padding-left: 1rem;
+  color: var(--accent);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent);
+  color: #ffffff;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 2px;
+  background: rgba(26, 26, 26, 0.2);
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(183, 110, 121, 0.5);
+  background: var(--accent);
 }

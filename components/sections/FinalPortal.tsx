@@ -13,10 +13,10 @@ interface FinalPortalProps {
 
 export function FinalPortal({ onNavigateTo, onOpenTransmission }: FinalPortalProps) {
   return (
-    <section className="relative w-full min-h-[90vh] bg-[#050505] text-[#F4F1EC] flex flex-col justify-between overflow-hidden select-none">
+    <section className="relative w-full min-h-[85vh] bg-[#f8f7f4] text-[#1a1a1a] flex flex-col justify-between overflow-hidden select-none">
       
-      {/* Background Cinematic Portal Video Environmental Plane */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-30">
+      {/* Background Subtle Ambience */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-10">
         <CinematicVideo
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260723_145606_ab143199-b593-4941-bb1b-9afca215416b.mp4"
           poster="/THE GIRAGON.png"
@@ -24,27 +24,27 @@ export function FinalPortal({ onNavigateTo, onOpenTransmission }: FinalPortalPro
           fadeLoop={true}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-[#050505]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#f8f7f4] via-[#f8f7f4]/80 to-[#f8f7f4]" />
       </div>
 
-      <div className="relative z-10 w-full pt-20" />
+      <div className="relative z-10 w-full pt-16" />
 
       {/* Center Cinematic Portal Statement */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 flex flex-col items-center text-center gap-8 my-auto py-16">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 flex flex-col items-center text-center gap-6 my-auto py-16">
         <Reveal>
-          <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center mx-auto mb-4">
+          <div className="w-12 h-12 rounded-full border border-[#1a1a1a]/20 bg-white flex items-center justify-center mx-auto mb-4 shadow-sm">
             <Compass size={20} className="text-[#B76E79]" />
           </div>
 
-          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/40 block">
+          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-[#1a1a1a]/50 block">
             ENTRY &#8594; MUSIC &#8594; VISUALS &#8594; ARCHIVE &#8594; PORTAL
           </span>
 
-          <h2 className="text-4xl sm:text-7xl font-extralight tracking-tight uppercase text-white mt-2">
-            KINGSHADP
+          <h2 className="text-4xl sm:text-7xl font-serif font-light tracking-tight text-[#1a1a1a] mt-2">
+            KingShadP
           </h2>
 
-          <p className="font-editorial text-2xl sm:text-4xl italic text-white/80 font-light mt-3">
+          <p className="font-editorial text-2xl sm:text-4xl italic text-[#1a1a1a]/80 font-light mt-3">
             The archive remains open.
           </p>
 
@@ -52,7 +52,7 @@ export function FinalPortal({ onNavigateTo, onOpenTransmission }: FinalPortalPro
             <button
               onClick={onOpenTransmission}
               data-cursor="CONTACT"
-              className="px-8 py-3.5 rounded-full bg-[#F4F1EC] text-[#050505] text-[11px] font-mono font-bold tracking-[0.22em] uppercase hover:bg-white hover:scale-105 transition-all shadow-2xl flex items-center gap-2 cursor-pointer"
+              className="btn-pill bg-[#1a1a1a] text-white hover:bg-[#B76E79] text-[11px] font-mono font-bold tracking-[0.22em] uppercase shadow-lg flex items-center gap-2"
             >
               <span>SEND TRANSMISSION</span>
               <ArrowUpRight size={12} />
@@ -60,7 +60,7 @@ export function FinalPortal({ onNavigateTo, onOpenTransmission }: FinalPortalPro
 
             <button
               onClick={() => onNavigateTo('now-playing')}
-              className="px-6 py-3.5 rounded-full border border-white/20 text-[11px] font-mono tracking-[0.22em] uppercase text-white/80 hover:text-white hover:border-white/50 transition-all cursor-pointer"
+              className="btn-pill bg-white text-[#1a1a1a] border border-[#1a1a1a]/20 hover:border-[#1a1a1a]/50 text-[11px] font-mono tracking-[0.22em] uppercase shadow-sm"
             >
               REPLAY RELEASE
             </button>
@@ -69,46 +69,46 @@ export function FinalPortal({ onNavigateTo, onOpenTransmission }: FinalPortalPro
       </div>
 
       {/* Prestige Footer */}
-      <footer className="relative z-10 w-full border-t border-white/10 px-6 sm:px-12 md:px-16 py-10 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-mono tracking-[0.25em] text-white/50 uppercase">
+      <footer className="relative z-10 w-full border-t border-[#1a1a1a]/10 bg-white/70 backdrop-blur-sm px-6 sm:px-12 md:px-16 py-10 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-mono tracking-[0.25em] text-[#1a1a1a]/60 uppercase">
         
         {/* Navigation Links */}
-        <div className="flex flex-wrap items-center justify-center gap-6">
-          <button onClick={() => onNavigateTo('now-playing')} className="hover:text-white transition-colors cursor-pointer">
+        <div className="flex flex-wrap items-center justify-center gap-6 font-semibold">
+          <button onClick={() => onNavigateTo('now-playing')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
             MUSIC
           </button>
-          <button onClick={() => onNavigateTo('the-work')} className="hover:text-white transition-colors cursor-pointer">
+          <button onClick={() => onNavigateTo('the-work')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
             VISUALS
           </button>
-          <button onClick={() => onNavigateTo('archive-index')} className="hover:text-white transition-colors cursor-pointer">
+          <button onClick={() => onNavigateTo('archive-index')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
             ARCHIVE
           </button>
-          <button onClick={() => onNavigateTo('manifesto')} className="hover:text-white transition-colors cursor-pointer">
+          <button onClick={() => onNavigateTo('manifesto')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
             STORY
           </button>
-          <button onClick={() => onNavigateTo('selected-objects')} className="hover:text-white transition-colors cursor-pointer">
+          <button onClick={() => onNavigateTo('selected-objects')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
             SHOP
           </button>
         </div>
 
         {/* Streaming Platforms */}
-        <div className="flex flex-wrap items-center justify-center gap-4 text-white/40">
-          <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+        <div className="flex flex-wrap items-center justify-center gap-4 text-[#1a1a1a]/40">
+          <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#1a1a1a] transition-colors">
             SPOTIFY
           </a>
           <span>·</span>
-          <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+          <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#1a1a1a] transition-colors">
             APPLE MUSIC
           </a>
           <span>·</span>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#1a1a1a] transition-colors">
             YOUTUBE
           </a>
           <span>·</span>
-          <a href="https://soundcloud.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+          <a href="https://soundcloud.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#1a1a1a] transition-colors">
             SOUNDCLOUD
           </a>
           <span>·</span>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#1a1a1a] transition-colors">
             INSTAGRAM
           </a>
         </div>
@@ -116,7 +116,7 @@ export function FinalPortal({ onNavigateTo, onOpenTransmission }: FinalPortalPro
         {/* Copyright */}
         <div className="flex items-center gap-2">
           <span>© 2026 KINGSHADP</span>
-          <span className="text-[#B76E79]">SANCTUM</span>
+          <span className="text-[#B76E79] font-bold">SANCTUM</span>
         </div>
 
       </footer>
