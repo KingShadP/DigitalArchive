@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 
 interface GiragonSculptureProps {
   className?: string;
@@ -68,14 +68,14 @@ export function GiragonSculpture({
           transformStyle: 'preserve-3d',
         }}
         animate={{
-          y: isHovered ? -6 : [0, -8, 0],
+          y: isHovered ? -5 : [-10, 10],
+          rotateZ: isHovered ? 0 : [-1, 1],
         }}
         transition={{
-          y: {
-            repeat: isHovered ? 0 : Infinity,
-            duration: 6,
-            ease: 'easeInOut',
-          },
+          repeat: isHovered ? 0 : Infinity,
+          repeatType: 'reverse',
+          duration: 6,
+          ease: 'easeInOut',
         }}
         className="relative w-full h-full flex items-center justify-center"
       >

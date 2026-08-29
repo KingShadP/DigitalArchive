@@ -3,25 +3,44 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { X, ExternalLink } from 'lucide-react';
+import { GiragonSculpture } from './GiragonSculpture';
 
 interface ArchiveModalProps {
   isOpen: boolean;
   onClose: () => void;
-  initialTab?: 'visuals' | 'vision' | 'archive';
+  initialTab?: 'all' | 'visuals' | 'art' | 'vision' | 'archive';
 }
 
 const ARCHIVE_ITEMS = [
   {
-    title: 'Giragon Sculpture (Sanctum Edition)',
+    title: 'The Giragon Sculpture (Sanctum Edition)',
     category: 'Visual Monolith',
     src: '/girgonglory.png',
     desc: 'The iconic hybrid signature of KingShadP, fusing serpentine elegance, giraffe silhouette, and dragon wing architecture.',
   },
   {
+    title: 'The Giragon // Sovereign Monolith',
+    category: 'Visual Monolith',
+    src: '/THE GIRAGON.png',
+    desc: 'Cinematic keyframe capturing the sovereign manifestation in raytraced volumetric space.',
+  },
+  {
+    title: 'Rose Gold Giragon Study',
+    category: 'Visual Monolith',
+    src: '/ROSE GOLD GIRAGON.png',
+    desc: 'Exploration of monolithic anatomy, brushed metallic reflectivity, and acoustic resonance balance.',
+  },
+  {
     title: 'Behold the Twisted Beast',
     category: 'Original Music & Key Art',
-    src: '/twisted-beast-cover.png',
-    desc: 'Flagship composition visual identity, rendered with dark cinematic atmosphere and deep crimson undertones.',
+    src: '/TWISTED BEART COVER ART.png',
+    desc: 'Flagship composition visual identity, rendered with dark cinematic atmosphere and deep rose gold undertones.',
+  },
+  {
+    title: 'KingShadP Portrait Monograph',
+    category: 'Digital Identity',
+    src: '/KINGSHADP PHOTO.png',
+    desc: 'Executive photographic study capturing tonal depth, discipline, and presence.',
   },
   {
     title: 'KingShadP Visual Identity Key',
@@ -30,34 +49,10 @@ const ARCHIVE_ITEMS = [
     desc: 'Primary atmospheric environment keyframe detailing architectural lighting and platinum accents.',
   },
   {
-    title: 'Sanctum 3D World Keyframe I',
-    category: 'Worldbuilding',
-    src: '/hf_20260807_160838_54049bc3-26a4-4b97-9c76-4259cb8d00aa.png',
-    desc: 'Atmospheric volumetric lighting studies exploring the convergence of sound, geometry, and identity.',
-  },
-  {
-    title: 'Sanctum 3D World Keyframe II',
-    category: 'Worldbuilding',
-    src: '/hf_20260808_023117_962b19e0-88eb-4e4e-88b4-5b773a65f702.png',
-    desc: 'High-altitude cloudscape perspective capturing the physical scale of the current creative era.',
-  },
-  {
-    title: 'Cinematic Visual Exploration I',
+    title: 'Emblematic Sovereign Sigil',
     category: 'Archive Artwork',
-    src: '/ChatGPT Image Aug 7, 2026, 09_53_55 PM.png',
-    desc: 'Experimental character design and sculptural form development from the KingShadP design archive.',
-  },
-  {
-    title: 'Cinematic Visual Exploration II',
-    category: 'Archive Artwork',
-    src: '/ChatGPT Image Aug 7, 2026, 09_54_02 PM.png',
-    desc: 'Exploration of metallic textures, brushed rose gold, and deep shadow contrasts.',
-  },
-  {
-    title: 'Atmospheric Sanctum Study',
-    category: 'Archive Artwork',
-    src: '/ChatGPT Image Aug 7, 2026, 10_29_51 PM.png',
-    desc: 'Atmospheric light and mist interaction studies for the cinematic sequence timeline.',
+    src: '/KINGSHADP-logos_transparent.png',
+    desc: 'High-contrast transparent vector sigil representing sovereign creative autonomy.',
   },
 ];
 
@@ -82,8 +77,16 @@ export function ArchiveModal({ isOpen, onClose, initialTab = 'archive' }: Archiv
 
       {/* Modal Container */}
       <div className="relative z-10 w-full max-w-5xl max-h-[90vh] bg-[#0A0A0A] border border-white/10 rounded-2xl flex flex-col shadow-2xl overflow-hidden">
+        
+        {/* Floating Digital Sculpture Background */}
+        {activeTab === 'visuals' && (
+          <div className="absolute inset-0 z-0 flex items-center justify-center opacity-40 pointer-events-none mix-blend-screen">
+            <GiragonSculpture size="hero" showHalo={true} interactive={false} />
+          </div>
+        )}
+
         {/* Modal Top Bar */}
-        <div className="flex items-center justify-between px-6 sm:px-8 py-6 border-b border-white/10 shrink-0">
+        <div className="relative z-10 flex items-center justify-between px-6 sm:px-8 py-6 border-b border-white/10 shrink-0 bg-[#0A0A0A]/60 backdrop-blur-md">
           <div className="flex items-center gap-6">
             <div>
               <span className="text-[10px] tracking-[0.3em] uppercase text-[#B76E79] block font-medium">
@@ -145,7 +148,7 @@ export function ArchiveModal({ isOpen, onClose, initialTab = 'archive' }: Archiv
         </div>
 
         {/* Modal Scroll Content */}
-        <div className="p-6 sm:p-8 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+        <div className="relative z-10 p-6 sm:p-8 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {filteredItems.map((item, idx) => (
             <div
               key={idx}
@@ -186,7 +189,7 @@ export function ArchiveModal({ isOpen, onClose, initialTab = 'archive' }: Archiv
         </div>
 
         {/* Footer info banner */}
-        <div className="px-6 sm:px-8 py-3 bg-white/[0.02] border-t border-white/10 flex items-center justify-between text-[11px] text-white/40 tracking-wider uppercase">
+        <div className="relative z-10 px-6 sm:px-8 py-3 bg-white/[0.05] backdrop-blur-md border-t border-white/10 flex items-center justify-between text-[11px] text-white/40 tracking-wider uppercase">
           <span>8 ASSETS IN CURATED ARCHIVE</span>
           <span className="hidden sm:inline">ORIGINAL MEDIA © KINGSHADP</span>
         </div>

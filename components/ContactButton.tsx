@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Mail, Check, Sparkles, X, ArrowRight, Send } from 'lucide-react';
 
 interface ContactButtonProps {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { FadeIn } from './FadeIn';
 import { LiveProjectButton } from './LiveProjectButton';
 import { X, ExternalLink, Sparkles } from 'lucide-react';

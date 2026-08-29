@@ -136,7 +136,7 @@ export const RELEASES: Release[] = [
     title: "Unfinished. Unedited. Untitled.",
     type: "ep",
     releaseDate: "September 19, 2023",
-    artworkUrl: "/hf_20260808_023117_962b19e0-88eb-4e4e-88b4-5b773a65f702.png",
+    artworkUrl: "/ROSE GOLD GIRAGON.png",
     description: "A 5-track breakthrough EP running approximately 16 minutes. Turns incompleteness into an artistic position, capturing raw artistic process in motion.",
     notes: "Released September 19, 2023. Five tracks capturing directness and resistance to being softened. Features 'Two Things!', 'Ksp God Flow', 'Ice King Shit', 'KingShit', and 'Reality'.",
     tracks: [
@@ -161,7 +161,7 @@ export const RELEASES: Release[] = [
     title: "LET'S GET HIGH & MAKE MUSIC",
     type: "mix",
     releaseDate: "August 13, 2022",
-    artworkUrl: "/hf_20260807_160838_54049bc3-26a4-4b97-9c76-4259cb8d00aa.png",
+    artworkUrl: "/THE GIRAGON.png",
     description: "An archival 24-track collection representing the early Miami digital catalog. Remastered and preserved as foundational creative history.",
     notes: "Contains Miami-anchored records ('MIAMI', '4AM in Miami Freestyle'), motivational declarations, and experimental beats. Shows the early progression from independent uploads to a unified identity.",
     tracks: [
