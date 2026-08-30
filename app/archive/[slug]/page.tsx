@@ -9,8 +9,9 @@ export function generateStaticParams() {
   return getArchiveEntries().map(({ slug }) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const entry = findArchiveBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const entry = findArchiveBySlug(slug);
   if (!entry) {
     return buildMetadata({
       title: 'Archive record not found | KingShadP',
@@ -23,17 +24,18 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   return buildMetadata({
     title: `${entry.record.title} | Archive | KingShadP`,
     description: entry.record.description,
-    path: `/archive/${entry.slug}`,
+    path: `/archive/${slug}`,
     image: entry.record.thumbnail,
     type: 'article',
   });
 }
 
-export default function ArchiveDetailPage({ params }: { params: { slug: string } }) {
-  const entry = findArchiveBySlug(params.slug);
+export default async function ArchiveDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const entry = findArchiveBySlug(slug);
   if (!entry) notFound();
 
-  const { record, slug } = entry;
+  const { record, slug: archiveSlug } = entry;
 
   return (
     <main className="min-h-screen bg-[#f8f7f4] text-[#1a1a1a] px-6 sm:px-12 md:px-16 py-28">
@@ -43,7 +45,7 @@ export default function ArchiveDetailPage({ params }: { params: { slug: string }
           {
             '@type': 'WebPage',
             name: record.title,
-            url: canonicalFor(`/archive/${slug}`),
+            url: canonicalFor(`/archive/${archiveSlug}`),
           },
           {
             '@type': record.type === 'WRITING' ? 'Article' : 'CreativeWork',
@@ -51,14 +53,14 @@ export default function ArchiveDetailPage({ params }: { params: { slug: string }
             datePublished: `${record.year}`,
             image: canonicalFor(record.thumbnail),
             description: record.description,
-            url: canonicalFor(`/archive/${slug}`),
+            url: canonicalFor(`/archive/${archiveSlug}`),
           },
           {
             '@type': 'BreadcrumbList',
             itemListElement: [
               { '@type': 'ListItem', position: 1, name: 'Home', item: canonicalFor('/') },
               { '@type': 'ListItem', position: 2, name: 'Archive', item: canonicalFor('/archive') },
-              { '@type': 'ListItem', position: 3, name: record.title, item: canonicalFor(`/archive/${slug}`) },
+              { '@type': 'ListItem', position: 3, name: record.title, item: canonicalFor(`/archive/${archiveSlug}`) },
             ],
           },
         ])}

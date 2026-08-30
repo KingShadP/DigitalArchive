@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { products } from '@/data/products';
 import { buildMetadata, canonicalFor, jsonLd } from '@/lib/seo';
+import { getProductEntries } from '@/lib/content-routes';
 
 export const metadata = buildMetadata({
   title: 'Shop | KingShadP',
@@ -11,15 +12,26 @@ export const metadata = buildMetadata({
 });
 
 export default function ShopPage() {
+  const entries = getProductEntries();
+
   return (
     <main className="min-h-screen bg-[#f8f7f4] text-[#1a1a1a] px-6 sm:px-12 md:px-16 py-28">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLd({
-          '@type': 'CollectionPage',
-          name: 'Shop',
-          url: canonicalFor('/shop'),
-        })}
+        dangerouslySetInnerHTML={jsonLd([
+          {
+            '@type': 'CollectionPage',
+            name: 'Shop',
+            url: canonicalFor('/shop'),
+          },
+          ...entries.map(({ product, slug }) => ({
+            '@type': 'Product',
+            name: product.name,
+            description: product.description,
+            image: canonicalFor(product.primaryImage),
+            url: canonicalFor(`/shop/${slug}`),
+          })),
+        ])}
       />
       <header className="max-w-6xl mx-auto border-b border-[#1a1a1a]/10 pb-8 mb-10">
         <h1 className="text-4xl sm:text-6xl font-light">Shop</h1>
@@ -29,7 +41,7 @@ export default function ShopPage() {
       </header>
 
       <section className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => (
+        {entries.map(({ product, slug }) => (
           <article key={product.id} className="rounded-xl border border-[#1a1a1a]/10 bg-white overflow-hidden">
             <Image src={product.primaryImage} alt={product.name} width={1200} height={1200} className="w-full h-auto" loading="lazy" decoding="async" />
             <div className="p-4">
@@ -38,6 +50,7 @@ export default function ShopPage() {
               <p className="text-sm text-[#1a1a1a]/65 mt-2">{product.description}</p>
               <p className="text-sm font-mono mt-3">{product.price}</p>
               <div className="mt-4 flex flex-wrap gap-3">
+                <Link href={`/shop/${slug}`} className="btn-pill text-[10px]">Open product page</Link>
                 <Link href="/archive" className="btn-pill text-[10px]">Related archive</Link>
                 <Link href="/about" className="btn-pill text-[10px]">Contact pathway</Link>
               </div>

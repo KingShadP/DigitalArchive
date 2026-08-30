@@ -46,7 +46,7 @@ export function Navbar({
       >
         <div className="w-7 h-7 rounded-sm border border-[#1a1a1a]/30 flex items-center justify-center text-[10px] font-bold font-mono tracking-tighter text-[#1a1a1a] group-hover:border-[#1a1a1a] transition-all">
           KSP
-        </Link>
+        </div>
         <div className="flex flex-col">
           <span className="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-[#1a1a1a] transition-colors">
             KingShadP
@@ -55,7 +55,7 @@ export function Navbar({
             SANCTUM CODEX
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Center: Desktop Liquid Pill Navigation */}
       <nav

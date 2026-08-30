@@ -48,3 +48,6 @@ export const findVisualBySlug = (slug: string) =>
 
 export const findArchiveBySlug = (slug: string) =>
   getArchiveEntries().find((entry) => entry.slug === slug);
+
+export const findProductBySlug = (slug: string) =>
+  getProductEntries().find((entry) => entry.slug === slug);

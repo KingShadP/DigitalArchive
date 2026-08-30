@@ -10,8 +10,9 @@ export function generateStaticParams() {
   return getMusicEntries().map(({ slug }) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const entry = findMusicBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const entry = findMusicBySlug(slug);
   if (!entry) {
     return buildMetadata({
       title: 'Recording not found | KingShadP',
@@ -24,17 +25,18 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   return buildMetadata({
     title: `${entry.track.title} | Music | KingShadP`,
     description: entry.track.notes ?? `Details for ${entry.track.title} by KingShadP.`,
-    path: `/music/${entry.slug}`,
+    path: `/music/${slug}`,
     image: entry.release.artwork,
     type: 'music.song',
   });
 }
 
-export default function MusicDetailPage({ params }: { params: { slug: string } }) {
-  const entry = findMusicBySlug(params.slug);
+export default async function MusicDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const entry = findMusicBySlug(slug);
   if (!entry) notFound();
 
-  const { track, release, slug } = entry;
+  const { track, release, slug: trackSlug } = entry;
   const world = TRACK_WORLDS[track.id];
   const archiveEntries = getArchiveEntries();
   const visualEntries = getVisualEntries();
@@ -52,7 +54,7 @@ export default function MusicDetailPage({ params }: { params: { slug: string } }
           {
             '@type': 'WebPage',
             name: track.title,
-            url: canonicalFor(`/music/${slug}`),
+            url: canonicalFor(`/music/${trackSlug}`),
           },
           {
             '@type': 'MusicRecording',
@@ -65,15 +67,14 @@ export default function MusicDetailPage({ params }: { params: { slug: string } }
               '@type': 'MusicAlbum',
               name: release.title,
             },
-            url: canonicalFor(`/music/${slug}`),
-            duration: track.duration,
+            url: canonicalFor(`/music/${trackSlug}`),
           },
           {
             '@type': 'BreadcrumbList',
             itemListElement: [
               { '@type': 'ListItem', position: 1, name: 'Home', item: canonicalFor('/') },
               { '@type': 'ListItem', position: 2, name: 'Music', item: canonicalFor('/music') },
-              { '@type': 'ListItem', position: 3, name: track.title, item: canonicalFor(`/music/${slug}`) },
+              { '@type': 'ListItem', position: 3, name: track.title, item: canonicalFor(`/music/${trackSlug}`) },
             ],
           },
         ])}

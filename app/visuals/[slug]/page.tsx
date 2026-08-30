@@ -9,8 +9,9 @@ export function generateStaticParams() {
   return getVisualEntries().map(({ slug }) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const entry = findVisualBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const entry = findVisualBySlug(slug);
   if (!entry) {
     return buildMetadata({
       title: 'Visual not found | KingShadP',
@@ -23,17 +24,18 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   return buildMetadata({
     title: `${entry.asset.title} | Visuals | KingShadP`,
     description: entry.asset.notes,
-    path: `/visuals/${entry.slug}`,
+    path: `/visuals/${slug}`,
     image: entry.asset.src,
     type: 'article',
   });
 }
 
-export default function VisualDetailPage({ params }: { params: { slug: string } }) {
-  const entry = findVisualBySlug(params.slug);
+export default async function VisualDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const entry = findVisualBySlug(slug);
   if (!entry) notFound();
 
-  const { asset, slug } = entry;
+  const { asset, slug: visualSlug } = entry;
   const relatedArchive = getArchiveEntries().filter((candidate) =>
     candidate.record.thumbnail.toLowerCase() === asset.src.toLowerCase()
   );
@@ -46,7 +48,7 @@ export default function VisualDetailPage({ params }: { params: { slug: string } 
           {
             '@type': 'WebPage',
             name: asset.title,
-            url: canonicalFor(`/visuals/${slug}`),
+            url: canonicalFor(`/visuals/${visualSlug}`),
           },
           {
             '@type': 'VisualArtwork',
@@ -55,14 +57,14 @@ export default function VisualDetailPage({ params }: { params: { slug: string } 
             dateCreated: `${asset.year}`,
             image: canonicalFor(asset.src),
             description: asset.notes,
-            url: canonicalFor(`/visuals/${slug}`),
+            url: canonicalFor(`/visuals/${visualSlug}`),
           },
           {
             '@type': 'BreadcrumbList',
             itemListElement: [
               { '@type': 'ListItem', position: 1, name: 'Home', item: canonicalFor('/') },
               { '@type': 'ListItem', position: 2, name: 'Visuals', item: canonicalFor('/visuals') },
-              { '@type': 'ListItem', position: 3, name: asset.title, item: canonicalFor(`/visuals/${slug}`) },
+              { '@type': 'ListItem', position: 3, name: asset.title, item: canonicalFor(`/visuals/${visualSlug}`) },
             ],
           },
         ])}
