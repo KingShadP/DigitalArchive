@@ -97,49 +97,244 @@ export const ERAS: Era[] = [
   },
 ];
 
+export interface TimelineNode {
+  year: string;
+  milestone: string;
+  category: 'ORIGIN' | 'MUSIC' | 'VISUAL ERA' | 'RELEASE' | 'CURRENT';
+  description: string;
+  location?: string;
+  relatedMedia?: string;
+}
+
+export const KINGSHADP_TIMELINE: TimelineNode[] = [
+  {
+    year: '1994',
+    milestone: 'Miami Origins',
+    category: 'ORIGIN',
+    location: 'Miami, FL',
+    description: 'Earliest acoustic consciousness, sub-bass immersion, and foundational aesthetic discipline formed in South Florida.',
+    relatedMedia: '/KINGSHADP PHOTO.png',
+  },
+  {
+    year: '2023',
+    milestone: 'Unfinished. Unedited. Untitled. — EP',
+    category: 'MUSIC',
+    description: 'Raw, unpolished singer/songwriter release featuring "Ice King Shit" (102 BPM), exploring sparse acoustic intimacy and emotional isolation.',
+    relatedMedia: '/background ksp.png',
+  },
+  {
+    year: '2024 — 2025',
+    milestone: 'Genesis Era & Subtractive Architecture',
+    category: 'VISUAL ERA',
+    description: 'Foundational investigations into 3D maquettes, obsidian forms, and the birth of the Giragon mythological creature identity.',
+    relatedMedia: '/ROSE GOLD GIRAGON.png',
+  },
+  {
+    year: '2026',
+    milestone: 'Behold, the Twisted Beast (Sanctum Opus 01)',
+    category: 'RELEASE',
+    description: 'Landmark high-intensity orchestral pop opus released June 19, 2026. 112 BPM, Latinate choir chants, and full 432 Hz Pythagorean master.',
+    relatedMedia: '/twisted-beast-cover.png',
+  },
+  {
+    year: '2026 — PRESENT',
+    milestone: 'Living Experience Engine & Codex',
+    category: 'CURRENT',
+    description: 'The continuous digital universe connecting music, imagery, memory, and physical artifacts in real-time.',
+    relatedMedia: '/THE GIRAGON.png',
+  },
+];
+
+export const STUDENT_PRIMER_DATA = {
+  title: 'Decoding the Vibe: A Student’s Primer on Musical Analytics',
+  introduction:
+    'Modern listening is no longer a passive act—it is a process of data-driven discovery. The Experience Engine elevates music from an MP3 file into a multidimensional narrative entry point where audio data dictates visual and atmospheric reality.',
+  pillars: [
+    {
+      name: 'Melodicness',
+      definition:
+        'The degree to which a song possesses clear, memorable tunes following well-defined musical patterns.',
+      emotionalImpact:
+        'High scores indicate clear instrumental or vocal lines easily recalled by the listener (e.g. liturgical Latinate chants).',
+    },
+    {
+      name: 'Acousticness',
+      definition:
+        'A measure of reliance on physical instruments (piano, strings, brass, drums) versus digital synthesis.',
+      emotionalImpact:
+        'Distinguishes organic warmth of physical performance from synthetic precision of electronic production.',
+    },
+    {
+      name: 'Valence',
+      definition:
+        'The musical positivity or emotional tone conveyed through harmonic and rhythmic components.',
+      emotionalImpact:
+        'High valence tracks evoke euphoria and triumph; low valence indicates melancholy, sadness, or atmospheric tension.',
+    },
+    {
+      name: 'Danceability',
+      definition:
+        'A combination of tempo stability, rhythmic patterns, and beat emphasis.',
+      emotionalImpact:
+        'Determines suitability for rhythmic movement based on consistent tempo and strong downbeats.',
+    },
+    {
+      name: 'Energy',
+      definition:
+        'Perceived intensity influenced by tempo, dynamics, and musical instrumentation density.',
+      emotionalImpact:
+        'High energy signals a driving, intense experience; low energy feels musically sparse, calm, and contemplative.',
+    },
+    {
+      name: 'BPM',
+      definition:
+        'Beats Per Minute; the core tempo or heartbeat of the track.',
+      emotionalImpact:
+        'Sets fundamental pace, urgency, and physiological response of the listener.',
+    },
+  ],
+  caseStudies: [
+    {
+      id: 'twisted-beast',
+      title: 'Behold, the Twisted Beast',
+      releaseDate: 'June 19, 2026',
+      genre: 'Pop / Orchestral Pop Density',
+      bpm: 112,
+      melodicness: 88,
+      acousticness: 64,
+      valence: 78,
+      danceability: 58,
+      energy: 92,
+      highlights: [
+        'High Melodicness (88%): Result of repetitive liturgical Latinate chants (Kyrie, Aeterna) performed by KSP’s Cathedral Regal Choir.',
+        'High Energy (92%): Dense full Symphony Orchestra, Background Vocals, and Choir creating "heavy grace".',
+        'Narrative Synthesis: Aggressive lyrics ("A spirit carved in muscle", "I am the fire and the storm") justify dramatic high-valence intensity.',
+      ],
+    },
+    {
+      id: 'ice-king-shit',
+      title: 'Ice King Shit',
+      releaseDate: 'September 19, 2023',
+      genre: 'Singer/Songwriter (Unfinished. Unedited. Untitled. - EP)',
+      bpm: 102,
+      melodicness: 72,
+      acousticness: 82,
+      valence: 34,
+      danceability: 68,
+      energy: 46,
+      highlights: [
+        'Steady 102 BPM Pulse: Deliberate tempo stability providing a stable rhythmic environment for movement.',
+        'High Acousticness (82%): Focused acoustic structure with raw piano and intimate vocals.',
+        'Low-to-Neutral Valence (34%): Atmospheric melancholy reflecting raw, unedited emotional honesty.',
+      ],
+    },
+  ],
+  audioAnalysisArchitecture: {
+    title: 'The 3-Step Audio Analysis Architecture',
+    steps: [
+      {
+        step: 1,
+        title: 'The Interface',
+        desc: 'The Web Audio API and AnalyserNode (fftSize=256, smoothing=0.85) monitor audio streams in real-time.',
+      },
+      {
+        step: 2,
+        title: 'Value Extraction',
+        desc: 'Extracts restrained real-time values: Frequency, Peak, and RMS (Root Mean Square average loudness).',
+      },
+      {
+        step: 3,
+        title: 'Visual Mapping',
+        desc: 'Maps technical values to CSS custom properties (--audio-energy, --audio-low) to subtly modulate blur, scale, and brightness.',
+      },
+    ],
+  },
+  takeaways: [
+    'Recognize BPM as the heartbeat of the track, setting foundational pace.',
+    'Identify Valence to decode emotional "color" (triumph vs. melancholy).',
+    'Use Melodicness to isolate patterns that make a composition memorable.',
+    'Assess Energy to gauge instrumentation density and perceived intensity.',
+  ],
+};
+
 export const TRACK_WORLDS: Record<string, TrackWorld> = {
   'track-01': {
     trackId: 'track-01',
     dominantColor: '#B76E79',
-    media: ['/TWISTED BEART COVER ART.png', '/girgonglory.png'],
+    media: ['/twisted-beast-cover.png', '/girgonglory.png'],
     videoSrc: MEDIA.scenePrimary,
-    quote: 'In the silence before the surge, everything subtracted reveals the crown.',
-    story: 'Constructed around a deep 28Hz fundamental drone overlaid with staccato brass harmonics and vacuum decay intervals.',
+    quote: 'A spirit carved in muscle. I am the fire and the storm.',
+    story:
+      'A landmark study in high-intensity analytical profiles (112 BPM). High Melodicness (88%) is driven by liturgical Latinate chants (Kyrie, Aeterna) by KSP’s Cathedral Regal Choir. Dense orchestration yields 92% Energy and heavy grace.',
     credits: [
       'Composition: KingShadP',
-      'Orchestration: KingShadP Executive Sound Unit',
-      'Mastering: -14 LUFS 432Hz Chamber',
+      "Choir: KSP's Cathedral Regal Choir",
+      'Orchestra: Full Sanctum Symphony',
+      'Mastering: -14 LUFS 432Hz Subterranean Chamber',
     ],
     relatedArchiveIds: ['arch-001', 'arch-002', 'arch-006'],
-    visualIntensity: 0.85,
+    visualIntensity: 0.92,
   },
   'track-02': {
     trackId: 'track-02',
     dominantColor: '#7A8B99',
-    media: ['/THE GIRAGON.png'],
+    media: ['/background ksp.png'],
     videoSrc: MEDIA.cinematicB,
-    quote: 'Geometry is the silence in which frequency reverberates.',
-    story: 'Atmospheric cello frictions and platinum-tipped mallet strikes recorded in vaulted acoustical stone.',
+    quote: 'Cold breath on the glass, unedited and raw.',
+    story:
+      'From Unfinished. Unedited. Untitled. - EP (Sept 19, 2023). A masterclass in controlled atmosphere, steady 102 BPM deliberate pulse, and intimate singer-songwriter acoustic warmth (82% Acousticness).',
     credits: [
-      'Composition: KingShadP',
-      'Acoustic Engineering: Sanctum Studio A',
+      'Composition & Vocals: KingShadP',
+      'Acoustic Grand Piano: KingShadP',
+      'Engineering: Raw Tape Capture',
     ],
-    relatedArchiveIds: ['arch-004', 'arch-006'],
-    visualIntensity: 0.7,
+    relatedArchiveIds: ['arch-003', 'arch-005b'],
+    visualIntensity: 0.46,
   },
   'track-03': {
     trackId: 'track-03',
+    dominantColor: '#8A9A86',
+    media: ['/THE GIRAGON.png'],
+    videoSrc: MEDIA.cinematicB,
+    quote: 'Beyond the armor and the stone, the human heart beats all alone.',
+    story:
+      'Intimate vocal cadences paired with heavy sonic undertones, 28Hz sub-drone frequencies, and raw testimony.',
+    credits: [
+      'Lead Vocals: KingShadP & KING SHAHD PEE',
+      'Sub-Harmonic Cello: Sanctum Chamber',
+    ],
+    relatedArchiveIds: ['arch-004', 'arch-006'],
+    visualIntensity: 0.65,
+  },
+  'track-04': {
+    trackId: 'track-04',
     dominantColor: '#C49A70',
     media: ['/ROSE GOLD GIRAGON.png'],
     videoSrc: MEDIA.cinematicC,
-    quote: 'Rose gold captures the light that obsidian absorbs.',
-    story: 'Sub-harmonic pulse interacting with tape-decay analog synthesizers.',
+    quote: 'Relentless discipline carved in midnight rhythm.',
+    story:
+      'High-intensity 92 BPM nocturnal rhythm exploring discipline and relentless creative momentum.',
     credits: [
-      'Composition: KingShadP',
-      'Modular Synthesizer: KingShadP',
+      'Production: KingShadP',
+      'Synthesizers: Analog Subterranean Rack',
     ],
     relatedArchiveIds: ['arch-005', 'arch-007'],
-    visualIntensity: 0.9,
+    visualIntensity: 0.84,
+  },
+  'track-05': {
+    trackId: 'track-05',
+    dominantColor: '#5A6B7C',
+    media: ['/girgonglory.png'],
+    videoSrc: MEDIA.portal,
+    quote: 'Sub-bass pulses through the midnight fog.',
+    story:
+      'Driving 128 BPM pulse engineered for hypnotic club resonance and spatial stereo field expansion.',
+    credits: [
+      'Synthesizers & Drum Programming: KingShadP',
+      'Spatial Mastering: 432Hz Lossless',
+    ],
+    relatedArchiveIds: ['arch-002', 'arch-004'],
+    visualIntensity: 0.88,
   },
 };
 

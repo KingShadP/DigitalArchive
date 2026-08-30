@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Play,
@@ -19,11 +20,14 @@ import {
   Sliders,
   Maximize2,
   Compass,
+  BookOpen,
 } from 'lucide-react';
 import { releases, Track } from '../../data/releases';
 import { TRACK_WORLDS } from '../../data/scenes';
 import { Reveal } from '../motion/Reveal';
 import { soundEngine } from '../../lib/soundEngine';
+import { RecordExplorerModal } from '../ui/RecordExplorerModal';
+import { StudentPrimerModal } from '../ui/StudentPrimerModal';
 
 interface NowPlayingProps {
   isPlaying: boolean;
@@ -32,6 +36,7 @@ interface NowPlayingProps {
   onSelectTrack: (trackId: string) => void;
   audioRef?: React.RefObject<HTMLAudioElement | null>;
   onSwitchSceneVideo?: (videoKey: string) => void;
+  onOpenViewer?: (assetId: string) => void;
 }
 
 export function NowPlaying({
@@ -41,6 +46,7 @@ export function NowPlaying({
   onSelectTrack,
   audioRef,
   onSwitchSceneVideo,
+  onOpenViewer,
 }: NowPlayingProps) {
   const release = releases[0];
   const activeTrack: Track =
@@ -49,6 +55,7 @@ export function NowPlaying({
 
   const [showLyrics, setShowLyrics] = useState(false);
   const [showRecordExplorer, setShowRecordExplorer] = useState(false);
+  const [showStudentPrimer, setShowStudentPrimer] = useState(false);
   const [tuningMode, setTuningMode] = useState<'432Hz' | '440Hz'>('432Hz');
   const [subHarmonicActive, setSubHarmonicActive] = useState(false);
   const [currentTimeSec, setCurrentTimeSec] = useState(0);
@@ -93,7 +100,17 @@ export function NowPlaying({
     if (trackId === 'track-01') onSwitchSceneVideo?.('scenePrimary');
     if (trackId === 'track-02') onSwitchSceneVideo?.('cinematicB');
     if (trackId === 'track-03') onSwitchSceneVideo?.('cinematicC');
+    if (trackId === 'track-04') onSwitchSceneVideo?.('portal');
     soundEngine.playClick(700, 0.03);
+  };
+
+  const analytics = activeTrack.analytics || {
+    bpm: activeTrack.bpm,
+    melodicness: 88,
+    acousticness: 64,
+    valence: 78,
+    danceability: 58,
+    energy: 92,
   };
 
   return (
@@ -114,12 +131,20 @@ export function NowPlaying({
                 Now <span className="font-editorial italic font-normal text-[#B76E79]">Playing.</span>
               </h2>
             </div>
-            <div className="text-right">
-              <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-[#1a1a1a]/50 block">
-                CATALOGUE: {release.catalogNumber}
-              </span>
-              <span className="text-xs font-mono text-[#1a1a1a]/80 tracking-wider">
-                {release.era} {'//'} {release.year}
+            
+            <div className="flex flex-col sm:items-end gap-2">
+              <button
+                onClick={() => {
+                  setShowStudentPrimer(true);
+                  soundEngine.playHarmonicChime(528);
+                }}
+                className="px-3.5 py-1.5 rounded-full border border-[#B76E79]/40 bg-white text-[10px] font-mono tracking-widest uppercase text-[#B76E79] hover:bg-[#B76E79] hover:text-white transition-all flex items-center gap-1.5 shadow-sm cursor-pointer font-bold"
+              >
+                <BookOpen size={12} />
+                <span>STUDENT ANALYTICS PRIMER</span>
+              </button>
+              <span className="text-xs font-mono text-[#1a1a1a]/70 tracking-wider">
+                {release.era} {'//'} {release.catalogNumber}
               </span>
             </div>
           </div>
@@ -147,7 +172,7 @@ export function NowPlaying({
                     {activeTrack.title}
                   </h3>
                   <span className="text-xs font-mono text-[#1a1a1a]/50 uppercase tracking-widest block mt-1">
-                    {release.artist} — {activeTrack.number}
+                    {activeTrack.artist} — TRACK {activeTrack.number}
                   </span>
                 </div>
 
@@ -181,7 +206,7 @@ export function NowPlaying({
                 {/* Time & Telemetry Indicators */}
                 <div className="flex items-center justify-between text-xs font-mono text-[#1a1a1a]/70 pt-1">
                   <span>{formatTime(currentTimeSec)} / {formatTime(durationSec)}</span>
-                  <span className="text-[#B76E79] font-bold">{tuningMode}</span>
+                  <span className="text-[#B76E79] font-bold">{tuningMode} · {activeTrack.bpm} BPM</span>
                 </div>
 
                 {/* Track Selector List */}
@@ -215,19 +240,53 @@ export function NowPlaying({
             </Reveal>
           </div>
 
-          {/* Right Column: Master Analysis & Controls */}
+          {/* Right Column: Master Analysis & 6-Pillars Quick View */}
           <div className="lg:col-span-6 flex flex-col gap-6 sm:gap-8">
             <Reveal delay={0.2}>
               <div className="flex flex-col gap-3">
                 <span className="text-[11px] font-mono tracking-[0.25em] uppercase text-[#1a1a1a]/50">
-                  Analysis
+                  Acoustic Analysis
                 </span>
                 <p className="text-lg sm:text-2xl font-light text-[#1a1a1a] leading-relaxed font-serif">
-                  &ldquo;{trackWorld.story || 'Constructed around a deep 28Hz fundamental drone overlaid with staccato brass harmonics and vacuum decay intervals.'}&rdquo;
+                  &ldquo;{trackWorld.quote || 'A spirit carved in muscle. I am the fire and the storm.'}&rdquo;
                 </p>
                 <p className="text-xs sm:text-sm font-light text-[#1a1a1a]/70 leading-relaxed max-w-xl">
                   {activeTrack.notes || 'Mastered to Pythagorean natural resonance, emphasizing physical presence and monolithic acoustic impact.'}
                 </p>
+              </div>
+            </Reveal>
+
+            {/* 6-Pillars Quick Telemetry Strip */}
+            <Reveal delay={0.22}>
+              <div className="p-4 rounded-2xl bg-white border border-[#1a1a1a]/10 shadow-sm flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[9px] font-mono tracking-widest uppercase text-[#B76E79] font-bold">
+                    6 PILLARS TELEMETRY // {activeTrack.bpm} BPM
+                  </span>
+                  <span className="text-[9px] font-mono text-[#1a1a1a]/50 uppercase">{activeTrack.key}</span>
+                </div>
+                <div className="grid grid-cols-5 gap-2 text-center">
+                  <div className="p-2 bg-[#f8f7f4] rounded-lg">
+                    <span className="text-[7px] font-mono text-[#1a1a1a]/50 block">MELODY</span>
+                    <span className="text-xs font-mono font-bold text-[#B76E79]">{analytics.melodicness}%</span>
+                  </div>
+                  <div className="p-2 bg-[#f8f7f4] rounded-lg">
+                    <span className="text-[7px] font-mono text-[#1a1a1a]/50 block">ACOUSTIC</span>
+                    <span className="text-xs font-mono font-bold text-[#1a1a1a]">{analytics.acousticness}%</span>
+                  </div>
+                  <div className="p-2 bg-[#f8f7f4] rounded-lg">
+                    <span className="text-[7px] font-mono text-[#1a1a1a]/50 block">VALENCE</span>
+                    <span className="text-xs font-mono font-bold text-[#B76E79]">{analytics.valence}%</span>
+                  </div>
+                  <div className="p-2 bg-[#f8f7f4] rounded-lg">
+                    <span className="text-[7px] font-mono text-[#1a1a1a]/50 block">DANCE</span>
+                    <span className="text-xs font-mono font-bold text-[#1a1a1a]">{analytics.danceability}%</span>
+                  </div>
+                  <div className="p-2 bg-[#f8f7f4] rounded-lg">
+                    <span className="text-[7px] font-mono text-[#1a1a1a]/50 block">ENERGY</span>
+                    <span className="text-xs font-mono font-bold text-[#1a1a1a]">{analytics.energy}%</span>
+                  </div>
+                </div>
               </div>
             </Reveal>
 
@@ -285,7 +344,7 @@ export function NowPlaying({
               </div>
             </Reveal>
 
-            {/* Action Buttons Matching Design Variation */}
+            {/* Action Buttons */}
             <Reveal delay={0.3}>
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <button
@@ -306,12 +365,23 @@ export function NowPlaying({
                 </button>
 
                 <button
-                  onClick={() => setShowRecordExplorer(true)}
+                  onClick={() => {
+                    setShowRecordExplorer(true);
+                    soundEngine.playHarmonicChime(432);
+                  }}
                   className="btn-pill text-xs border-[#1a1a1a]/20 hover:border-[#1a1a1a] bg-white cursor-pointer"
                 >
                   <Compass size={13} />
-                  <span>EXPLORE RECORD</span>
+                  <span>EXPLORE THIS RECORD</span>
                 </button>
+
+                <Link
+                  href={`/music/${release.id}`}
+                  className="btn-pill text-xs border-[#1a1a1a]/20 hover:border-[#1a1a1a] bg-white cursor-pointer flex items-center gap-1.5"
+                >
+                  <ArrowUpRight size={13} className="text-[#B76E79]" />
+                  <span>VIEW STANDALONE PAGE</span>
+                </Link>
               </div>
 
               {/* Streaming Links */}
@@ -360,93 +430,26 @@ export function NowPlaying({
         </div>
       </div>
 
-      {/* Explore This Record Immersive Modal */}
-      <AnimatePresence>
-        {showRecordExplorer && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 md:p-10 select-none">
-            <div
-              onClick={() => setShowRecordExplorer(false)}
-              className="absolute inset-0 bg-black/90 backdrop-blur-2xl"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 20 }}
-              className="relative z-10 w-full max-w-3xl bg-[#080808] border border-white/15 rounded-2xl p-6 sm:p-8 flex flex-col gap-6 max-h-[85vh] overflow-y-auto shadow-2xl"
-            >
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <div>
-                  <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-[#B76E79] block">
-                    TRACK WORLD DOSSIER // {activeTrack.number}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-light tracking-wide uppercase text-white">
-                    {activeTrack.title}
-                  </h3>
-                </div>
-                <button
-                  onClick={() => setShowRecordExplorer(false)}
-                  className="px-3 py-1.5 rounded-full border border-white/20 text-[10px] font-mono tracking-widest uppercase text-white/70 hover:text-white"
-                >
-                  CLOSE [ESC]
-                </button>
-              </div>
+      {/* Explore This Record Modal (Sequence 1-9) */}
+      <RecordExplorerModal
+        track={activeTrack}
+        release={release}
+        trackWorld={trackWorld}
+        isOpen={showRecordExplorer}
+        isPlaying={isPlaying}
+        onClose={() => setShowRecordExplorer(false)}
+        onTogglePlay={onTogglePlay}
+        onSelectTrack={handleTrackSelectInternal}
+        onOpenViewer={onOpenViewer}
+      />
 
-              {/* Quote Block */}
-              {trackWorld.quote && (
-                <div className="p-4 rounded-xl bg-white/[0.03] border-l-2 border-[#B76E79] italic font-editorial text-lg text-white/90">
-                  &ldquo;{trackWorld.quote}&rdquo;
-                </div>
-              )}
-
-              {/* Story */}
-              <div className="flex flex-col gap-2">
-                <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-white/40">
-                  ACOUSTIC PRODUCTION STORY
-                </span>
-                <p className="text-xs sm:text-sm font-light text-white/70 leading-relaxed">
-                  {trackWorld.story}
-                </p>
-              </div>
-
-              {/* Credits Matrix */}
-              {trackWorld.credits && (
-                <div className="flex flex-col gap-2">
-                  <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-white/40">
-                    EXECUTIVE CREDITS
-                  </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {trackWorld.credits.map((c, i) => (
-                      <div key={i} className="p-2.5 rounded-lg bg-white/[0.02] border border-white/5 text-xs font-mono text-white/70">
-                        {c}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Technical Specifications */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-white/10">
-                <div className="flex flex-col">
-                  <span className="text-[8px] font-mono text-white/40">TUNING</span>
-                  <span className="text-xs font-mono text-white">{activeTrack.tuning}</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[8px] font-mono text-white/40">KEY</span>
-                  <span className="text-xs font-mono text-white">{activeTrack.key}</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[8px] font-mono text-white/40">TEMPO</span>
-                  <span className="text-xs font-mono text-white">{activeTrack.bpm} BPM</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[8px] font-mono text-white/40">DURATION</span>
-                  <span className="text-xs font-mono text-white">{activeTrack.duration}</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      {/* Student Analytics Primer Modal */}
+      <StudentPrimerModal
+        isOpen={showStudentPrimer}
+        onClose={() => setShowStudentPrimer(false)}
+        onSelectTrack={handleTrackSelectInternal}
+      />
     </section>
   );
 }
+

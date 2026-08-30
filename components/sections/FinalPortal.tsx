@@ -1,17 +1,25 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import { ArrowUpRight, Compass, ShieldCheck } from 'lucide-react';
 import { CinematicVideo } from '../media/CinematicVideo';
 import { Reveal } from '../motion/Reveal';
 
 interface FinalPortalProps {
-  onNavigateTo: (sectionId: string) => void;
+  onNavigateTo?: (sectionId: string) => void;
   onOpenTransmission: () => void;
 }
 
 export function FinalPortal({ onNavigateTo, onOpenTransmission }: FinalPortalProps) {
+  const handleAction = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    if (onNavigateTo && typeof window !== 'undefined' && window.location.pathname === '/') {
+      e.preventDefault();
+      onNavigateTo(sectionId);
+    }
+  };
+
   return (
     <section className="relative w-full min-h-[85vh] bg-[#f8f7f4] text-[#1a1a1a] flex flex-col justify-between overflow-hidden select-none">
       
@@ -52,18 +60,19 @@ export function FinalPortal({ onNavigateTo, onOpenTransmission }: FinalPortalPro
             <button
               onClick={onOpenTransmission}
               data-cursor="CONTACT"
-              className="btn-pill bg-[#1a1a1a] text-white hover:bg-[#B76E79] text-[11px] font-mono font-bold tracking-[0.22em] uppercase shadow-lg flex items-center gap-2"
+              className="btn-pill bg-[#1a1a1a] text-white hover:bg-[#B76E79] text-[11px] font-mono font-bold tracking-[0.22em] uppercase shadow-lg flex items-center gap-2 cursor-pointer"
             >
               <span>SEND TRANSMISSION</span>
               <ArrowUpRight size={12} />
             </button>
 
-            <button
-              onClick={() => onNavigateTo('now-playing')}
+            <Link
+              href="/music"
+              onClick={(e) => handleAction(e, 'now-playing')}
               className="btn-pill bg-white text-[#1a1a1a] border border-[#1a1a1a]/20 hover:border-[#1a1a1a]/50 text-[11px] font-mono tracking-[0.22em] uppercase shadow-sm"
             >
               REPLAY RELEASE
-            </button>
+            </Link>
           </div>
         </Reveal>
       </div>
@@ -72,23 +81,26 @@ export function FinalPortal({ onNavigateTo, onOpenTransmission }: FinalPortalPro
       <footer className="relative z-10 w-full border-t border-[#1a1a1a]/10 bg-white/70 backdrop-blur-sm px-6 sm:px-12 md:px-16 py-10 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-mono tracking-[0.25em] text-[#1a1a1a]/60 uppercase">
         
         {/* Navigation Links */}
-        <div className="flex flex-wrap items-center justify-center gap-6 font-semibold">
-          <button onClick={() => onNavigateTo('now-playing')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
+        <nav aria-label="Footer Navigation" className="flex flex-wrap items-center justify-center gap-6 font-semibold">
+          <Link href="/music" onClick={(e) => handleAction(e, 'now-playing')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
             MUSIC
-          </button>
-          <button onClick={() => onNavigateTo('the-work')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
+          </Link>
+          <Link href="/visuals" onClick={(e) => handleAction(e, 'the-work')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
             VISUALS
-          </button>
-          <button onClick={() => onNavigateTo('archive-index')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
+          </Link>
+          <Link href="/archive" onClick={(e) => handleAction(e, 'archive-index')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
             ARCHIVE
-          </button>
-          <button onClick={() => onNavigateTo('manifesto')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
+          </Link>
+          <Link href="/story" onClick={(e) => handleAction(e, 'manifesto')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
             STORY
-          </button>
-          <button onClick={() => onNavigateTo('selected-objects')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
+          </Link>
+          <Link href="/about" className="hover:text-[#B76E79] transition-colors cursor-pointer">
+            ABOUT
+          </Link>
+          <Link href="/shop" onClick={(e) => handleAction(e, 'selected-objects')} className="hover:text-[#B76E79] transition-colors cursor-pointer">
             SHOP
-          </button>
-        </div>
+          </Link>
+        </nav>
 
         {/* Streaming Platforms */}
         <div className="flex flex-wrap items-center justify-center gap-4 text-[#1a1a1a]/40">
@@ -124,3 +136,4 @@ export function FinalPortal({ onNavigateTo, onOpenTransmission }: FinalPortalPro
     </section>
   );
 }
+

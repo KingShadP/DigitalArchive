@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import { Search, Play, Menu, X, Command, HelpCircle } from 'lucide-react';
 
@@ -9,7 +10,7 @@ interface NavbarProps {
   onListenNow: () => void;
   onOpenMobileMenu: () => void;
   isMobileMenuOpen: boolean;
-  onNavigateTo: (sectionId: string) => void;
+  onNavigateTo?: (sectionId: string) => void;
   onOpenShortcuts?: () => void;
 }
 
@@ -31,6 +32,13 @@ export function Navbar({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    if (onNavigateTo && typeof window !== 'undefined' && window.location.pathname === '/') {
+      e.preventDefault();
+      onNavigateTo(sectionId);
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-[100] px-6 sm:px-12 py-5 sm:py-6 flex items-center justify-between transition-all duration-500 ${
@@ -41,12 +49,17 @@ export function Navbar({
       style={{ paddingTop: 'max(1.25rem, env(safe-area-inset-top))' }}
     >
       {/* Left: Brand Signal (Restrained Monogram / Wordmark) */}
-      <div
-        onClick={() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+      <Link
+        href="/"
+        onClick={(e) => {
+          if (typeof window !== 'undefined' && window.location.pathname === '/') {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
         }}
         data-cursor="KINGSHADP"
         className="flex items-center gap-3 cursor-pointer group select-none"
+        aria-label="KingShadP Sanctum Core Homepage"
       >
         <div className="w-7 h-7 rounded-sm border border-[#1a1a1a]/30 flex items-center justify-center text-[10px] font-bold font-mono tracking-tighter text-[#1a1a1a] group-hover:border-[#1a1a1a] transition-all">
           KSP
@@ -59,54 +72,59 @@ export function Navbar({
             SANCTUM CODEX
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Center: Desktop Liquid Pill Navigation */}
       <nav
+        aria-label="Primary Navigation"
         className="hidden lg:flex items-center gap-1 bg-white/85 backdrop-blur-md rounded-full px-5 py-2 text-[11px] font-mono tracking-[0.22em] uppercase text-[#1a1a1a]/70 border border-[#1a1a1a]/10 shadow-sm select-none"
       >
-        <button
-          onClick={() => onNavigateTo('now-playing')}
+        <Link
+          href="/music"
+          onClick={(e) => handleLinkClick(e, 'now-playing')}
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
           AUDIO
-        </button>
-        <button
-          onClick={() => onNavigateTo('the-work')}
+        </Link>
+        <Link
+          href="/#the-work"
+          onClick={(e) => handleLinkClick(e, 'the-work')}
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
           WORK
-        </button>
-        <button
-          onClick={() => onNavigateTo('visual-archive')}
+        </Link>
+        <Link
+          href="/visuals"
+          onClick={(e) => handleLinkClick(e, 'visual-archive')}
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
           VISUALS
-        </button>
-        <button
-          onClick={() => onNavigateTo('archive-index')}
+        </Link>
+        <Link
+          href="/archive"
+          onClick={(e) => handleLinkClick(e, 'archive-index')}
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
           ARCHIVE
-        </button>
-        <button
-          onClick={() => onNavigateTo('manifesto')}
+        </Link>
+        <Link
+          href="/story"
+          onClick={(e) => handleLinkClick(e, 'manifesto')}
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
           STORY
-        </button>
-        <button
-          onClick={() => onNavigateTo('selected-objects')}
+        </Link>
+        <Link
+          href="/shop"
+          onClick={(e) => handleLinkClick(e, 'selected-objects')}
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
-          PORTAL
-        </button>
+          SHOP
+        </Link>
       </nav>
 
       {/* Right Controls: Search + Shortcuts + Listen Now CTA */}
-      <div
-        className="hidden sm:flex items-center gap-3 select-none"
-      >
+      <div className="hidden sm:flex items-center gap-3 select-none">
         {/* Studio Shortcuts Trigger */}
         {onOpenShortcuts && (
           <button
@@ -136,6 +154,7 @@ export function Navbar({
         {/* Listen Now Primary Pill */}
         <button
           onClick={onListenNow}
+          aria-label="Listen to Current Master Release"
           data-cursor="LISTEN"
           className="px-5 py-2 rounded-full bg-[#1a1a1a] text-[#f8f7f4] text-[10px] font-mono font-bold tracking-[0.2em] uppercase hover:bg-black hover:scale-[1.02] transition-all flex items-center gap-1.5 shadow-md cursor-pointer"
         >
@@ -165,3 +184,4 @@ export function Navbar({
     </header>
   );
 }
+

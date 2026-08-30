@@ -2,14 +2,15 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import { ArrowUpRight, Disc, Eye, Archive } from 'lucide-react';
 import { Reveal } from '../motion/Reveal';
 
 interface TheWorkProps {
-  onNavigateMusic: () => void;
-  onNavigateVisuals: () => void;
-  onNavigateArchive: () => void;
+  onNavigateMusic?: () => void;
+  onNavigateVisuals?: () => void;
+  onNavigateArchive?: () => void;
 }
 
 export function TheWork({
@@ -17,6 +18,13 @@ export function TheWork({
   onNavigateVisuals,
   onNavigateArchive,
 }: TheWorkProps) {
+  const handleAction = (e: React.MouseEvent<HTMLAnchorElement>, handler?: () => void) => {
+    if (handler && typeof window !== 'undefined' && window.location.pathname === '/') {
+      e.preventDefault();
+      handler();
+    }
+  };
+
   return (
     <section
       id="the-work"
@@ -70,13 +78,14 @@ export function TheWork({
               </div>
 
               <div className="pt-6 mt-4 border-t border-[#1a1a1a]/10">
-                <button
-                  onClick={onNavigateMusic}
+                <Link
+                  href="/music"
+                  onClick={(e) => handleAction(e, onNavigateMusic)}
                   className="text-xs font-mono tracking-[0.2em] uppercase text-[#1a1a1a] hover:text-[#B76E79] font-semibold flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>EXPLORE MUSIC</span>
                   <ArrowUpRight size={13} />
-                </button>
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -107,13 +116,14 @@ export function TheWork({
               </div>
 
               <div className="pt-6 mt-4 border-t border-[#1a1a1a]/10">
-                <button
-                  onClick={onNavigateVisuals}
+                <Link
+                  href="/visuals"
+                  onClick={(e) => handleAction(e, onNavigateVisuals)}
                   className="text-xs font-mono tracking-[0.2em] uppercase text-[#1a1a1a] hover:text-[#B76E79] font-semibold flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>VIEW VISUALS</span>
                   <ArrowUpRight size={13} />
-                </button>
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -144,13 +154,14 @@ export function TheWork({
               </div>
 
               <div className="pt-6 mt-4 border-t border-[#1a1a1a]/10">
-                <button
-                  onClick={onNavigateArchive}
+                <Link
+                  href="/archive"
+                  onClick={(e) => handleAction(e, onNavigateArchive)}
                   className="text-xs font-mono tracking-[0.2em] uppercase text-[#1a1a1a] hover:text-[#B76E79] font-semibold flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>ENTER ARCHIVE</span>
                   <ArrowUpRight size={13} />
-                </button>
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -181,13 +192,13 @@ export function TheWork({
               </div>
 
               <div className="pt-6 mt-4 border-t border-[#1a1a1a]/10">
-                <button
-                  onClick={onNavigateMusic}
+                <Link
+                  href="/shop"
                   className="text-xs font-mono tracking-[0.2em] uppercase text-[#1a1a1a] hover:text-[#B76E79] font-semibold flex items-center gap-1.5 cursor-pointer"
                 >
-                  <span>LAUNCH PORTAL</span>
+                  <span>EXPLORE OBJECTS</span>
                   <ArrowUpRight size={13} />
-                </button>
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -196,6 +207,6 @@ export function TheWork({
 
       </div>
     </section>
-
   );
 }
+

@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Play, ArrowRight, Search, Compass, Disc } from 'lucide-react';
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  onNavigateTo: (sectionId: string) => void;
+  onNavigateTo?: (sectionId: string) => void;
   onOpenSearch: () => void;
   onListenNow: () => void;
 }
@@ -34,12 +35,20 @@ export function MobileMenu({
   }, [isOpen, onClose]);
 
   const navLinks = [
-    { label: 'MUSIC', target: 'now-playing', num: '01' },
-    { label: 'VISUALS', target: 'the-work', num: '02' },
-    { label: 'ARCHIVE', target: 'archive-index', num: '03' },
-    { label: 'STORY', target: 'manifesto', num: '04' },
-    { label: 'SHOP', target: 'selected-objects', num: '05' },
+    { label: 'MUSIC', href: '/music', target: 'now-playing', num: '01' },
+    { label: 'VISUALS', href: '/visuals', target: 'the-work', num: '02' },
+    { label: 'ARCHIVE', href: '/archive', target: 'archive-index', num: '03' },
+    { label: 'STORY', href: '/story', target: 'manifesto', num: '04' },
+    { label: 'SHOP', href: '/shop', target: 'selected-objects', num: '05' },
   ];
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, target: string) => {
+    if (onNavigateTo && typeof window !== 'undefined' && window.location.pathname === '/') {
+      e.preventDefault();
+      onNavigateTo(target);
+    }
+    onClose();
+  };
 
   return (
     <AnimatePresence>
@@ -77,7 +86,7 @@ export function MobileMenu({
           </div>
 
           {/* Staggered Navigation Items */}
-          <nav className="flex flex-col gap-5 my-auto py-8">
+          <nav className="flex flex-col gap-5 my-auto py-8" aria-label="Mobile Navigation">
             {navLinks.map((link, idx) => (
               <motion.div
                 key={link.label}
@@ -85,11 +94,9 @@ export function MobileMenu({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.08 + idx * 0.06, duration: 0.4 }}
               >
-                <button
-                  onClick={() => {
-                    onNavigateTo(link.target);
-                    onClose();
-                  }}
+                <Link
+                  href={link.href}
+                  onClick={(e) => handleLinkClick(e, link.target)}
                   className="w-full flex items-center justify-between group py-2 text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-4">
@@ -101,7 +108,7 @@ export function MobileMenu({
                     </span>
                   </div>
                   <ArrowRight size={18} className="text-[#1a1a1a]/30 group-hover:text-[#1a1a1a] group-hover:translate-x-1 transition-all" />
-                </button>
+                </Link>
               </motion.div>
             ))}
           </nav>
@@ -135,3 +142,4 @@ export function MobileMenu({
     </AnimatePresence>
   );
 }
+

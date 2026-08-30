@@ -297,7 +297,7 @@ export default function MasterKingShadPExperience() {
         onOpenTransmission={() => setIsTransmissionOpen(true)}
       />
 
-      {/* Persistent Global Liquid-Glass Music Dock */}
+      {/* Persistent Global Liquid-Glass Music & Literature TTS Dock */}
       <GlobalMediaDock
         currentTrackId={currentTrackId}
         isPlaying={isPlaying}
@@ -305,6 +305,7 @@ export default function MasterKingShadPExperience() {
         onNextTrack={handleNextTrack}
         onPrevTrack={handlePrevTrack}
         onOpenNowPlayingSection={() => scrollToSection('now-playing')}
+        onOpenArchiveSection={() => scrollToSection('archive-index')}
       />
 
       {/* Immersive Search Overlay */}
