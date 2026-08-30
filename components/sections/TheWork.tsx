@@ -1,22 +1,11 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
-import { motion } from 'motion/react';
-import { ArrowUpRight, Disc, Eye, Archive } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Reveal } from '../motion/Reveal';
+import Link from 'next/link';
 
-interface TheWorkProps {
-  onNavigateMusic: () => void;
-  onNavigateVisuals: () => void;
-  onNavigateArchive: () => void;
-}
-
-export function TheWork({
-  onNavigateMusic,
-  onNavigateVisuals,
-  onNavigateArchive,
-}: TheWorkProps) {
+export function TheWork() {
   return (
     <section
       id="the-work"
@@ -70,13 +59,13 @@ export function TheWork({
               </div>
 
               <div className="pt-6 mt-4 border-t border-[#1a1a1a]/10">
-                <button
-                  onClick={onNavigateMusic}
+                <Link
+                  href="/music"
                   className="text-xs font-mono tracking-[0.2em] uppercase text-[#1a1a1a] hover:text-[#B76E79] font-semibold flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>EXPLORE MUSIC</span>
                   <ArrowUpRight size={13} />
-                </button>
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -107,13 +96,13 @@ export function TheWork({
               </div>
 
               <div className="pt-6 mt-4 border-t border-[#1a1a1a]/10">
-                <button
-                  onClick={onNavigateVisuals}
+                <Link
+                  href="/visuals"
                   className="text-xs font-mono tracking-[0.2em] uppercase text-[#1a1a1a] hover:text-[#B76E79] font-semibold flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>VIEW VISUALS</span>
                   <ArrowUpRight size={13} />
-                </button>
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -144,13 +133,13 @@ export function TheWork({
               </div>
 
               <div className="pt-6 mt-4 border-t border-[#1a1a1a]/10">
-                <button
-                  onClick={onNavigateArchive}
+                <Link
+                  href="/archive"
                   className="text-xs font-mono tracking-[0.2em] uppercase text-[#1a1a1a] hover:text-[#B76E79] font-semibold flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>ENTER ARCHIVE</span>
                   <ArrowUpRight size={13} />
-                </button>
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -181,13 +170,13 @@ export function TheWork({
               </div>
 
               <div className="pt-6 mt-4 border-t border-[#1a1a1a]/10">
-                <button
-                  onClick={onNavigateMusic}
+                <Link
+                  href="/shop"
                   className="text-xs font-mono tracking-[0.2em] uppercase text-[#1a1a1a] hover:text-[#B76E79] font-semibold flex items-center gap-1.5 cursor-pointer"
                 >
-                  <span>LAUNCH PORTAL</span>
+                  <span>EXPLORE OBJECTS</span>
                   <ArrowUpRight size={13} />
-                </button>
+                </Link>
               </div>
             </div>
           </Reveal>

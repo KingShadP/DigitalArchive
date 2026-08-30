@@ -1,15 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { Search, Play, Menu, X, Command, HelpCircle } from 'lucide-react';
+import { Search, Play, Menu, X, Command } from 'lucide-react';
+import Link from 'next/link';
 
 interface NavbarProps {
   onOpenSearch: () => void;
   onListenNow: () => void;
   onOpenMobileMenu: () => void;
   isMobileMenuOpen: boolean;
-  onNavigateTo: (sectionId: string) => void;
   onOpenShortcuts?: () => void;
 }
 
@@ -18,7 +17,6 @@ export function Navbar({
   onListenNow,
   onOpenMobileMenu,
   isMobileMenuOpen,
-  onNavigateTo,
   onOpenShortcuts,
 }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
@@ -41,16 +39,14 @@ export function Navbar({
       style={{ paddingTop: 'max(1.25rem, env(safe-area-inset-top))' }}
     >
       {/* Left: Brand Signal (Restrained Monogram / Wordmark) */}
-      <div
-        onClick={() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+      <Link
+        href="/"
         data-cursor="KINGSHADP"
         className="flex items-center gap-3 cursor-pointer group select-none"
       >
         <div className="w-7 h-7 rounded-sm border border-[#1a1a1a]/30 flex items-center justify-center text-[10px] font-bold font-mono tracking-tighter text-[#1a1a1a] group-hover:border-[#1a1a1a] transition-all">
           KSP
-        </div>
+        </Link>
         <div className="flex flex-col">
           <span className="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-[#1a1a1a] transition-colors">
             KingShadP
@@ -65,42 +61,42 @@ export function Navbar({
       <nav
         className="hidden lg:flex items-center gap-1 bg-white/85 backdrop-blur-md rounded-full px-5 py-2 text-[11px] font-mono tracking-[0.22em] uppercase text-[#1a1a1a]/70 border border-[#1a1a1a]/10 shadow-sm select-none"
       >
-        <button
-          onClick={() => onNavigateTo('now-playing')}
+        <Link
+          href="/music"
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
           AUDIO
-        </button>
-        <button
-          onClick={() => onNavigateTo('the-work')}
+        </Link>
+        <Link
+          href="/about"
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
           WORK
-        </button>
-        <button
-          onClick={() => onNavigateTo('visual-archive')}
+        </Link>
+        <Link
+          href="/visuals"
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
           VISUALS
-        </button>
-        <button
-          onClick={() => onNavigateTo('archive-index')}
+        </Link>
+        <Link
+          href="/archive"
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
           ARCHIVE
-        </button>
-        <button
-          onClick={() => onNavigateTo('manifesto')}
+        </Link>
+        <Link
+          href="/story"
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
           STORY
-        </button>
-        <button
-          onClick={() => onNavigateTo('selected-objects')}
+        </Link>
+        <Link
+          href="/shop"
           className="px-3.5 py-1 rounded-full hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 transition-all cursor-pointer"
         >
-          PORTAL
-        </button>
+          SHOP
+        </Link>
       </nav>
 
       {/* Right Controls: Search + Shortcuts + Listen Now CTA */}

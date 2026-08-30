@@ -2,12 +2,12 @@
 
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Play, ArrowRight, Search, Compass, Disc } from 'lucide-react';
+import { X, Play, ArrowRight, Search } from 'lucide-react';
+import Link from 'next/link';
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  onNavigateTo: (sectionId: string) => void;
   onOpenSearch: () => void;
   onListenNow: () => void;
 }
@@ -15,7 +15,6 @@ interface MobileMenuProps {
 export function MobileMenu({
   isOpen,
   onClose,
-  onNavigateTo,
   onOpenSearch,
   onListenNow,
 }: MobileMenuProps) {
@@ -34,11 +33,11 @@ export function MobileMenu({
   }, [isOpen, onClose]);
 
   const navLinks = [
-    { label: 'MUSIC', target: 'now-playing', num: '01' },
-    { label: 'VISUALS', target: 'the-work', num: '02' },
-    { label: 'ARCHIVE', target: 'archive-index', num: '03' },
-    { label: 'STORY', target: 'manifesto', num: '04' },
-    { label: 'SHOP', target: 'selected-objects', num: '05' },
+    { label: 'MUSIC', href: '/music', num: '01' },
+    { label: 'VISUALS', href: '/visuals', num: '02' },
+    { label: 'ARCHIVE', href: '/archive', num: '03' },
+    { label: 'STORY', href: '/story', num: '04' },
+    { label: 'SHOP', href: '/shop', num: '05' },
   ];
 
   return (
@@ -85,11 +84,9 @@ export function MobileMenu({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.08 + idx * 0.06, duration: 0.4 }}
               >
-                <button
-                  onClick={() => {
-                    onNavigateTo(link.target);
-                    onClose();
-                  }}
+                <Link
+                  href={link.href}
+                  onClick={onClose}
                   className="w-full flex items-center justify-between group py-2 text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-4">
@@ -101,7 +98,7 @@ export function MobileMenu({
                     </span>
                   </div>
                   <ArrowRight size={18} className="text-[#1a1a1a]/30 group-hover:text-[#1a1a1a] group-hover:translate-x-1 transition-all" />
-                </button>
+                </Link>
               </motion.div>
             ))}
           </nav>

@@ -92,7 +92,7 @@ export function CinematicVideo({
       loop
       muted
       playsInline
-      preload="auto"
+      preload="metadata"
       style={{
         objectPosition,
         opacity,

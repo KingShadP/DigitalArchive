@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { Navbar } from '../components/navigation/Navbar';
-import { MobileMenu } from '../components/navigation/MobileMenu';
 import { Hero } from '../components/sections/Hero';
 import { NowPlaying } from '../components/sections/NowPlaying';
 import { TheWork } from '../components/sections/TheWork';
@@ -12,8 +12,6 @@ import { ArchiveIndex } from '../components/sections/ArchiveIndex';
 import { SelectedObjects } from '../components/sections/SelectedObjects';
 import { FinalPortal } from '../components/sections/FinalPortal';
 import { CustomCursor } from '../components/ui/CustomCursor';
-import { SearchOverlay } from '../components/ui/SearchOverlay';
-import { MediaViewer } from '../components/media/MediaViewer';
 import { GlobalMediaDock } from '../components/media/GlobalMediaDock';
 import { Loader } from '../components/ui/Loader';
 import { TransmissionModal } from '../components/TransmissionModal';
@@ -23,6 +21,16 @@ import { ModeSwitcher } from '../components/ui/ModeSwitcher';
 import { releases, Track } from '../data/releases';
 import { soundEngine } from '../lib/soundEngine';
 import { ExperienceMode } from '../data/scenes';
+
+const MobileMenu = dynamic(() =>
+  import('../components/navigation/MobileMenu').then((mod) => mod.MobileMenu)
+);
+const SearchOverlay = dynamic(() =>
+  import('../components/ui/SearchOverlay').then((mod) => mod.SearchOverlay)
+);
+const MediaViewer = dynamic(() =>
+  import('../components/media/MediaViewer').then((mod) => mod.MediaViewer)
+);
 
 export default function MasterKingShadPExperience() {
   // Experience Engine Mode & Ambient Media Video Feed
@@ -186,7 +194,7 @@ export default function MasterKingShadPExperience() {
       <audio
         ref={audioRef}
         src={activeTrack.audioSrc}
-        preload="auto"
+        preload="metadata"
         onEnded={() => setIsPlaying(false)}
       />
 
@@ -205,7 +213,6 @@ export default function MasterKingShadPExperience() {
         }}
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
         isMobileMenuOpen={isMobileMenuOpen}
-        onNavigateTo={scrollToSection}
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
       />
 
@@ -213,7 +220,6 @@ export default function MasterKingShadPExperience() {
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        onNavigateTo={scrollToSection}
         onOpenSearch={() => setIsSearchOpen(true)}
         onListenNow={() => {
           scrollToSection('now-playing');
@@ -257,11 +263,7 @@ export default function MasterKingShadPExperience() {
       {/* ========================================================================= */}
       {/* CHAPTER 02: THE WORK (DISCIPLINARY TAXONOMY)                              */}
       {/* ========================================================================= */}
-      <TheWork
-        onNavigateMusic={() => scrollToSection('now-playing')}
-        onNavigateVisuals={() => scrollToSection('visual-archive')}
-        onNavigateArchive={() => scrollToSection('archive-index')}
-      />
+      <TheWork />
 
       {/* ========================================================================= */}
       {/* CHAPTER 03: VISUAL ARCHIVE                                                */}
@@ -292,10 +294,7 @@ export default function MasterKingShadPExperience() {
       {/* ========================================================================= */}
       {/* CHAPTER 07: FINAL PORTAL & ARCHIVAL FOOTER                                */}
       {/* ========================================================================= */}
-      <FinalPortal
-        onNavigateTo={scrollToSection}
-        onOpenTransmission={() => setIsTransmissionOpen(true)}
-      />
+      <FinalPortal onOpenTransmission={() => setIsTransmissionOpen(true)} />
 
       {/* Persistent Global Liquid-Glass Music Dock */}
       <GlobalMediaDock

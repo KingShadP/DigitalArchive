@@ -131,7 +131,7 @@ export function AmbientMediaLayer({
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           style={{
             objectPosition: currentPosition,
           }}
