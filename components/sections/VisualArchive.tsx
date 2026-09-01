@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import { Maximize2, ArrowUpRight } from 'lucide-react';
 import { visualAssets, VisualAsset } from '../../data/visuals';
@@ -42,10 +43,17 @@ export function VisualArchive({ onOpenViewer }: VisualArchiveProps) {
           {/* Row 1: Large Volumetric Sovereign Frame + Portrait Study */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             {/* Wide The Giragon Frame */}
-            <div
-              onClick={() => onOpenViewer('the-giragon-master')}
+            <Link
+              href="/visuals/the-giragon-master"
+              onClick={(e) => {
+                if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                  e.preventDefault();
+                  window.history.pushState(null, '', '/visuals/the-giragon-master');
+                  onOpenViewer('the-giragon-master');
+                }
+              }}
               data-cursor="VIEW"
-              className="md:col-span-8 group relative rounded-2xl overflow-hidden border border-[#1a1a1a]/15 aspect-[16/9] sm:aspect-[16/10] cursor-pointer shadow-md bg-white"
+              className="md:col-span-8 group relative rounded-2xl overflow-hidden border border-[#1a1a1a]/15 aspect-[16/9] sm:aspect-[16/10] cursor-pointer shadow-md bg-white block"
             >
               <Image
                 src="/THE GIRAGON.png"
@@ -67,13 +75,20 @@ export function VisualArchive({ onOpenViewer }: VisualArchiveProps) {
                   <Maximize2 size={13} />
                 </div>
               </div>
-            </div>
+            </Link>
 
             {/* Small Portrait Archive Snapshot */}
-            <div
-              onClick={() => onOpenViewer('giragon-glory')}
+            <Link
+              href="/visuals/giragon-glory"
+              onClick={(e) => {
+                if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                  e.preventDefault();
+                  window.history.pushState(null, '', '/visuals/giragon-glory');
+                  onOpenViewer('giragon-glory');
+                }
+              }}
               data-cursor="VIEW"
-              className="md:col-span-4 group relative rounded-2xl overflow-hidden border border-[#1a1a1a]/15 aspect-[3/4] cursor-pointer shadow-md bg-white"
+              className="md:col-span-4 group relative rounded-2xl overflow-hidden border border-[#1a1a1a]/15 aspect-[3/4] cursor-pointer shadow-md bg-white block"
             >
               <Image
                 src="/girgonglory.png"
@@ -95,7 +110,7 @@ export function VisualArchive({ onOpenViewer }: VisualArchiveProps) {
                   <Maximize2 size={13} />
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
 
           {/* Row 2: Typographic Intermission Statement */}
@@ -110,10 +125,17 @@ export function VisualArchive({ onOpenViewer }: VisualArchiveProps) {
 
           {/* Row 3: Square Identity Key + Rose Gold Sculpture Study */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            <div
-              onClick={() => onOpenViewer('kingshadp-portrait')}
+            <Link
+              href="/visuals/kingshadp-portrait"
+              onClick={(e) => {
+                if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                  e.preventDefault();
+                  window.history.pushState(null, '', '/visuals/kingshadp-portrait');
+                  onOpenViewer('kingshadp-portrait');
+                }
+              }}
               data-cursor="VIEW"
-              className="md:col-span-5 group relative rounded-2xl overflow-hidden border border-[#1a1a1a]/15 aspect-square cursor-pointer shadow-md bg-white"
+              className="md:col-span-5 group relative rounded-2xl overflow-hidden border border-[#1a1a1a]/15 aspect-square cursor-pointer shadow-md bg-white block"
             >
               <Image
                 src="/KINGSHADP PHOTO.png"
@@ -135,12 +157,19 @@ export function VisualArchive({ onOpenViewer }: VisualArchiveProps) {
                   <Maximize2 size={13} />
                 </div>
               </div>
-            </div>
+            </Link>
 
-            <div
-              onClick={() => onOpenViewer('rose-gold-giragon')}
+            <Link
+              href="/visuals/rose-gold-giragon"
+              onClick={(e) => {
+                if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                  e.preventDefault();
+                  window.history.pushState(null, '', '/visuals/rose-gold-giragon');
+                  onOpenViewer('rose-gold-giragon');
+                }
+              }}
               data-cursor="VIEW"
-              className="md:col-span-7 group relative rounded-2xl overflow-hidden border border-[#1a1a1a]/15 aspect-[4/3] cursor-pointer shadow-md bg-white"
+              className="md:col-span-7 group relative rounded-2xl overflow-hidden border border-[#1a1a1a]/15 aspect-[4/3] cursor-pointer shadow-md bg-white block"
             >
               <Image
                 src="/ROSE GOLD GIRAGON.png"
@@ -162,7 +191,7 @@ export function VisualArchive({ onOpenViewer }: VisualArchiveProps) {
                   <Maximize2 size={13} />
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
 
         </div>

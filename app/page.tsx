@@ -1,344 +1,119 @@
 'use client';
-
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Navbar } from '../components/navigation/Navbar';
-import { MobileMenu } from '../components/navigation/MobileMenu';
-import { Hero } from '../components/sections/Hero';
-import { NowPlaying } from '../components/sections/NowPlaying';
-import { TheWork } from '../components/sections/TheWork';
-import { VisualArchive } from '../components/sections/VisualArchive';
-import { Manifesto } from '../components/sections/Manifesto';
-import { ArchiveIndex } from '../components/sections/ArchiveIndex';
-import { SelectedObjects } from '../components/sections/SelectedObjects';
-import { FinalPortal } from '../components/sections/FinalPortal';
-import { CustomCursor } from '../components/ui/CustomCursor';
-import { SearchOverlay } from '../components/ui/SearchOverlay';
-import { MediaViewer } from '../components/media/MediaViewer';
-import { GlobalMediaDock } from '../components/media/GlobalMediaDock';
-import { Loader } from '../components/ui/Loader';
-import { TransmissionModal } from '../components/TransmissionModal';
-import { ShortcutsModal } from '../components/ui/ShortcutsModal';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { motion } from 'motion/react';
+import { ArrowUpRight } from 'lucide-react';
 import { AmbientMediaLayer } from '../components/media/AmbientMediaLayer';
-import { ModeSwitcher } from '../components/ui/ModeSwitcher';
-import { releases, Track } from '../data/releases';
-import { soundEngine } from '../lib/soundEngine';
-import { ExperienceMode } from '../data/scenes';
+import { CustomCursor } from '../components/ui/CustomCursor';
+import { Loader } from '../components/ui/Loader';
 
-export default function MasterKingShadPExperience() {
-  // Experience Engine Mode & Ambient Media Video Feed
-  const [currentMode, setCurrentMode] = useState<ExperienceMode>('EXPERIENCE');
-  const [activeMediaKey, setActiveMediaKey] = useState<string>('scenePrimary');
-
-  // Audio state
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrackId, setCurrentTrackId] = useState('track-01');
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  // Overlay / Modal states
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isTransmissionOpen, setIsTransmissionOpen] = useState(false);
-  const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
-  const [activeMediaViewerId, setActiveMediaViewerId] = useState<string | null>(null);
-
-  // Audio handling
-  const allTracks = releases[0].tracks;
-  const activeTrack: Track =
-    allTracks.find((t) => t.id === currentTrackId) || allTracks[0];
-
+export default function Home() {
+  const [mounted, setMounted] = useState(false);
+  
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      soundEngine.connectAudioElement(audio);
-      audio.play().catch(() => {
-        setIsPlaying(false);
-      });
-    } else {
-      audio.pause();
-    }
-  }, [isPlaying, currentTrackId]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio.muted = isMuted;
-    }
-    soundEngine.setMute(isMuted);
-  }, [isMuted]);
-
-  const togglePlay = useCallback(() => {
-    setIsPlaying((prev) => !prev);
-    soundEngine.playClick(isPlaying ? 400 : 700, 0.03);
-  }, [isPlaying]);
-
-  const handleSelectTrack = useCallback((trackId: string) => {
-    setCurrentTrackId(trackId);
-    setIsPlaying(true);
-    soundEngine.playClick(800, 0.04);
+    setMounted(true);
   }, []);
 
-  const handleNextTrack = useCallback(() => {
-    const currentIndex = allTracks.findIndex((t) => t.id === currentTrackId);
-    const nextIndex = (currentIndex + 1) % allTracks.length;
-    handleSelectTrack(allTracks[nextIndex].id);
-  }, [allTracks, currentTrackId, handleSelectTrack]);
-
-  const handlePrevTrack = useCallback(() => {
-    const currentIndex = allTracks.findIndex((t) => t.id === currentTrackId);
-    const prevIndex = (currentIndex - 1 + allTracks.length) % allTracks.length;
-    handleSelectTrack(allTracks[prevIndex].id);
-  }, [allTracks, currentTrackId, handleSelectTrack]);
-
-  const scrollToSection = useCallback((id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, []);
-
-  const handleModeChange = (mode: ExperienceMode) => {
-    setCurrentMode(mode);
-    if (mode === 'EXPERIENCE') {
-      setActiveMediaKey('scenePrimary');
-      scrollToSection('hero');
-    } else if (mode === 'LISTEN') {
-      setActiveMediaKey('cinematicB');
-      scrollToSection('now-playing');
-      setIsPlaying(true);
-    } else if (mode === 'VISUAL') {
-      setActiveMediaKey('cinematicA');
-      scrollToSection('visual-archive');
-    } else if (mode === 'ARCHIVE') {
-      setActiveMediaKey('cinematicC');
-      scrollToSection('archive-index');
-    }
-  };
-
-  // Global Studio Keyboard Shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (
-        target &&
-        (target.tagName === 'INPUT' ||
-          target.tagName === 'TEXTAREA' ||
-          target.isContentEditable)
-      ) {
-        return;
-      }
-
-      if (e.key === ' ' || e.code === 'Space') {
-        e.preventDefault();
-        togglePlay();
-      } else if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
-        e.preventDefault();
-        setIsShortcutsOpen((prev) => !prev);
-      } else if (e.key === '/' || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k')) {
-        e.preventDefault();
-        setIsSearchOpen(true);
-      } else if (e.key.toLowerCase() === 'm') {
-        setIsMuted((prev) => !prev);
-      } else if (e.key.toLowerCase() === 'j') {
-        handlePrevTrack();
-      } else if (e.key.toLowerCase() === 'l') {
-        handleNextTrack();
-      } else if (e.key === 'Escape') {
-        setIsSearchOpen(false);
-        setIsMobileMenuOpen(false);
-        setIsTransmissionOpen(false);
-        setIsShortcutsOpen(false);
-        setActiveMediaViewerId(null);
-      } else if (e.key === '1') {
-        scrollToSection('hero');
-      } else if (e.key === '2') {
-        scrollToSection('now-playing');
-      } else if (e.key === '3') {
-        scrollToSection('the-work');
-      } else if (e.key === '4') {
-        scrollToSection('visual-archive');
-      } else if (e.key === '5') {
-        scrollToSection('manifesto');
-      } else if (e.key === '6') {
-        scrollToSection('archive-index');
-      } else if (e.key === '7') {
-        scrollToSection('selected-objects');
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [togglePlay, handleNextTrack, handlePrevTrack, scrollToSection]);
+  if (!mounted) return null;
 
   return (
-    <main className="relative min-h-screen bg-[#050505] text-[#F4F1EC] font-sans antialiased overflow-x-hidden">
-      {/* ========================================================================= */}
-      {/* GLOBAL FULLSCREEN AMBIENT BACKGROUND VIDEO LAYER                          */}
-      {/* ========================================================================= */}
+    <main className="relative min-h-screen bg-[#050505] text-[#F4F1EC] font-sans antialiased overflow-hidden select-none">
       <AmbientMediaLayer
-        activeMediaKey={activeMediaKey}
-        isPlayingMusic={isPlaying}
+        activeMediaKey="scenePrimary"
+        brightness={0.4}
       />
-
-      {/* Hidden Master Audio Element */}
-      <audio
-        ref={audioRef}
-        src={activeTrack.audioSrc}
-        preload="auto"
-        onEnded={() => setIsPlaying(false)}
-      />
-
-      {/* Restrained Loading Phase */}
       <Loader />
-
-      {/* Desktop Precision Cursor */}
       <CustomCursor />
+      
+      {/* Absolute Header (Top) */}
+      <header className="absolute top-0 left-0 right-0 z-50 px-6 sm:px-12 py-8 w-full flex justify-between items-start mix-blend-difference pointer-events-none">
+        <div className="flex flex-col gap-1 pointer-events-auto">
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-[#F4F1EC]/50 font-semibold">
+            EST. MMXXVI
+          </span>
+          <span className="text-xs font-serif italic text-[#F4F1EC] font-light">
+            Sanctum Archive
+          </span>
+        </div>
+        
+        <nav className="flex flex-col sm:flex-row items-end sm:items-center gap-4 sm:gap-8 pointer-events-auto">
+          {['AUDIO', 'VISUALS', 'ARCHIVE', 'SHOP'].map((item) => (
+            <Link 
+              key={item}
+              href={`/${item === 'AUDIO' ? 'music' : item.toLowerCase()}`}
+              className="text-[9px] font-mono tracking-[0.2em] uppercase text-[#F4F1EC]/70 hover:text-[#B76E79] transition-colors"
+            >
+              {item}
+            </Link>
+          ))}
+        </nav>
+      </header>
 
-      {/* Top Fixed Navigation */}
-      <Navbar
-        onOpenSearch={() => setIsSearchOpen(true)}
-        onListenNow={() => {
-          scrollToSection('now-playing');
-          setIsPlaying(true);
-        }}
-        onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
-        isMobileMenuOpen={isMobileMenuOpen}
-        onNavigateTo={scrollToSection}
-        onOpenShortcuts={() => setIsShortcutsOpen(true)}
-      />
+      {/* Main Composition */}
+      <section className="relative w-full h-[100dvh] flex flex-col justify-end items-start px-6 sm:px-12 md:px-20 pb-20 sm:pb-32 z-20 pointer-events-none">
+        
+        {/* Cinematic Z-Axis Drift Wrap */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 3.5, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+          className="max-w-5xl flex flex-col gap-6 pointer-events-auto"
+        >
+          {/* Metadata / Coordinates */}
+          <div className="flex items-center gap-4 opacity-70 mb-2">
+            <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-[#F4F1EC]">
+              COORD: 34.0522° N // 432 HZ
+            </span>
+            <div className="w-12 h-[1px] bg-[#B76E79]/60 hidden sm:block" />
+            <span className="text-[9px] font-mono tracking-[0.25em] text-[#B76E79] font-bold uppercase hidden sm:block">
+              KINGSHADP
+            </span>
+          </div>
 
-      {/* Fullscreen Mobile Menu */}
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
-        onNavigateTo={scrollToSection}
-        onOpenSearch={() => setIsSearchOpen(true)}
-        onListenNow={() => {
-          scrollToSection('now-playing');
-          setIsPlaying(true);
-        }}
-      />
+          {/* Master Headline */}
+          <div className="flex flex-col gap-0">
+            <h1 
+              className="text-[#F4F1EC] font-serif font-light tracking-tight leading-[0.9]"
+              style={{ fontSize: 'clamp(3rem, 10vw, 8rem)' }}
+            >
+              Everything I Make
+            </h1>
+            <h1 
+              className="text-[#F4F1EC] font-serif font-light italic tracking-tight leading-[0.9] text-[#B76E79] mt-2"
+              style={{ fontSize: 'clamp(3rem, 10vw, 8rem)' }}
+            >
+              Leaves Evidence.
+            </h1>
+          </div>
 
-      {/* Experience Mode & Ambient Camera Switcher */}
-      <ModeSwitcher
-        currentMode={currentMode}
-        onSelectMode={handleModeChange}
-        activeMediaKey={activeMediaKey}
-        onSelectMediaKey={(key) => setActiveMediaKey(key)}
-      />
+          <p className="text-sm sm:text-lg font-light tracking-wide text-[#F4F1EC]/60 max-w-2xl leading-relaxed mt-4 sm:mt-6">
+            You have entered the void. A digital monument encompassing deep-frequency 
+            audio, subtractive visual architecture, and permanent archival records. 
+            Proceed with intention.
+          </p>
 
-      {/* ========================================================================= */}
-      {/* CHAPTER 00: ENTRY HERO STAGE                                             */}
-      {/* ========================================================================= */}
-      <Hero
-        onListenNow={() => {
-          scrollToSection('now-playing');
-          setIsPlaying(true);
-        }}
-        onEnterArchive={() => scrollToSection('archive-index')}
-        onExploreWork={() => scrollToSection('the-work')}
-        onSwitchSceneVideo={(videoKey) => setActiveMediaKey(videoKey)}
-      />
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-8">
+            <Link 
+              href="/music"
+              className="group flex items-center gap-3 px-8 py-4 rounded-full bg-[#F4F1EC] text-[#050505] text-[10px] font-mono tracking-[0.2em] uppercase font-bold hover:bg-[#B76E79] hover:text-white transition-all duration-700 shadow-xl"
+            >
+              <span>INITIATE AUDIO</span>
+              <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform duration-700" />
+            </Link>
+            <Link 
+              href="/archive"
+              className="group flex items-center gap-3 px-8 py-4 rounded-full border border-[#F4F1EC]/20 text-[10px] font-mono tracking-[0.2em] uppercase text-[#F4F1EC] hover:border-[#B76E79]/50 hover:bg-[#B76E79]/10 transition-all duration-700 backdrop-blur-md"
+            >
+              <span>ENTER ARCHIVE</span>
+              <ArrowUpRight size={14} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-700" />
+            </Link>
+          </div>
+        </motion.div>
+      </section>
 
-      {/* ========================================================================= */}
-      {/* CHAPTER 01: NOW PLAYING                                                   */}
-      {/* ========================================================================= */}
-      <NowPlaying
-        isPlaying={isPlaying}
-        onTogglePlay={togglePlay}
-        currentTrackId={currentTrackId}
-        onSelectTrack={handleSelectTrack}
-        audioRef={audioRef}
-        onSwitchSceneVideo={(videoKey) => setActiveMediaKey(videoKey)}
-      />
-
-      {/* ========================================================================= */}
-      {/* CHAPTER 02: THE WORK (DISCIPLINARY TAXONOMY)                              */}
-      {/* ========================================================================= */}
-      <TheWork
-        onNavigateMusic={() => scrollToSection('now-playing')}
-        onNavigateVisuals={() => scrollToSection('visual-archive')}
-        onNavigateArchive={() => scrollToSection('archive-index')}
-      />
-
-      {/* ========================================================================= */}
-      {/* CHAPTER 03: VISUAL ARCHIVE                                                */}
-      {/* ========================================================================= */}
-      <VisualArchive onOpenViewer={(assetId) => setActiveMediaViewerId(assetId)} />
-
-      {/* ========================================================================= */}
-      {/* CHAPTER 04: MANIFESTO & EDITORIAL BREATHING MOMENT                       */}
-      {/* ========================================================================= */}
-      <Manifesto />
-
-      {/* ========================================================================= */}
-      {/* CHAPTER 05: ARCHIVE DATABASE MATRIX                                       */}
-      {/* ========================================================================= */}
-      <ArchiveIndex
-        onPlayTrack={(trackId) => {
-          handleSelectTrack(trackId);
-          scrollToSection('now-playing');
-        }}
-        onOpenViewer={(assetId) => setActiveMediaViewerId(assetId)}
-      />
-
-      {/* ========================================================================= */}
-      {/* CHAPTER 06: SELECTED OBJECTS                                              */}
-      {/* ========================================================================= */}
-      <SelectedObjects onOpenTransmission={() => setIsTransmissionOpen(true)} />
-
-      {/* ========================================================================= */}
-      {/* CHAPTER 07: FINAL PORTAL & ARCHIVAL FOOTER                                */}
-      {/* ========================================================================= */}
-      <FinalPortal
-        onNavigateTo={scrollToSection}
-        onOpenTransmission={() => setIsTransmissionOpen(true)}
-      />
-
-      {/* Persistent Global Liquid-Glass Music & Literature TTS Dock */}
-      <GlobalMediaDock
-        currentTrackId={currentTrackId}
-        isPlaying={isPlaying}
-        onTogglePlay={togglePlay}
-        onNextTrack={handleNextTrack}
-        onPrevTrack={handlePrevTrack}
-        onOpenNowPlayingSection={() => scrollToSection('now-playing')}
-        onOpenArchiveSection={() => scrollToSection('archive-index')}
-      />
-
-      {/* Immersive Search Overlay */}
-      <SearchOverlay
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        onPlayTrack={(trackId) => {
-          handleSelectTrack(trackId);
-          scrollToSection('now-playing');
-        }}
-        onSelectMedia={(assetId) => setActiveMediaViewerId(assetId)}
-        onScrollTo={scrollToSection}
-      />
-
-      {/* Studio Keyboard Shortcuts Modal */}
-      <ShortcutsModal
-        isOpen={isShortcutsOpen}
-        onClose={() => setIsShortcutsOpen(false)}
-        onNavigateTo={scrollToSection}
-        onTogglePlay={togglePlay}
-      />
-
-      {/* Fullscreen High-Resolution Media Viewer Lightbox */}
-      <MediaViewer
-        activeAssetId={activeMediaViewerId}
-        onClose={() => setActiveMediaViewerId(null)}
-      />
-
-      {/* Commission Inquiry & Direct Protocol Modal */}
-      <TransmissionModal
-        isOpen={isTransmissionOpen}
-        onClose={() => setIsTransmissionOpen(false)}
-      />
+      {/* Deep Shadow overlay to ground text */}
+      <div className="absolute bottom-0 left-0 right-0 h-[40vh] z-10 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-32 z-10 bg-gradient-to-b from-[#050505] to-transparent pointer-events-none" />
     </main>
   );
 }

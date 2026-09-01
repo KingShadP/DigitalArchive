@@ -103,10 +103,10 @@ export default function ArchiveIndexPage() {
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3">
                     <span className="text-[9px] font-mono text-[#B76E79] font-bold uppercase">
-                      {record.id.toUpperCase()} // {record.category}
+                      {record.id.toUpperCase()} // {record.type}
                     </span>
                     <span className="text-[9px] font-mono text-white/40">
-                      {record.year} · {record.fileType}
+                      {record.year} · {record.meta}
                     </span>
                   </div>
 

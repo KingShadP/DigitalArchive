@@ -24,6 +24,8 @@ function findRecordBySlug(slug: string): ArchiveRecord | null {
   );
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return archiveRecords.map((r) => ({
     slug: r.id,
@@ -52,8 +54,8 @@ export async function generateMetadata({ params }: ArchiveDetailPageProps): Prom
     keywords: [
       record.title,
       'KingShadP Archive',
-      record.category,
-      record.fileType,
+      record.type,
+      record.meta,
       'Sanctum Dossier',
       'Codex Entry',
     ],
@@ -126,7 +128,7 @@ export default async function ArchiveDetailPage({ params }: ArchiveDetailPagePro
               RECORD {record.id.toUpperCase()}
             </span>
             <span className="text-[10px] font-mono text-white/50 tracking-widest uppercase">
-              {record.category} // {record.year}
+              {record.type} // {record.year}
             </span>
           </div>
 
@@ -139,15 +141,9 @@ export default async function ArchiveDetailPage({ params }: ArchiveDetailPagePro
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2 text-[10px] font-mono text-white/40">
-            <span>FORMAT: {record.fileType}</span>
+            <span>FORMAT: {record.meta}</span>
             <span>·</span>
             <span>SECURITY: CRYPTOGRAPHICALLY AUTHENTICATED</span>
-            {record.dimensions && (
-              <>
-                <span>·</span>
-                <span>DIMENSIONS: {record.dimensions}</span>
-              </>
-            )}
           </div>
         </section>
 
@@ -176,21 +172,7 @@ export default async function ArchiveDetailPage({ params }: ArchiveDetailPagePro
           </section>
         )}
 
-        {/* Citations and Reference Details */}
-        {record.citations && record.citations.length > 0 && (
-          <section className="p-6 rounded-xl bg-white/[0.02] border border-white/10 space-y-3">
-            <h3 className="text-xs font-mono tracking-widest uppercase text-[#B76E79] font-bold">
-              MLA CITATION & REFERENCES
-            </h3>
-            <ul className="space-y-2 text-xs font-mono text-white/60">
-              {record.citations.map((c, idx) => (
-                <li key={idx} className="leading-relaxed">
-                  [{idx + 1}] {c}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+
 
         {/* Cross-Link Routing */}
         <section className="border-t border-white/10 pt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">

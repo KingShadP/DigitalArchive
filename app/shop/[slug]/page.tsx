@@ -24,6 +24,8 @@ function findProductBySlug(slug: string): Product | null {
   );
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return products.map((p) => ({
     slug: p.id,

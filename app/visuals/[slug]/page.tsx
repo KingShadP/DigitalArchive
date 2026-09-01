@@ -24,6 +24,8 @@ function findVisualBySlug(slug: string): VisualAsset | null {
   );
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return visualAssets.map((v) => ({
     slug: v.id,

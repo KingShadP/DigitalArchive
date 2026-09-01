@@ -27,6 +27,8 @@ function findTrackBySlug(slug: string): { track: Track; releaseIndex: number } |
   return { track, releaseIndex: 0 };
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return releases[0].tracks.map((track) => ({
     slug: track.id,

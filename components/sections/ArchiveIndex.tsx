@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   FileText,
@@ -342,13 +343,20 @@ export function ArchiveIndex({ onPlayTrack, onOpenViewer }: ArchiveIndexProps) {
                 const isNarrating = speechState.isPlaying && speechState.id === rec.id;
 
                 return (
-                  <div
+                  <Link
+                    href={`/archive/${rec.id}`}
                     key={rec.id}
-                    onClick={() => setSelectedRecord(rec)}
+                    onClick={(e) => {
+                      if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                        e.preventDefault();
+                        window.history.pushState(null, '', `/archive/${rec.id}`);
+                        setSelectedRecord(rec);
+                      }
+                    }}
                     onMouseEnter={() => setHoveredRecord(rec)}
                     onMouseLeave={() => setHoveredRecord(null)}
                     data-cursor="DOSSIER"
-                    className={`archive-item group py-4 px-4 transition-colors cursor-pointer flex flex-col md:grid md:grid-cols-12 md:gap-4 md:items-center rounded-xl ${
+                    className={`archive-item group py-4 px-4 transition-colors cursor-pointer flex flex-col md:grid md:grid-cols-12 md:gap-4 md:items-center rounded-xl block ${
                       isNarrating ? 'bg-[#B76E79]/5' : 'hover:bg-[#1a1a1a]/[0.02]'
                     }`}
                   >
@@ -410,7 +418,7 @@ export function ArchiveIndex({ onPlayTrack, onOpenViewer }: ArchiveIndexProps) {
                         className="text-[#1a1a1a]/30 group-hover:text-[#B76E79] group-hover:translate-x-0.5 transition-all"
                       />
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -452,33 +460,43 @@ export function ArchiveIndex({ onPlayTrack, onOpenViewer }: ArchiveIndexProps) {
               return (
                 <motion.div
                   key={rec.id}
-                  onClick={() => setSelectedRecord(rec)}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  data-cursor="FRAGMENT"
-                  className={`group relative rounded-2xl border bg-white p-5 shadow-sm transition-all cursor-pointer flex flex-col justify-between gap-4 overflow-hidden ${
-                    isNarrating ? 'border-[#B76E79] ring-1 ring-[#B76E79]' : 'border-[#1a1a1a]/10 hover:border-[#1a1a1a]/30'
-                  }`}
+                  className="block"
                 >
-                  <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[#1a1a1a]/50 uppercase">
-                    <span>{rec.year} {'//'} {rec.type}</span>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={(e) => handleQuickNarrate(rec, e)}
-                        title="Listen to Manuscript"
-                        className={`p-1 rounded-full ${isNarrating ? 'text-[#B76E79]' : 'text-[#1a1a1a]/40 hover:text-[#1a1a1a]'}`}
-                      >
-                        <Volume2 size={12} />
-                      </button>
-                      <button
-                        onClick={(e) => toggleSave(rec.id, e)}
-                        className={savedIds.includes(rec.id) ? 'text-[#B76E79]' : 'text-[#1a1a1a]/30 hover:text-[#1a1a1a]'}
-                      >
-                        <Bookmark size={13} className={savedIds.includes(rec.id) ? 'fill-current' : ''} />
-                      </button>
+                  <Link
+                    href={`/archive/${rec.id}`}
+                    onClick={(e) => {
+                      if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                        e.preventDefault();
+                        window.history.pushState(null, '', `/archive/${rec.id}`);
+                        setSelectedRecord(rec);
+                      }
+                    }}
+                    data-cursor="FRAGMENT"
+                    className={`group relative rounded-2xl border bg-white p-5 shadow-sm transition-all cursor-pointer flex flex-col justify-between gap-4 overflow-hidden block ${
+                      isNarrating ? 'border-[#B76E79] ring-1 ring-[#B76E79]' : 'border-[#1a1a1a]/10 hover:border-[#1a1a1a]/30'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[#1a1a1a]/50 uppercase relative z-20">
+                      <span>{rec.year} {'//'} {rec.type}</span>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={(e) => { e.preventDefault(); handleQuickNarrate(rec, e); }}
+                          title="Listen to Manuscript"
+                          className={`p-1 rounded-full ${isNarrating ? 'text-[#B76E79]' : 'text-[#1a1a1a]/40 hover:text-[#1a1a1a]'}`}
+                        >
+                          <Volume2 size={12} />
+                        </button>
+                        <button
+                          onClick={(e) => { e.preventDefault(); toggleSave(rec.id, e); }}
+                          className={savedIds.includes(rec.id) ? 'text-[#B76E79]' : 'text-[#1a1a1a]/30 hover:text-[#1a1a1a]'}
+                        >
+                          <Bookmark size={13} className={savedIds.includes(rec.id) ? 'fill-current' : ''} />
+                        </button>
+                      </div>
                     </div>
-                  </div>
 
                   <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/5 border border-[#1a1a1a]/10">
                     <Image
@@ -505,6 +523,7 @@ export function ArchiveIndex({ onPlayTrack, onOpenViewer }: ArchiveIndexProps) {
                       OPEN <ArrowUpRight size={10} />
                     </span>
                   </div>
+                  </Link>
                 </motion.div>
               );
             })}
@@ -555,7 +574,12 @@ export function ArchiveIndex({ onPlayTrack, onOpenViewer }: ArchiveIndexProps) {
       {/* Archival Dossier Modal */}
       <ArchiveDossierModal
         record={selectedRecord}
-        onClose={() => setSelectedRecord(null)}
+        onClose={() => {
+          if (typeof window !== 'undefined' && window.location.pathname !== '/') {
+            window.history.pushState(null, '', '/');
+          }
+          setSelectedRecord(null);
+        }}
         onPlayTrack={onPlayTrack}
         onOpenViewer={onOpenViewer}
         onOpenSealReport={() => setIsSealReportOpen(true)}
