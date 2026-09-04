@@ -1,6 +1,6 @@
 {
   "name": "KingShadP — Enter the World",
-  "description": "Standalone cinematic scroll-tied video experience and digital identity entrance for KingShadP.",
+  "description": "Interactive living digital sanctum portal for KingShadP featuring an interactive 432 Hz soundscape engine, dynamic particle depth, and curated preview nodes for sonics, visuals, archive codices, and physical artifacts.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

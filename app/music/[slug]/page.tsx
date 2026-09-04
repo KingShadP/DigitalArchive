@@ -137,7 +137,7 @@ export default async function MusicTrackPage({ params }: MusicTrackPageProps) {
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <span className="px-2.5 py-1 rounded bg-[#B76E79]/20 text-[#B76E79] text-[9px] font-mono tracking-widest uppercase font-bold">
-                TRACK {track.number} // {release.catalogNumber}
+                TRACK {track.number} {'//'} {release.catalogNumber}
               </span>
               <span className="text-[10px] font-mono text-white/50 tracking-widest uppercase">
                 {track.tuning} TUNING

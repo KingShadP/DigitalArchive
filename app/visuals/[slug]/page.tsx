@@ -132,7 +132,7 @@ export default async function VisualDetailPage({ params }: VisualDetailPageProps
             className="object-contain sm:object-cover"
           />
           <div className="absolute top-4 left-4 bg-[#050505]/80 backdrop-blur-md px-3 py-1.5 rounded border border-white/10 text-[10px] font-mono tracking-widest text-[#B76E79] uppercase">
-            {asset.era} // {asset.year}
+            {asset.era} {'//'} {asset.year}
           </div>
         </section>
 

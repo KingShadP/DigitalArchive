@@ -223,6 +223,68 @@ class SoundEngine {
   public setMute(muted: boolean) {
     this.isMuted = muted;
   }
+
+  // Harmonic Calibration Tone Generator (432 Hz vs 440 Hz / Solfeggio)
+  private testToneOsc: OscillatorNode | null = null;
+  private testToneGain: GainNode | null = null;
+  private currentTestFreq: number | null = null;
+
+  public playContinuousTone(freq: number, gainLevel = 0.05): number {
+    const ctx = this.initCtx();
+    if (!ctx) return 0;
+    const now = ctx.currentTime;
+
+    if (this.testToneOsc && this.testToneGain) {
+      if (this.currentTestFreq === freq) {
+        this.stopContinuousTone();
+        return 0;
+      } else {
+        this.testToneOsc.frequency.exponentialRampToValueAtTime(freq, now + 0.15);
+        this.currentTestFreq = freq;
+        return freq;
+      }
+    }
+
+    this.testToneOsc = ctx.createOscillator();
+    this.testToneGain = ctx.createGain();
+
+    this.testToneOsc.type = 'sine';
+    this.testToneOsc.frequency.setValueAtTime(freq, now);
+
+    this.testToneGain.gain.setValueAtTime(0.0001, now);
+    this.testToneGain.gain.exponentialRampToValueAtTime(gainLevel, now + 0.2);
+
+    this.testToneOsc.connect(this.testToneGain);
+    this.testToneGain.connect(ctx.destination);
+
+    this.testToneOsc.start(now);
+    this.currentTestFreq = freq;
+    return freq;
+  }
+
+  public stopContinuousTone() {
+    if (this.testToneGain && this.ctx) {
+      try {
+        this.testToneGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.2);
+        setTimeout(() => {
+          this.testToneOsc?.stop();
+          this.testToneOsc?.disconnect();
+          this.testToneGain?.disconnect();
+          this.testToneOsc = null;
+          this.testToneGain = null;
+          this.currentTestFreq = null;
+        }, 250);
+      } catch {
+        this.testToneOsc = null;
+        this.testToneGain = null;
+        this.currentTestFreq = null;
+      }
+    }
+  }
+
+  public getCurrentTestFreq(): number | null {
+    return this.currentTestFreq;
+  }
 }
 
 export const soundEngine = new SoundEngine();

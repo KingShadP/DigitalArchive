@@ -128,7 +128,7 @@ export default async function ArchiveDetailPage({ params }: ArchiveDetailPagePro
               RECORD {record.id.toUpperCase()}
             </span>
             <span className="text-[10px] font-mono text-white/50 tracking-widest uppercase">
-              {record.type} // {record.year}
+              {record.type} {'//'} {record.year}
             </span>
           </div>
 
@@ -166,7 +166,10 @@ export default async function ArchiveDetailPage({ params }: ArchiveDetailPagePro
               <FileText size={16} className="text-[#B76E79]" />
               <span>Archival Manuscript & Transcribed Evidence</span>
             </h2>
-            <div className="p-8 rounded-xl bg-white/[0.02] border border-white/10 text-sm font-light text-white/80 leading-relaxed whitespace-pre-wrap font-sans">
+            <div 
+              id="archival-manuscript-box"
+              className="p-8 rounded-xl bg-white/[0.02] border border-white/10 text-sm font-light text-white/80 leading-relaxed whitespace-pre-wrap font-sans animate-fade-in animate-in fade-in duration-700 ease-out"
+            >
               {record.manuscriptText}
             </div>
           </section>

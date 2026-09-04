@@ -124,18 +124,10 @@ export function DigitalSealReportModal({
   });
 
   // Selected records for the report
-  const [includedIds, setIncludedIds] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (isOpen) {
-      // If user has saved findings, default to saved findings; otherwise include top 4 records
-      if (savedIds.length > 0) {
-        setIncludedIds(savedIds);
-      } else {
-        setIncludedIds(archiveRecords.slice(0, 4).map((r) => r.id));
-      }
-    }
-  }, [isOpen, savedIds]);
+  const [includedIds, setIncludedIds] = useState<string[]>(() => {
+    if (savedIds.length > 0) return savedIds;
+    return archiveRecords.slice(0, 4).map((r) => r.id);
+  });
 
   // Save changes to localStorage
   const updateSealConfig = (updates: Partial<DigitalSealConfig>) => {
